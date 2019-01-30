@@ -1,12 +1,11 @@
-﻿using System;
+﻿using System.Threading.Tasks;
+using TheGoodBot.Core;
 
 namespace TheGoodBot
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+        static Task Main(string[] args)
+            => new BasicBotClient().InitializeAsync();
     }
 }
