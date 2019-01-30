@@ -39,30 +39,21 @@ namespace TheGoodBot.Core
 
             //Get our config data from DataStorage. (config.json)
             _config = config ?? new BotConfigDataHandler().GetConfig();
-
-            //Setup our logger
             _logger = logger ?? new Logger();
         }
 
 
         public async Task InitializeAsync()
         {
-            //Setup Our Services
             _services = ConfigureServices();
 
-            //Login with the client
             await _client.LoginAsync(TokenType.Bot, _config.DiscordToken);
-
-            //Starr the client
             await _client.StartAsync();
 
-            //Hook up our events
             HookEvents();
 
             //Initialize Our CommandService Handler
             await _services.GetRequiredService<CommandHandlerService>().InitializeAsync();
-
-            //This is used so the bot doesn't shut down instantly.
             await Task.Delay(-1);
         }
 

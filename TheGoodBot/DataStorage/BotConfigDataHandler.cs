@@ -16,13 +16,13 @@ namespace TheGoodOne.DataStorage
         /// </summary>
         /// <returns></returns>
         public BotConfig GetConfig()
-            => GetbotConfigData();
+            => GetBotConfigData();
 
         /// <summary>
         /// Private function to hide the implementation of this method.
         /// </summary>
         /// <returns></returns>
-        private BotConfig GetbotConfigData()
+        private BotConfig GetBotConfigData()
         {
             CheckConfigExists();
             var rawData = File.ReadAllText(ConfigLocation);

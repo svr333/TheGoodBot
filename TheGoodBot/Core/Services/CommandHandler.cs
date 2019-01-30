@@ -68,42 +68,31 @@ namespace TheGoodBot.Core.Services
                 message.Author.IsBot)
                 return;
 
-            // Create a WebSocket-based command context based on the message
             var context = new SocketCommandContext(_client, message);
-
-            // Execute the command with the command context we just
-            // created, along with the service provider for precondition checks.
-
-            // Keep in mind that result does not indicate a return value
-            // rather an object stating if the command executed successfully.
-            var result = await _commands.ExecuteAsync(
-                context: context,
-                argPos: argPos,
-                services: _services);
+            var result = await _commands.ExecuteAsync(context, argPos, _services);
         }
 
 
         public async Task CommandExecutedAsync(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
-            // The command failed because it isn't a command found in out bot. (Ignore it)
+            //Make this toggleable
             if (!command.IsSpecified)
             {
-                Console.WriteLine(result);
+                await context.Channel.SendMessageAsync($"This command is not defined.");
                 return;
             }
 
-
-            // The Command Worked, Log to console, who used it and what the command was.
             if (result.IsSuccess)
             {
-                Console.WriteLine($"Command: {context.User.Username} used {command.Value.Name}");
+                //save this to a persistent data file + track on the userprofiles
+                Console.WriteLine($"Command executed: {context.User.Username} used {command.Value.Name}");
                 return;
             }
 
 
             /* the command failed, let's notify the user that something happened. */
             Console.WriteLine($"COMMAND ERROR: {result}");
-            await context.Channel.SendMessageAsync($"error: {result}");
+            await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\n Contact svr333 / <@202095042372829184> for more information.");
         }
 
     }
