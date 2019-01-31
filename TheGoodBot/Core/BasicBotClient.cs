@@ -32,7 +32,6 @@ namespace TheGoodBot.Core
             //Create our new CommandService (Setting RunMode to async by default on all commands)
             _commands = commands ?? new CommandService(new CommandServiceConfig
             {
-                DefaultRunMode = RunMode.Async,
                 CaseSensitiveCommands = false,
                 LogLevel = LogSeverity.Verbose
             });

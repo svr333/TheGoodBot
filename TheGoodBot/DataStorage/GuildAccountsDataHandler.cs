@@ -1,31 +1,42 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using TheGoodBot.Guilds;
 
 namespace TheGoodOne.DataStorage
 {
-    public static class GuildAccountsDataHandler
+     public static class GuildAccountsDataHandler
     {
+        
+        //checks whenever the bot joins a guild, if guild is already in database, bot will break out
+        public static void CreateGuildAccount(ulong guildID)
+        {
+            string directory = "GuildAccounts/";
+            string saveFile = directory + guildID + ".json";
+            List<GuildAccountStruct> guildAccount;
+
+            if (!SaveExists(saveFile))
+            {
+                guildAccount = new List<GuildAccountStruct>();
+                File.Create(saveFile);
+            }
+            else return;
+            string text = JsonConvert.SerializeObject(guildAccount, Formatting.Indented);
+            File.WriteAllText(saveFile, text);
+        }
+
         //can be called to save guild accounts
-        public static void SaveGuildAccounts(GuildAccountStruct guildAccount, string filePath)
+        public static void SaveGuildAccount(IEnumerable<GuildAccountStruct> guildAccount, string filePath)
         {
             //save guild account
             string rawData = JsonConvert.SerializeObject(guildAccount, Formatting.Indented);
             File.WriteAllText(filePath, rawData);
         }
 
-        //Get or creates guild account on first use
-        public static IEnumerable<GuildAccountStruct> GetOrCreateGuildAccount(string filePath, GuildAccountStruct guildAccount)
+        //returns guild account
+        public static IEnumerable<GuildAccountStruct> GetGuildAccount(string filePath)
         {
-            //FILEPATH NEEDS TO BE "GUILDACCOUNTS/CONTEXT.GUILD.ID"
-            if (!File.Exists(filePath))
-            {
-                File.Create(filePath);
-                string text = JsonConvert.SerializeObject(guildAccount, Formatting.Indented);
-                File.WriteAllText(filePath, text);
-            }
-
             string rawData = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<List<GuildAccountStruct>>(rawData);
         }

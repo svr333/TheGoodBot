@@ -1,23 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Guilds
 {
-    public static class GuildAccounts
+    public class GuildAccounts
     {
         //(auto-)creation of GuildAccounts
-        private static List<GuildAccountStruct> _guildAccounts;
+        private static List<GuildAccountStruct> _guildAccount;
+        private static string saveFile;
 
-        private static string saveFolder = "GuildAccounts";
-
-        static GuildAccounts()
+        public void SaveAccounts()
         {
-            if (GuildAccountsDataHandler.SaveExists(saveFolder))
-            {
-                
-            }
-
-            
+            GuildAccountsDataHandler.SaveGuildAccount(_guildAccount, saveFile);
         }
     }
 }

@@ -3,9 +3,13 @@ using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using TheGoodBot.Guilds;
+using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Services
 {
@@ -45,7 +49,9 @@ namespace TheGoodBot.Core.Services
             _client.MessageReceived += HandlerMessageAsync;
             _commands.CommandExecuted += CommandExecutedAsync;
             _commands.Log += LogAsync;
+            _client.JoinedGuild += JoinedGuild;
         }
+
 
         private Task LogAsync(LogMessage message)
         {
@@ -93,6 +99,12 @@ namespace TheGoodBot.Core.Services
             /* the command failed, let's notify the user that something happened. */
             Console.WriteLine($"COMMAND ERROR: {result}");
             await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\n Contact svr333 / <@202095042372829184> for more information.");
+        }
+
+        private Task JoinedGuild(SocketGuild Guild)
+        {
+            GuildAccountsDataHandler.CreateGuildAccount(Guild.Id);
+            return Task.CompletedTask;
         }
 
     }
