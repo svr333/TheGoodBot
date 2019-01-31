@@ -5,7 +5,6 @@ namespace TheGoodBot
 {
     class Program
     {
-        static Task Main(string[] args)
-            => new BasicBotClient().InitializeAsync();
+        static void Main(string[] args) => new BasicBotClient().InitializeAsync().GetAwaiter().GetResult();
     }
 }
