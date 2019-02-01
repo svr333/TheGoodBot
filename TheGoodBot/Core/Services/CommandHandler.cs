@@ -97,7 +97,7 @@ namespace TheGoodBot.Core.Services
 
             /* the command failed, let's notify the user that something happened. */
             Console.WriteLine($"COMMAND ERROR: {result}");
-            await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\n Contact svr333 / <@202095042372829184> for more information.");
+            await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\nContact svr333 / <@202095042372829184> for more information.");
         }
 
         private Task JoinedGuild(SocketGuild Guild)

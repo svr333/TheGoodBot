@@ -8,15 +8,6 @@ namespace TheGoodOne.DataStorage
 {
     public class BotConfigService
     {
-        public BotConfigService()
-        {
-            var config = GetConfig();
-            var BotownerID = config.botOwnerID;
-            var DiscordToken = config.discordToken;
-            var GameStatus = config.gameStatus;
-            Console.WriteLine(BotownerID + DiscordToken + GameStatus);
-        }
-
         private readonly string ConfigLocation = "config.json";
         /// <summary>
         /// Gets the information from the Config.Json file for you to use in the bot.

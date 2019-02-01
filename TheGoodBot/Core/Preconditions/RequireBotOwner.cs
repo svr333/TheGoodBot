@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Discord.Commands;
+using Microsoft.Extensions.DependencyInjection;
 using TheGoodBot.Entities;
 using TheGoodOne.DataStorage;
 
@@ -8,22 +9,14 @@ namespace TheGoodBot.Core.Preconditions
 {
     public class RequireBotOwner : PreconditionAttribute
     {
-        private readonly ulong _userId;
-        private readonly ulong _botOwnerId;
-        private BotConfigService _configService;
-
-        public RequireBotOwner(ulong userId)
-        {
-            _userId = userId;
-            _configService = new BotConfigService();
-            _botOwnerId = _configService.GetConfig().botOwnerID;
-            Console.WriteLine(_botOwnerId);
-        }
+        private ulong _botOwnerId;
 
         public override async Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
             IServiceProvider services)
         {
-            if (_userId == _botOwnerId)
+            var configService = services.GetRequiredService<BotConfigService>();
+            _botOwnerId = configService.GetConfig().botOwnerID;
+            if (context.User.Id == _botOwnerId)
             {
                   return PreconditionResult.FromSuccess();
             }

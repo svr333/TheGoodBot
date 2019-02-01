@@ -1,10 +1,12 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
+using TheGoodBot.Entities;
 using TheGoodBot.Guilds;
 
 namespace TheGoodOne.DataStorage
 {
-    public static class GuildAccountService
+    public class GuildAccountService
     {
         //checks whenever the bot joins a guild, if guild is already in database, bot will break out
         public static void CreateGuildAccount(ulong guildID)
@@ -14,9 +16,9 @@ namespace TheGoodOne.DataStorage
             //if the file exists, return
             if(CheckDirectoryExists(saveFile, directory)) return;
 
-            var guildAccount = new GuildAccountStruct();
+
             //use json convert to write to .json file
-            string text = JsonConvert.SerializeObject(guildAccount, Formatting.Indented);
+            string text = JsonConvert.SerializeObject(GenerateBlankGuildConfig(), Formatting.Indented);
             File.WriteAllText(saveFile, text);
         }
 
@@ -48,5 +50,18 @@ namespace TheGoodOne.DataStorage
         {
             return File.Exists(filePath);
         }
+
+        public static GuildAccountStruct GenerateBlankGuildConfig() => new GuildAccountStruct()
+        {
+            modRoles = null,
+            prefixesList = new List<string>() {"!", "?"},
+            guildID = 0,
+            allMembersCombinedXP = 0,
+            allMembersCommandsExecuted = 0,
+            allMembersMessagesSent = 0,
+            allowMembersCustomEmbedColour = true,
+            allowMembersPrivateAccounts = true
+                
+        };
     }
 }

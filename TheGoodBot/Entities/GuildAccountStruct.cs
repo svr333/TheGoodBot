@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
+using Discord.WebSocket;
 
 namespace TheGoodBot.Guilds
 {
     public class GuildAccountStruct
     {
         //list of settings
-        List<string> prefixesList = new List<string>(){"?", "!"};
+        public ulong guildID { get; set; }
+        public List<string> prefixesList { get; set; }
+        public List<SocketRole> modRoles { get; set; }
         public bool allowMembersCustomEmbedColour { get; set; }
+        public bool allowMembersPrivateAccounts { get; set; }
 
         //list of leaderboard stats
         public uint allMembersCombinedXP { get; set; }

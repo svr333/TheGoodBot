@@ -9,7 +9,7 @@ namespace TheGoodBot.Core.Modules
 {
     public class TestModule : ModuleBase<SocketCommandContext>
     {
-        [Command("Test"), RequireBotOwner(540830993196515328)]
+        [Command("Test"), RequireBotOwner()]
         public async Task TestAndStuff()
         {
             var guild = GuildAccounts.GetGuildAccount(Context.Guild.Id);
