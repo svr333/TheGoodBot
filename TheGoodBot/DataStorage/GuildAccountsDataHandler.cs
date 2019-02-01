@@ -17,16 +17,10 @@ namespace TheGoodOne.DataStorage
             string saveFile = directory + "/" + guildID + ".json";
             GuildAccountStruct guildAccount;
 
-            if (!SaveExists(saveFile))
-            {
-                if (!Directory.Exists(directory) == false)
-                {
-                    Directory.CreateDirectory(directory);
-                }
-                guildAccount = new GuildAccountStruct();
-                File.Create(saveFile);
-            }
-            else return;
+            if (SaveExists(saveFile)) { return; }
+
+            Directory.CreateDirectory(directory);
+            guildAccount = new GuildAccountStruct();
             string text = JsonConvert.SerializeObject(guildAccount, Formatting.Indented);
             File.WriteAllText(saveFile, text);
         }
