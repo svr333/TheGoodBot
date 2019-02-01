@@ -63,7 +63,6 @@ namespace TheGoodBot.Core.Services
         {
             // Don't process the command if it was a system message
             if (!(socketMessage is SocketUserMessage message)) return;
-
             // Create a number to track where the prefix ends and the command begins
             int argPos = 0;
 

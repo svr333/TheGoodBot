@@ -6,12 +6,12 @@ namespace TheGoodBot.Guilds
     {
         //list of settings
         List<string> prefixesList = new List<string>(){"?", "!"};
-        private bool allowMembersCustomEmbedColour { get; set; }
+        public bool allowMembersCustomEmbedColour { get; set; }
 
         //list of leaderboard stats
-        private uint allMembersCombinedXP { get; set; }
-        private uint allMembersCommandsExecuted { get; set; }
-        private uint allMembersMessagesSent { get; set; }
+        public uint allMembersCombinedXP { get; set; }
+        public uint allMembersCommandsExecuted { get; set; }
+        public uint allMembersMessagesSent { get; set; }
 
         /* MUSIC COMMANDS (implement later)
          * private uint allMembersSongsQueued { get; set; }
