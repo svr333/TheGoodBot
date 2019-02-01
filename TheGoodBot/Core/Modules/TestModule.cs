@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Discord.Commands;
 using TheGoodBot.Guilds;
 
@@ -11,7 +12,8 @@ namespace TheGoodBot.Core.Modules
         {
             var guild = GuildAccounts.GetGuildAccount(Context.Guild.Id);
             guild.allMembersCombinedXP += 500;
-            GuildAccounts.SaveAccount(Context.Guild.Id);
+            GuildAccounts.SaveAccount(guild, Context.Guild.Id);
+            await Context.Channel.SendMessageAsync($"dab");
         }
     }
 }

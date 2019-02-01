@@ -10,9 +10,10 @@ namespace TheGoodBot.Guilds
         private static GuildAccountStruct _guildAccount;
         private static string saveFile;
 
-        public static void SaveAccount(ulong guildID)
+        public static void SaveAccount(GuildAccountStruct guildAccount, ulong guildID)
         {
             saveFile = "GuildAccounts/" + guildID + ".json";
+            _guildAccount = guildAccount;
             GuildAccountsDataHandler.SaveGuildAccount(_guildAccount, saveFile);
         }
 
