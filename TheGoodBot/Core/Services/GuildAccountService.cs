@@ -4,7 +4,7 @@ using TheGoodBot.Guilds;
 
 namespace TheGoodOne.DataStorage
 {
-    public static class GuildAccountsDataHandler
+    public static class GuildAccountService
     {
         //checks whenever the bot joins a guild, if guild is already in database, bot will break out
         public static void CreateGuildAccount(ulong guildID)

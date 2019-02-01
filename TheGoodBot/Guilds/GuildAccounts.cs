@@ -14,13 +14,13 @@ namespace TheGoodBot.Guilds
         {
             saveFile = "GuildAccounts/" + guildID + ".json";
             _guildAccount = guildAccount;
-            GuildAccountsDataHandler.SaveGuildAccount(_guildAccount, saveFile);
+            GuildAccountService.SaveGuildAccount(_guildAccount, saveFile);
         }
 
         public static GuildAccountStruct GetGuildAccount(ulong guildID)
         {
             string filePath = "GuildAccounts/" + guildID + ".json";
-            var account = GuildAccountsDataHandler.GetGuildAccount(filePath);
+            var account = GuildAccountService.GetGuildAccount(filePath);
             return account;
         }
     }

@@ -38,7 +38,7 @@ namespace TheGoodBot.Core
             });
 
             //Get our config data from DataStorage. (config.json)
-            _config = config ?? new BotConfigDataHandler().GetConfig();
+            _config = config ?? new BotConfigService().GetConfig();
             _logger = logger ?? new Logger();
         }
 
@@ -86,7 +86,7 @@ namespace TheGoodBot.Core
                 .AddSingleton(_client)
                 .AddSingleton(_commands)
                 .AddSingleton<CommandHandlerService>()
-                .AddSingleton<BotConfigDataHandler>()
+                .AddSingleton<BotConfigService>()
                 .AddSingleton<Logger>()
                 .BuildServiceProvider();
         }

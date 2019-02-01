@@ -10,11 +10,14 @@ namespace TheGoodBot.Core.Preconditions
     {
         private readonly ulong _userId;
         private readonly ulong _botOwnerId;
+        private BotConfigService _configService;
 
         public RequireBotOwner(ulong userId)
         {
             _userId = userId;
-            _botOwnerId = BotConfigDataHandler;
+            _configService = new BotConfigService();
+            _botOwnerId = _configService.GetConfig().botOwnerID;
+            Console.WriteLine(_botOwnerId);
         }
 
         public override async Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
@@ -22,7 +25,7 @@ namespace TheGoodBot.Core.Preconditions
         {
             if (_userId == _botOwnerId)
             {
-                  return PreconditionResult.FromSuccess(); 
+                  return PreconditionResult.FromSuccess();
             }
             else return PreconditionResult.FromError($"You do not have the required permission to use this command.");
         }

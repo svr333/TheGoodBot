@@ -6,8 +6,16 @@ using System.Text;
 
 namespace TheGoodOne.DataStorage
 {
-    public class BotConfigDataHandler
+    public class BotConfigService
     {
+        public BotConfigService()
+        {
+            var config = GetConfig();
+            var BotownerID = config.botOwnerID;
+            var DiscordToken = config.discordToken;
+            var GameStatus = config.gameStatus;
+            Console.WriteLine(BotownerID + DiscordToken + GameStatus);
+        }
 
         private readonly string ConfigLocation = "config.json";
         /// <summary>

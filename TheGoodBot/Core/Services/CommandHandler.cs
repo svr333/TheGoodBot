@@ -102,7 +102,7 @@ namespace TheGoodBot.Core.Services
 
         private Task JoinedGuild(SocketGuild Guild)
         {
-            GuildAccountsDataHandler.CreateGuildAccount(Guild.Id);
+            GuildAccountService.CreateGuildAccount(Guild.Id);
             return Task.CompletedTask;
         }
 
