@@ -6,6 +6,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
+using TheGoodBot.Guilds;
 using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core
@@ -46,7 +47,7 @@ namespace TheGoodBot.Core
         {
             _services = ConfigureServices();
 
-            await _client.LoginAsync(TokenType.Bot, _config.DiscordToken);
+            await _client.LoginAsync(TokenType.Bot, _config.discordToken);
             await _client.StartAsync();
 
             HookEvents();
@@ -66,7 +67,7 @@ namespace TheGoodBot.Core
         //When the client sends the event, indicating that it is ready, we set the Now Playing game to what is in our config.json
         private async Task OnReadyAsync()
         {
-            await _client.SetGameAsync(_config.GameStatus);
+            await _client.SetGameAsync(_config.gameStatus);
         }
 
         private Task LogAsync(LogMessage log)

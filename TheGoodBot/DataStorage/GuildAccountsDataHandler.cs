@@ -1,28 +1,31 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Runtime.CompilerServices;
+﻿using System.IO;
 using Newtonsoft.Json;
-using TheGoodBot.Core;
-using TheGoodBot.Entities;
 using TheGoodBot.Guilds;
 
 namespace TheGoodOne.DataStorage
 {
-     public static class GuildAccountsDataHandler
+    public static class GuildAccountsDataHandler
     {
         //checks whenever the bot joins a guild, if guild is already in database, bot will break out
         public static void CreateGuildAccount(ulong guildID)
         {
             string directory = "GuildAccounts";
             string saveFile = directory + "/" + guildID + ".json";
-            GuildAccountStruct guildAccount;
+            //if the file exists, return
+            if(CheckDirectoryExists(saveFile, directory)) return;
 
-            if (SaveExists(saveFile)) { return; }
-
-            Directory.CreateDirectory(directory);
-            guildAccount = new GuildAccountStruct();
+            var guildAccount = new GuildAccountStruct();
+            //use json convert to write to .json file
             string text = JsonConvert.SerializeObject(guildAccount, Formatting.Indented);
             File.WriteAllText(saveFile, text);
+        }
+
+        public static bool CheckDirectoryExists(string filePath, string directory)
+        {
+            if (File.Exists(filePath)) { return true; }
+
+            Directory.CreateDirectory(directory);
+            return false;
         }
 
         //can be called to save guild accounts

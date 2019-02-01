@@ -10,7 +10,6 @@ namespace TheGoodOne.DataStorage
     {
 
         private readonly string ConfigLocation = "config.json";
-
         /// <summary>
         /// Gets the information from the Config.Json file for you to use in the bot.
         /// </summary>
@@ -53,9 +52,9 @@ namespace TheGoodOne.DataStorage
         private BotConfig GenBlankConfig()
             => new BotConfig
             {
-                DiscordToken = "CHANGE ME TO YOUR DISCORD TOKEN",
-                GameStatus = "CHANGE ME TO WHATEVER GAME STATUS YOU WANT TO DISPLAY",
-                BotOwnerID = 202095042372829184
+                discordToken = "CHANGE ME TO YOUR DISCORD TOKEN",
+                gameStatus = "CHANGE ME TO WHATEVER GAME STATUS YOU WANT TO DISPLAY",
+                botOwnerID = 202095042372829184
             };
     }
 }

@@ -2,8 +2,8 @@
 {
     public class BotConfig
     {
-        public string DiscordToken { get; set; }
-        public string GameStatus { get; set; }
-        public ulong BotOwnerID { get; set; }
+        public string discordToken { get; set; }
+        public string gameStatus { get; set; }
+        public ulong botOwnerID { get; set; }
     }
 }
