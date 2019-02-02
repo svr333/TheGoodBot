@@ -1,8 +1,6 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord.Commands;
 using TheGoodBot.Core.Preconditions;
-using TheGoodBot.Core.Services;
 using TheGoodBot.Guilds;
 using TheGoodOne.DataStorage;
 
