@@ -22,6 +22,7 @@ namespace TheGoodOne.DataStorage
             File.WriteAllText(saveFile, text);
         }
 
+        //gets a guild account if exists, otherwise gets and creates it
         public GuildAccountStruct GetOrCreateAccount(ulong guildID)
         {
             CreateGuildAccount(guildID);
