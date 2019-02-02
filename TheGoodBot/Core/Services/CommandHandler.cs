@@ -49,7 +49,6 @@ namespace TheGoodBot.Core.Services
             _client.MessageReceived += HandlerMessageAsync;
             _commands.CommandExecuted += CommandExecutedAsync;
             _commands.Log += LogAsync;
-            _client.JoinedGuild += JoinedGuild;
         }
 
 
@@ -99,12 +98,5 @@ namespace TheGoodBot.Core.Services
             Console.WriteLine($"COMMAND ERROR: {result}");
             await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\nContact svr333 / <@202095042372829184> for more information.");
         }
-
-        private Task JoinedGuild(SocketGuild Guild)
-        {
-            GuildAccountService.CreateGuildAccount(Guild.Id);
-            return Task.CompletedTask;
-        }
-
     }
 }

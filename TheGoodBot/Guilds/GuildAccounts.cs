@@ -4,23 +4,27 @@ using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Guilds
 {
-    public static class GuildAccounts
+    public class GuildAccounts
     {
         //(auto-)creation of GuildAccounts
-        private static GuildAccountStruct _guildAccount;
-        private static string saveFile;
+        private GuildAccountStruct _guildAccount;
+        private string saveFile;
+        private GuildAccountService _guildAccountService;
 
-        public static void SaveAccount(GuildAccountStruct guildAccount, ulong guildID)
+        public GuildAccounts(GuildAccountService service = null)
         {
-            saveFile = "GuildAccounts/" + guildID + ".json";
-            _guildAccount = guildAccount;
-            GuildAccountService.SaveGuildAccount(_guildAccount, saveFile);
+            _guildAccountService = service ?? new GuildAccountService();
         }
 
-        public static GuildAccountStruct GetGuildAccount(ulong guildID)
+        public void SaveAccount(GuildAccountStruct guildAccount, ulong guildID)
         {
-            string filePath = "GuildAccounts/" + guildID + ".json";
-            var account = GuildAccountService.GetGuildAccount(filePath);
+            _guildAccount = guildAccount;
+            _guildAccountService.SaveGuildAccount(_guildAccount, guildID);
+        }
+
+        public GuildAccountStruct GetGuildAccount(ulong guildID)
+        {
+            var account = _guildAccountService.GetOrCreateGuildAccount(guildID);
             return account;
         }
     }
