@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿/*using System.Collections.Generic;
 using System.Linq;
 using TheGoodOne.DataStorage;
 
@@ -28,4 +28,4 @@ namespace TheGoodBot.Guilds
             return account;
         }
     }
-}
+}*/

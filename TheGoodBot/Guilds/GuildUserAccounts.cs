@@ -1,4 +1,4 @@
-﻿using TheGoodBot.Entities;
+﻿/*using TheGoodBot.Entities;
 
 namespace TheGoodBot.Guilds
 {
@@ -28,4 +28,4 @@ namespace TheGoodBot.Guilds
             return guildUser;
         }
     }
-}
+}*/
