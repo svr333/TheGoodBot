@@ -22,6 +22,13 @@ namespace TheGoodOne.DataStorage
             File.WriteAllText(saveFile, text);
         }
 
+        public GuildAccountStruct GetOrCreateAccount(ulong guildID)
+        {
+            CreateGuildAccount(guildID);
+            var guild = GetGuildAccount("GuildAccounts/" + guildID + ".json");
+            return guild;
+        }
+
         public static bool CheckDirectoryExists(string filePath, string directory)
         {
             if (File.Exists(filePath)) { return true; }
