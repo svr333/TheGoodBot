@@ -26,5 +26,11 @@ namespace TheGoodBot.Core.Modules
             _guildAccountService.SaveGuildAccount(guild, Context.Guild.Id);
             await Context.Channel.SendMessageAsync(guild.guildID.ToString() + "||||||||||||||" + guildUser.UserId.ToString());
         }
+
+        [Command("NewCommand")]
+        public async Task Command()
+        {
+            await Context.Channel.SendMessageAsync($"I can do it");
+        }
     }
 }

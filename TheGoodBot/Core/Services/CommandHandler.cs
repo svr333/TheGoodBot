@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using TheGoodBot.Core.Extensions;
 using TheGoodBot.Guilds;
 using TheGoodOne.DataStorage;
 
@@ -19,6 +20,7 @@ namespace TheGoodBot.Core.Services
         private readonly CommandService _commands;
         private readonly IServiceProvider _services;
         private readonly Logger _logger;
+        private readonly GuildAccountService _guildAccountService;
 
         /// <summary>
         /// This allows us to get everything we need from DI when the class is instantiated.
@@ -26,21 +28,20 @@ namespace TheGoodBot.Core.Services
         /// <param name="services">Get The Services from DI.</param>
         /// <param name="client">Get The Client from DI.</param>
         /// <param name="cmdService">Get The CommandService from DI.</param>
-        public CommandHandlerService(IServiceProvider services, DiscordSocketClient client, CommandService commands, Logger logger)
+        public CommandHandlerService(IServiceProvider services, DiscordSocketClient client, CommandService commands, Logger logger, GuildAccountService guildAccount)
         {
             //Set everything we need from DI.
             _commands = commands;
             _client = client;
             _services = services;
             _logger = logger;
+            _guildAccountService = guildAccount;
         }
 
         //This is the task we will call to create out command service.
         public async Task InitializeAsync()
         {
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
-
-            //Just like in the client, here we hook any command specific events.
             HookEvents();
         }
 
@@ -58,28 +59,34 @@ namespace TheGoodBot.Core.Services
             return Task.CompletedTask;
         }
 
-        private async Task HandlerMessageAsync(SocketMessage socketMessage)
+        public async Task HandlerMessageAsync(SocketMessage socketMessage)
         {
             if (!(socketMessage is SocketUserMessage message)) return;
-            int argPos = 0;
 
             if (message.Channel is IPrivateChannel)
             {
                 await message.Author.SendMessageAsync($"Sorry, I only accept messages in a guild.");
                 return;
             }
-            if (!(message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
-                message.Author.IsBot)
-                return;
+
+            int argPos;
+            var guildUser = message.Author as SocketGuildUser;
+            var guildID = guildUser.Guild.Id;
+            var guild = _guildAccountService.GetOrCreateGuildAccount(guildID);
+
+            if (!(PrefixCheckerExt.HasPrefix(message, _client, out argPos, guild.prefixList))) { return; }
+            if (message.Author.IsBot) { return; }
+
+            Console.WriteLine(argPos);
 
             var context = new SocketCommandContext(_client, message);
             var result = await _commands.ExecuteAsync(context, argPos, _services);
+            Console.WriteLine(result);
         }
-
 
         public async Task CommandExecutedAsync(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
-            //Make this toggleable
+            // Todo: Make this toggleable
             if (!command.IsSpecified)
             {
                 await context.Channel.SendMessageAsync($"This command is not defined.");
@@ -88,14 +95,11 @@ namespace TheGoodBot.Core.Services
 
             if (result.IsSuccess)
             {
-                //save this to a persistent data file + track on the userprofiles
+                // Todo: save this to a persistent data file + track on the userprofiles
                 Console.WriteLine($"Command executed: {context.User.Username} used {command.Value.Name}");
                 return;
             }
 
-
-            /* the command failed, let's notify the user that something happened. */
-            Console.WriteLine($"COMMAND ERROR: {result}");
             await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\nContact svr333 / <@202095042372829184> for more information.");
         }
     }

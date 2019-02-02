@@ -55,7 +55,7 @@ namespace TheGoodOne.DataStorage
         {
             guildID = guildID,
             modRoles = null,
-            prefixesList = new List<string>() {"!", "?"},
+            prefixList = new List<string>() {"!", "?"},
             allMembersCombinedXP = 0,
             allMembersCommandsExecuted = 0,
             allMembersMessagesSent = 0,

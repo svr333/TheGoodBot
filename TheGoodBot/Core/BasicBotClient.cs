@@ -90,7 +90,6 @@ namespace TheGoodBot.Core
                 .AddSingleton<Logger>()
                 .AddSingleton<GuildAccountService>()
                 .AddSingleton<GuildUserAccountService>()
-                .AddSingleton<GuildPrefixesService>()
                 .BuildServiceProvider();
         }
     }
