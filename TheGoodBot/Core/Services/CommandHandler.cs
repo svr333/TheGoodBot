@@ -60,14 +60,14 @@ namespace TheGoodBot.Core.Services
 
         private async Task HandlerMessageAsync(SocketMessage socketMessage)
         {
-            // Don't process the command if it was a system message
             if (!(socketMessage is SocketUserMessage message)) return;
-            // Create a number to track where the prefix ends and the command begins
             int argPos = 0;
 
-
-
-            // Determine if the message is a command based on the prefix and make sure no bots trigger commands
+            if (message.Channel is IPrivateChannel)
+            {
+                await message.Author.SendMessageAsync($"Sorry, I only accept messages in a guild.");
+                return;
+            }
             if (!(message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot)
                 return;
