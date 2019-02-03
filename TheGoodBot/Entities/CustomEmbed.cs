@@ -24,7 +24,13 @@ namespace TheGoodBot.Entities
         public DateTimeOffset TimeStamp { get; set; }
 
         public string[] FieldTitles { get; set; }
-        public object[] Values { get; set; }
-        public bool[] InlineValues { get; set; }
+        public object[] FieldValues { get; set; }
+        public bool[] FieldInlineValues { get; set; }
     }
+    public struct CustomField
+        {
+            string FieldTitle;
+            object FieldValue;
+            bool InlineValue;
+        }
 }
