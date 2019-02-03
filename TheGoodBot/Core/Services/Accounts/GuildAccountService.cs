@@ -60,8 +60,9 @@ namespace TheGoodOne.DataStorage
             allMembersCommandsExecuted = 0,
             allMembersMessagesSent = 0,
             allowMembersCustomEmbedColour = true,
-            allowMembersPrivateAccounts = true
-                
+            allowMembersPrivateAccounts = true,
+            noCommandFoundIsDisabled = false,
+            allowedUsersOrRolesCheckPrivateAccounts = null
         };
     }
 }

@@ -10,6 +10,7 @@ namespace TheGoodBot.Guilds
         public ulong guildID { get; set; }
         public List<string> prefixList { get; set; }
         public List<SocketRole> modRoles { get; set; }
+        public bool noCommandFoundIsDisabled { get; set; }
         public bool allowMembersCustomEmbedColour { get; set; }
         public bool allowMembersPrivateAccounts { get; set; }
         public List<ulong> allowedUsersOrRolesCheckPrivateAccounts { get; set; }

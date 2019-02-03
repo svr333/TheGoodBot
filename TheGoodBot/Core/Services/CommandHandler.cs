@@ -77,8 +77,6 @@ namespace TheGoodBot.Core.Services
             if (!(PrefixCheckerExt.HasPrefix(message, _client, out argPos, guild.prefixList))) { return; }
             if (message.Author.IsBot) { return; }
 
-            Console.WriteLine(argPos);
-
             var context = new SocketCommandContext(_client, message);
             var result = await _commands.ExecuteAsync(context, argPos, _services);
             Console.WriteLine(result);
@@ -86,7 +84,10 @@ namespace TheGoodBot.Core.Services
 
         public async Task CommandExecutedAsync(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
-            // Todo: Make this toggleable
+            // Todo: Make this toggleable per guild
+            var guildID = context.Guild.Id;
+            var guildAccount = _guildAccountService.GetOrCreateGuildAccount(guildID);
+            if (guildAccount.noCommandFoundIsDisabled) { return; }
             if (!command.IsSpecified)
             {
                 await context.Channel.SendMessageAsync($"This command is not defined.");
