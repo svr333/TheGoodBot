@@ -9,14 +9,14 @@ namespace TheGoodOne.DataStorage
     public class BotConfigService
     {
         private readonly string ConfigLocation = "config.json";
-        public BotConfig GetConfig()
+        public BotConfigStruct GetConfig()
             => GetBotConfigData();
 
-        private BotConfig GetBotConfigData()
+        private BotConfigStruct GetBotConfigData()
         {
             CheckConfigExists();
             var rawData = File.ReadAllText(ConfigLocation);
-            return JsonConvert.DeserializeObject<BotConfig>(rawData);
+            return JsonConvert.DeserializeObject<BotConfigStruct>(rawData);
         }
 
         private void CheckConfigExists()
@@ -33,8 +33,8 @@ namespace TheGoodOne.DataStorage
             }
         }
 
-        private BotConfig GenBlankConfig()
-            => new BotConfig
+        private BotConfigStruct GenBlankConfig()
+            => new BotConfigStruct
             {
                 DiscordToken = "CHANGE ME TO YOUR DISCORD TOKEN",
                 GameStatus = "CHANGE ME TO WHATEVER GAME STATUS YOU WANT TO DISPLAY",

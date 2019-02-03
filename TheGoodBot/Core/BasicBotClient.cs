@@ -19,10 +19,10 @@ namespace TheGoodBot.Core
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
-        private BotConfig _config;
+        private BotConfigStruct _config;
         private Logger _logger;
 
-        public BasicBotClient(CommandService commands = null, DiscordSocketClient client = null, BotConfig config = null, Logger logger = null)
+        public BasicBotClient(CommandService commands = null, DiscordSocketClient client = null, BotConfigStruct config = null, Logger logger = null)
         {
             _client = client ?? new DiscordSocketClient(new DiscordSocketConfig
             {
