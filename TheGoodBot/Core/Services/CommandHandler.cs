@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Guilds;
+using TheGoodBot.Languages;
 using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Services

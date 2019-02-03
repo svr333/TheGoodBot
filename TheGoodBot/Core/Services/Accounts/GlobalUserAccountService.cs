@@ -44,7 +44,7 @@ namespace TheGoodBot.Core.Services.Accounts
 
         private GlobalUserAccountStruct GenerateGlobalUserAccount() => new GlobalUserAccountStruct()
         {
-            autoPrivateProfile = false
+            AutoPrivateProfile = false
         };
     }
 }

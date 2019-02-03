@@ -2,6 +2,7 @@
 {
     public class GlobalUserAccountStruct
     {
-        public bool autoPrivateProfile { get; set; }
+        public bool AutoPrivateProfile { get; set; }
+        public bool Language { get; set; }
     }
 }
