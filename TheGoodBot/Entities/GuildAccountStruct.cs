@@ -8,11 +8,12 @@ namespace TheGoodBot.Guilds
     {
         //list of settings
         public ulong guildID { get; set; }
-        public List<string> prefixList { get; set; }
-        public List<SocketRole> modRoles { get; set; }
+        public List<string> PrefixList { get; set; }
+        public List<ulong> ModRoles { get; set; }
         public bool noCommandFoundIsDisabled { get; set; }
         public bool allowMembersCustomEmbedColour { get; set; }
         public bool allowMembersPrivateAccounts { get; set; }
+        public bool allowMembersOwnLanguageSetting { get; set; }
         public List<ulong> allowedUsersOrRolesCheckPrivateAccounts { get; set; }
 
         //list of leaderboard stats
