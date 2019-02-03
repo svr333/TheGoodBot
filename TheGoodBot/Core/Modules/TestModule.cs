@@ -16,13 +16,15 @@ namespace TheGoodBot.Core.Modules
         private GuildUserAccountService _guildUserAccountService;
         private GlobalUserAccountService _globalUserAccountService;
         private LanguageSelector _languageSelector;
+        private ChangeCustomEmbedService _changeCustomEmbedService;
 
-        public TestModule(GuildAccountService guildService = null, GuildUserAccountService guildUserService = null, GlobalUserAccountService globalUserService = null, LanguageSelector languageSelector = null)
+        public TestModule(GuildAccountService guildService = null, GuildUserAccountService guildUserService = null, GlobalUserAccountService globalUserService = null, LanguageSelector languageSelector = null, ChangeCustomEmbedService changeCustomEmbedService = null)
         {
             _guildAccountService = guildService;
             _guildUserAccountService = guildUserService;
             _globalUserAccountService = globalUserService;
             _languageSelector = languageSelector;
+            _changeCustomEmbedService = changeCustomEmbedService;
         }
 
         [Command("Test"), RequireBotOwner()]
@@ -33,6 +35,12 @@ namespace TheGoodBot.Core.Modules
             guild.AllMembersCombinedXP += 500;
             _guildAccountService.SaveGuildAccount(guild, Context.Guild.Id);
             await Context.Channel.SendMessageAsync(guild.GuildID.ToString() + "||||||||||||||" + guildUser.UserId.ToString());
+        }
+
+        [Command("command")]
+        public async Task Command()
+        {
+            _changeCustomEmbedService.ValidateFile();
         }
     }
 }

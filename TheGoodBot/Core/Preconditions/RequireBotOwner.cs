@@ -15,7 +15,7 @@ namespace TheGoodBot.Core.Preconditions
             IServiceProvider services)
         {
             var configService = services.GetRequiredService<BotConfigService>();
-            _botOwnerId = configService.GetConfig().botOwnerID;
+            _botOwnerId = configService.GetConfig().BotOwnerID;
             if (context.User.Id == _botOwnerId)
             {
                   return PreconditionResult.FromSuccess();
