@@ -7,19 +7,17 @@ namespace TheGoodOne.DataStorage
 {
     public class GuildAccountService
     {
-        //checks whenever the bot joins a guild, if guild is already in database, bot will break out
         public void CreateGuildAccount(ulong guildID)
         {
             string directory = "GuildAccounts";
             string saveFile = directory + "/" + guildID + ".json";
-            //if the file exists, return
+
             if(CheckDirectoryExists(saveFile, directory)) return;
-            //use json convert to write to .json file
+
             string text = JsonConvert.SerializeObject(GenerateBlankGuildConfig(guildID), Formatting.Indented);
             File.WriteAllText(saveFile, text);
         }
 
-        //gets a guild account if exists, otherwise creates one and then gets it
         public GuildAccountStruct GetOrCreateGuildAccount(ulong guildID)
         {
             CreateGuildAccount(guildID);
@@ -35,16 +33,13 @@ namespace TheGoodOne.DataStorage
             return false;
         }
 
-        //can be called to save guild accounts
         public void SaveGuildAccount(GuildAccountStruct guildAccount, ulong guildID)
         {
-            //save guild account
             string filePath = "GuildAccounts/" + guildID + ".json"; 
             string rawData = JsonConvert.SerializeObject(guildAccount, Formatting.Indented);
             File.WriteAllText(filePath, rawData);
         }
 
-        //returns guild account
         public GuildAccountStruct GetGuildAccount(string filePath)
         {
             string rawData = File.ReadAllText(filePath);
