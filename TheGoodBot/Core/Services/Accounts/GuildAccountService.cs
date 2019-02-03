@@ -51,13 +51,13 @@ namespace TheGoodOne.DataStorage
             guildID = guildID,
             ModRoles = null,
             PrefixList = new List<string>() {"!", "?"},
-            allMembersCombinedXP = 0,
-            allMembersCommandsExecuted = 0,
-            allMembersMessagesSent = 0,
-            allowMembersCustomEmbedColour = true,
-            allowMembersPrivateAccounts = true,
-            noCommandFoundIsDisabled = false,
-            allowedUsersOrRolesCheckPrivateAccounts = null
+            AllMembersCombinedXP = 0,
+            AllMembersCommandsExecuted = 0,
+            AllMembersMessagesSent = 0,
+            AllowMembersCustomEmbedColour = true,
+            AllowMembersPrivateAccounts = true,
+            NoCommandFoundIsDisabled = false,
+            AllowedUsersOrRolesCheckPrivateAccounts = null
         };
     }
 }

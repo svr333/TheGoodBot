@@ -10,21 +10,22 @@ namespace TheGoodBot.Guilds
         public ulong guildID { get; set; }
         public List<string> PrefixList { get; set; }
         public List<ulong> ModRoles { get; set; }
-        public bool noCommandFoundIsDisabled { get; set; }
-        public bool allowMembersCustomEmbedColour { get; set; }
-        public bool allowMembersPrivateAccounts { get; set; }
-        public bool allowMembersOwnLanguageSetting { get; set; }
-        public List<ulong> allowedUsersOrRolesCheckPrivateAccounts { get; set; }
+        public string Language { get; set; }
+        public bool NoCommandFoundIsDisabled { get; set; }
+        public bool AllowMembersCustomEmbedColour { get; set; }
+        public bool AllowMembersPrivateAccounts { get; set; }
+        public bool AllowMembersOwnLanguageSetting { get; set; }
+        public List<ulong> AllowedUsersOrRolesCheckPrivateAccounts { get; set; }
 
         //list of leaderboard stats
-        public uint allMembersCombinedXP { get; set; }
-        public uint allMembersCommandsExecuted { get; set; }
-        public uint allMembersMessagesSent { get; set; }
+        public uint AllMembersCombinedXP { get; set; }
+        public uint AllMembersCommandsExecuted { get; set; }
+        public uint AllMembersMessagesSent { get; set; }
 
         public struct Music
         {
-            private uint allMembersSongsQueued { get; set; }
-            private uint allMembersHoursMusicPlayed { get; set; }
+            private uint AllMembersSongsQueued { get; set; }
+            private uint AllMembersHoursMusicPlayed { get; set; }
         }
     }
 }
