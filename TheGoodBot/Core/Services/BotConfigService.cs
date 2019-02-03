@@ -9,17 +9,9 @@ namespace TheGoodOne.DataStorage
     public class BotConfigService
     {
         private readonly string ConfigLocation = "config.json";
-        /// <summary>
-        /// Gets the information from the Config.Json file for you to use in the bot.
-        /// </summary>
-        /// <returns></returns>
         public BotConfig GetConfig()
             => GetBotConfigData();
 
-        /// <summary>
-        /// Private function to hide the implementation of this method.
-        /// </summary>
-        /// <returns></returns>
         private BotConfig GetBotConfigData()
         {
             CheckConfigExists();
@@ -27,9 +19,6 @@ namespace TheGoodOne.DataStorage
             return JsonConvert.DeserializeObject<BotConfig>(rawData);
         }
 
-        /// <summary>
-        /// Checks if the Config.Json exists, if it doesn't it creates one for you to fill out.
-        /// </summary>
         private void CheckConfigExists()
         {
             if (!File.Exists(ConfigLocation))
@@ -44,10 +33,6 @@ namespace TheGoodOne.DataStorage
             }
         }
 
-        /// <summary>
-        /// Generates a basic Config.Json for you to fill out with your info.
-        /// </summary>
-        /// <returns></returns>
         private BotConfig GenBlankConfig()
             => new BotConfig
             {

@@ -22,15 +22,8 @@ namespace TheGoodBot.Core.Services
         private readonly Logger _logger;
         private readonly GuildAccountService _guildAccountService;
 
-        /// <summary>
-        /// This allows us to get everything we need from DI when the class is instantiated.
-        /// </summary>
-        /// <param name="services">Get The Services from DI.</param>
-        /// <param name="client">Get The Client from DI.</param>
-        /// <param name="cmdService">Get The CommandService from DI.</param>
         public CommandHandlerService(IServiceProvider services, DiscordSocketClient client, CommandService commands, Logger logger, GuildAccountService guildAccount)
         {
-            //Set everything we need from DI.
             _commands = commands;
             _client = client;
             _services = services;
@@ -38,7 +31,6 @@ namespace TheGoodBot.Core.Services
             _guildAccountService = guildAccount;
         }
 
-        //This is the task we will call to create out command service.
         public async Task InitializeAsync()
         {
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
@@ -84,7 +76,6 @@ namespace TheGoodBot.Core.Services
 
         public async Task CommandExecutedAsync(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
-            // Todo: Make this toggleable per guild
             var guildID = context.Guild.Id;
             var guildAccount = _guildAccountService.GetOrCreateGuildAccount(guildID);
             if (guildAccount.noCommandFoundIsDisabled) { return; }
