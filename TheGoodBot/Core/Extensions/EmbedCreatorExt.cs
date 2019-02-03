@@ -51,7 +51,6 @@ namespace TheGoodBot.Core.Extensions
             var CustomFields = new List<CustomField>();
             amountsFailed = 0;
             int amountOfSucceededFields = 0;
-            CustomField field;
 
             for (int i = 0; i < embed.FieldTitles.Length; i++)
             {
@@ -60,12 +59,14 @@ namespace TheGoodBot.Core.Extensions
                     amountsFailed++;
                     continue;
                 }
-                field.FieldTitle = embed.FieldTitles[i];
-                field.FieldValue = embed.FieldValues[i];
-                field.InlineValue = embed.FieldInlineValues[i];
+                var field = new CustomField()
+                {
+                    FieldTitle = embed.FieldTitles[i],
+                    FieldValue = embed.FieldValues[i],
+                    InlineValue = embed.FieldInlineValues[i]
+                };
 
                 CustomFields[amountOfSucceededFields] = field;
-
                 amountOfSucceededFields++;
             }
 
