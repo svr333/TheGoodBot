@@ -7,7 +7,7 @@ namespace TheGoodBot.Guilds
     public class GuildAccountStruct
     {
         //list of settings
-        public ulong guildID { get; set; }
+        public ulong GuildID { get; set; }
         public List<string> PrefixList { get; set; }
         public List<ulong> ModRoles { get; set; }
         public string Language { get; set; }

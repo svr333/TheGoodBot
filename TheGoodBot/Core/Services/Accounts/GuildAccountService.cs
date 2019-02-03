@@ -48,7 +48,7 @@ namespace TheGoodOne.DataStorage
 
         public GuildAccountStruct GenerateBlankGuildConfig(ulong guildID) => new GuildAccountStruct()
         {
-            guildID = guildID,
+            GuildID = guildID,
             ModRoles = null,
             PrefixList = new List<string>() {"!", "?"},
             AllMembersCombinedXP = 0,

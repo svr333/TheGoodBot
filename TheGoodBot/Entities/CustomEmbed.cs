@@ -27,10 +27,4 @@ namespace TheGoodBot.Entities
         public object[] FieldValues { get; set; }
         public bool[] FieldInlineValues { get; set; }
     }
-    public struct CustomField
-        {
-            string FieldTitle;
-            object FieldValue;
-            bool InlineValue;
-        }
 }

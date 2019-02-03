@@ -46,7 +46,7 @@ namespace TheGoodBot.Core
         {
             _services = ConfigureServices();
 
-            await _client.LoginAsync(TokenType.Bot, _config.discordToken);
+            await _client.LoginAsync(TokenType.Bot, _config.DiscordToken);
             await _client.StartAsync();
 
             HookEvents();
@@ -63,7 +63,7 @@ namespace TheGoodBot.Core
 
         private async Task OnReadyAsync()
         {
-            await _client.SetGameAsync(_config.gameStatus);
+            await _client.SetGameAsync(_config.GameStatus);
         }
 
         private Task LogAsync(LogMessage log)

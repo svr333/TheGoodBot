@@ -7,8 +7,6 @@ namespace TheGoodBot.Core.Extensions
 {
     public static class EmbedCreatorExt
     {
-        private static List<CustomField> _embedFields;
-
         public static EmbedBuilder CreateEmbed(CustomEmbed embed, out int createFieldFailAmount)
         {
             var eb = new EmbedBuilder();

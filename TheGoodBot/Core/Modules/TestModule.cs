@@ -32,7 +32,7 @@ namespace TheGoodBot.Core.Modules
             var guildUser = _guildUserAccountService.GetOrCreateGuildUserAccount(Context.Guild.Id, Context.User.Id);
             guild.AllMembersCombinedXP += 500;
             _guildAccountService.SaveGuildAccount(guild, Context.Guild.Id);
-            await Context.Channel.SendMessageAsync(guild.guildID.ToString() + "||||||||||||||" + guildUser.UserId.ToString());
+            await Context.Channel.SendMessageAsync(guild.GuildID.ToString() + "||||||||||||||" + guildUser.UserId.ToString());
         }
 
         [Command("NewCommand")]

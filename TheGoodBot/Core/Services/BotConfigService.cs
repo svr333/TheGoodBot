@@ -36,9 +36,9 @@ namespace TheGoodOne.DataStorage
         private BotConfig GenBlankConfig()
             => new BotConfig
             {
-                discordToken = "CHANGE ME TO YOUR DISCORD TOKEN",
-                gameStatus = "CHANGE ME TO WHATEVER GAME STATUS YOU WANT TO DISPLAY",
-                botOwnerID = 202095042372829184
+                DiscordToken = "CHANGE ME TO YOUR DISCORD TOKEN",
+                GameStatus = "CHANGE ME TO WHATEVER GAME STATUS YOU WANT TO DISPLAY",
+                BotOwnerID = 202095042372829184
             };
     }
 }
