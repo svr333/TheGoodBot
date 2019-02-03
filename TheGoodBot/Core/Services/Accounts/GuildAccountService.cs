@@ -7,7 +7,7 @@ namespace TheGoodOne.DataStorage
 {
     public class GuildAccountService
     {
-        public void CreateGuildAccount(ulong guildID)
+        private void CreateGuildAccount(ulong guildID)
         {
             string directory = "GuildAccounts";
             string saveFile = directory + "/" + guildID + ".json";
@@ -25,7 +25,7 @@ namespace TheGoodOne.DataStorage
             return guild;
         }
 
-        public bool CheckDirectoryExists(string filePath, string directory)
+        private bool CheckDirectoryExists(string filePath, string directory)
         {
             if (File.Exists(filePath)) { return true; }
 
@@ -40,13 +40,13 @@ namespace TheGoodOne.DataStorage
             File.WriteAllText(filePath, rawData);
         }
 
-        public GuildAccountStruct GetGuildAccount(string filePath)
+        private GuildAccountStruct GetGuildAccount(string filePath)
         {
             string rawData = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<GuildAccountStruct>(rawData);
         }
 
-        public GuildAccountStruct GenerateBlankGuildConfig(ulong guildID) => new GuildAccountStruct()
+        private GuildAccountStruct GenerateBlankGuildConfig(ulong guildID) => new GuildAccountStruct()
         {
             GuildID = guildID,
             ModRoles = null,
