@@ -7,7 +7,6 @@ namespace TheGoodBot.Core.Extensions
 {
     static class PrefixCheckerExt
     {
-
         public static bool HasPrefix(this SocketUserMessage message, DiscordSocketClient client, out int argPos,
             List<string> prefixes)
         {

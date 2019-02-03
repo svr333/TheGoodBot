@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using TheGoodBot.Core.Preconditions;
 using TheGoodBot.Core.Services.Accounts;
