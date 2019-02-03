@@ -6,6 +6,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
+using TheGoodBot.Core.Services.Accounts;
 using TheGoodBot.Guilds;
 using TheGoodOne.DataStorage;
 
@@ -79,6 +80,7 @@ namespace TheGoodBot.Core
                 .AddSingleton<Logger>()
                 .AddSingleton<GuildAccountService>()
                 .AddSingleton<GuildUserAccountService>()
+                .AddSingleton<GlobalUserAccountService>()
                 .BuildServiceProvider();
         }
     }

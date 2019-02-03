@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Discord.Commands;
 using TheGoodBot.Core.Preconditions;
+using TheGoodBot.Core.Services.Accounts;
 using TheGoodBot.Guilds;
 using TheGoodOne.DataStorage;
 
@@ -10,11 +12,13 @@ namespace TheGoodBot.Core.Modules
     {
         private GuildAccountService _guildAccountService;
         private GuildUserAccountService _guildUserAccountService;
+        private GlobalUserAccountService _globalUserAccountService;
 
-        public TestModule(GuildAccountService guildService = null, GuildUserAccountService guildUserService = null)
+        public TestModule(GuildAccountService guildService = null, GuildUserAccountService guildUserService = null, GlobalUserAccountService globalUserService = null)
         {
             _guildAccountService = guildService;
             _guildUserAccountService = guildUserService;
+            _globalUserAccountService = globalUserService;
         }
 
         [Command("Test"), RequireBotOwner()]
@@ -30,6 +34,8 @@ namespace TheGoodBot.Core.Modules
         [Command("NewCommand")]
         public async Task Command()
         {
+            var globalUser = _globalUserAccountService.GetOrCreateGlobalUserAccount(Context.User.Id);
+            Console.WriteLine(globalUser.autoPrivateProfile);
             await Context.Channel.SendMessageAsync($"I can do it");
         }
     }
