@@ -36,7 +36,9 @@ namespace TheGoodBot.Core.Modules
 
         [Command("Test"), RequireBotOwner()]
         public async Task TestAndStuff()
-        {
+        { 
+            _changeCustomEmbedService.ValidateAndCreateFiles();
+
             var customembed = new CustomEmbedStruct();
             var embed = EmbedCreatorExt.CreateEmbed(customembed, out int amountsFailed);        
 
@@ -53,6 +55,7 @@ namespace TheGoodBot.Core.Modules
         public async Task Guild()
         {
             var test = _commandService.Commands.ToList();
+
             for (int i = 0; i < test.Count; i++)
             {
                 Console.WriteLine(test[i].Name);

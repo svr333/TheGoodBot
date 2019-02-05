@@ -3,24 +3,45 @@ using System.IO;
 using System.Linq;
 using Discord;
 using Discord.Commands;
+using Newtonsoft.Json;
 using TheGoodBot.Entities;
 
 namespace TheGoodBot.Languages
 {
     public class ChangeCustomEmbedService
     {
-        public void ValidateFile()
+        private CommandService _commandService;
+
+        public ChangeCustomEmbedService(CommandService command)
         {
-            string filePath = new CommandService().Commands.FirstOrDefault().ToString();
-            string directory = "";
-            
+            _commandService = command;
+        }
 
-            if (File.Exists(filePath)) { return; }
+        public void ValidateAndCreateFiles()
+        {
+            var commandList = _commandService.Commands.ToList(); 
+            string fileName = String.Empty;
+            string directory = String.Empty;
+            string filePath = String.Empty;
 
-            var embed = GenerateCustomEmbedStruct();
+            for (int i = 0; i < commandList.Count; i++)
+            {
+                if (!(commandList[i].Module.Group == String.Empty))
+                {
+                    fileName = commandList[i].Module.Group + "-" + commandList[i].Name;
+                }
+                else  { fileName = commandList[i].Name; }
 
-            Directory.CreateDirectory(directory);
-            File.WriteAllText(filePath, "");
+                directory = commandList[i].Module.Name;
+                filePath = directory + "/" + fileName + ".json";
+
+                if (File.Exists(filePath)) { return; }
+                var embed = GenerateCustomEmbedStruct();
+                Directory.CreateDirectory(directory);
+
+                var rawData = JsonConvert.SerializeObject(embed, Formatting.Indented);
+                File.WriteAllText(filePath, rawData);
+            }          
         }
 
         public void ChangeCustomEmbed()

@@ -1,5 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Discord.Commands;
+using TheGoodBot.Core.Services.Accounts;
+using TheGoodBot.Guilds;
+using TheGoodBot.Languages;
 using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Modules.ManagingModule
@@ -9,11 +14,10 @@ namespace TheGoodBot.Core.Modules.ManagingModule
     {
         private GuildAccountService _guildAccountService;
 
-        public PrefixCommands(GuildAccountService guildAccountService)
+        public PrefixCommands(GuildAccountService guildService = null)
         {
-            _guildAccountService = guildAccountService;
+            _guildAccountService = guildService;
         }
-
 
         [Command("add")]
         public async Task AddGuildPrefix()
