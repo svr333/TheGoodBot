@@ -20,14 +20,18 @@ namespace TheGoodBot.Core.Modules
         private GlobalUserAccountService _globalUserAccountService;
         private LanguageSelector _languageSelector;
         private ChangeCustomEmbedService _changeCustomEmbedService;
+        private CommandService _commandService;
 
-        public TestModule(GuildAccountService guildService = null, GuildUserAccountService guildUserService = null, GlobalUserAccountService globalUserService = null, LanguageSelector languageSelector = null, ChangeCustomEmbedService changeCustomEmbedService = null)
+        public TestModule(GuildAccountService guildService = null, GuildUserAccountService guildUserService = null,
+            GlobalUserAccountService globalUserService = null, LanguageSelector languageSelector = null,
+            ChangeCustomEmbedService changeCustomEmbedService = null, CommandService Command = null)
         {
             _guildAccountService = guildService;
             _guildUserAccountService = guildUserService;
             _globalUserAccountService = globalUserService;
             _languageSelector = languageSelector;
             _changeCustomEmbedService = changeCustomEmbedService;
+            _commandService = Command;
         }
 
         [Command("Test"), RequireBotOwner()]
@@ -48,12 +52,21 @@ namespace TheGoodBot.Core.Modules
         [Command("Guild")]
         public async Task Guild()
         {
+            var test = _commandService.Commands.ToList();
+            for (int i = 0; i < test.Count; i++)
+            {
+                Console.WriteLine(test[i].Name);
+                Console.WriteLine(test.Count);
+            }
+
             var guild = _guildAccountService.GetOrCreateGuildAccount(Context.Guild.Id);
             var guildUser = _guildUserAccountService.GetOrCreateGuildUserAccount(Context.Guild.Id, Context.User.Id);
             guild.AllMembersCombinedXP += 500;
             _guildAccountService.SaveGuildAccount(guild, Context.Guild.Id);
 
             await Context.Channel.SendMessageAsync(guild.GuildID.ToString() + "||||||||||||||" + guildUser.UserId.ToString());
+
+            
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using TheGoodBot.Core.Preconditions;
 using TheGoodBot.Entities;
 
 namespace TheGoodBot.Languages
@@ -34,7 +33,6 @@ namespace TheGoodBot.Languages
             else { ChangePair(key, embed); }
         }
 
-        [RequireBotOwner]
         private void AddPair(string key, CustomEmbedStruct embed)
         {
             _pairs.Add(key, embed);

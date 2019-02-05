@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Discord;
 using Discord.Commands;
 using TheGoodBot.Entities;
@@ -10,7 +11,7 @@ namespace TheGoodBot.Languages
     {
         public void ValidateFile()
         {
-            string filePath = "";
+            string filePath = new CommandService().Commands.FirstOrDefault().ToString();
             string directory = "";
             
 
