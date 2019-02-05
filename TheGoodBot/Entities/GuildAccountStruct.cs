@@ -24,8 +24,8 @@ namespace TheGoodBot.Guilds
 
         public struct Music
         {
-            private uint AllMembersSongsQueued { get; set; }
-            private uint AllMembersHoursMusicPlayed { get; set; }
+            public uint AllMembersSongsQueued { get; set; }
+            public uint AllMembersHoursMusicPlayed { get; set; }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Discord;
+using Discord.Commands;
 using TheGoodBot.Entities;
 
 namespace TheGoodBot.Languages
@@ -11,6 +12,7 @@ namespace TheGoodBot.Languages
         {
             string filePath = "";
             string directory = "";
+            
 
             if (File.Exists(filePath)) { return; }
 
@@ -36,7 +38,7 @@ namespace TheGoodBot.Languages
             AuthorName = String.Empty,
             FooterText = String.Empty,
             AuthorIconUrl = String.Empty,
-            Colour = Color.Blue,
+            Colour = Color.Blue.RawValue,
             EmbedUrl = String.Empty,
             ThumbnailUrl = String.Empty,
             AuthorUrl = String.Empty,

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -30,17 +31,13 @@ namespace TheGoodBot.Core.Modules
         [Command("Test"), RequireBotOwner()]
         public async Task TestAndStuff()
         {
+            uint lol = 0x858585;
             var guild = _guildAccountService.GetOrCreateGuildAccount(Context.Guild.Id);
             var guildUser = _guildUserAccountService.GetOrCreateGuildUserAccount(Context.Guild.Id, Context.User.Id);
             guild.AllMembersCombinedXP += 500;
             _guildAccountService.SaveGuildAccount(guild, Context.Guild.Id);
+            Console.WriteLine(Color.Red.ToString());
             await Context.Channel.SendMessageAsync(guild.GuildID.ToString() + "||||||||||||||" + guildUser.UserId.ToString());
-        }
-
-        [Command("command")]
-        public async Task Command()
-        {
-            _changeCustomEmbedService.ValidateFile();
         }
     }
 }
