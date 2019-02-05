@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Discord;
 using TheGoodBot.Entities;
@@ -7,7 +8,7 @@ namespace TheGoodBot.Core.Extensions
 {
     public static class EmbedCreatorExt
     {
-        public static EmbedBuilder CreateEmbed(CustomEmbedStruct embed, out int createFieldFailAmount)
+        public static Embed CreateEmbed(CustomEmbedStruct embed, out int createFieldFailAmount)
         {
             var eb = new EmbedBuilder();
             eb.WithAuthor(embed.AuthorName, embed.AuthorIconUrl, embed.AuthorUrl);
@@ -19,14 +20,18 @@ namespace TheGoodBot.Core.Extensions
             eb.WithTitle(embed.Title);
             eb.WithUrl(embed.EmbedUrl);
 
-            var fields = GetFields(embed, out int amountsFailed);
+            int amountsFailed = 0;
 
-            for (int i = 0; i < fields.Count; i++)
+            if (!(embed.FieldTitles == null))
             {
-                foreach (var field in fields)
+                var fields = GetFields(embed, out int amountsFieldFailed);
+
+                for (int i = 0; i < fields.Count; i++)
                 {
-                    eb.AddField(fields[i].FieldTitle, fields[i].FieldValue, fields[i].InlineValue);
+                        eb.AddField(fields[i].FieldTitle, fields[i].FieldValue, fields[i].InlineValue);
                 }
+
+                amountsFieldFailed = amountsFailed;
             }
 
             if (eb.Length == 0)
@@ -36,14 +41,8 @@ namespace TheGoodBot.Core.Extensions
             }
 
             createFieldFailAmount = amountsFailed;
-
-            if (embed.TimeStamp == null)
-            {
-                eb.WithCurrentTimestamp();
-                return eb;
-            }
             eb.WithTimestamp(embed.TimeStamp);
-            return eb;
+            return eb.Build();
         }
 
         private static List<CustomField> GetFields(CustomEmbedStruct embed, out int amountsFailed)
