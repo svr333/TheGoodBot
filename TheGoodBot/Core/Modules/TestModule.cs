@@ -37,17 +37,17 @@ namespace TheGoodBot.Core.Modules
         [Command("Test"), RequireBotOwner()]
         public async Task TestAndStuff()
         { 
-            _changeCustomEmbedService.ValidateAndCreateFiles();
+            _changeCustomEmbedService.CreateAllCommandFiles();
 
             var customembed = new CustomEmbedStruct();
             var embed = EmbedCreatorExt.CreateEmbed(customembed, out int amountsFailed);        
 
             if (!(embed == null))
             {
-                await Context.Channel.SendMessageAsync("", false, embed);
-                await Context.Channel.SendMessageAsync($"Amounts failed = {amountsFailed}");
-                Console.WriteLine("embed was null");
-            }          
+                await Context.Channel.SendMessageAsync(customembed.PlainText, false, embed);
+                await Context.Channel.SendMessageAsync($"Amounts failed to create a field: {amountsFailed}");
+            }
+            Console.WriteLine("embed was null");
         }
 
 

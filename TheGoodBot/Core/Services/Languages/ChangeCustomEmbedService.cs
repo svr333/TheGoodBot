@@ -17,7 +17,7 @@ namespace TheGoodBot.Languages
             _commandService = command;
         }
 
-        public void ValidateAndCreateFiles()
+        public void CreateAllCommandFiles()
         {
             var commandList = _commandService.Commands.ToList(); 
             string fileName = String.Empty;
@@ -36,10 +36,9 @@ namespace TheGoodBot.Languages
                 filePath = directory + "/" + fileName + ".json";
 
                 if (File.Exists(filePath)) { return; }
-                var embed = GenerateCustomEmbedStruct();
                 Directory.CreateDirectory(directory);
 
-                var rawData = JsonConvert.SerializeObject(embed, Formatting.Indented);
+                var rawData = JsonConvert.SerializeObject(GenerateCustomEmbedStruct(), Formatting.Indented);
                 File.WriteAllText(filePath, rawData);
             }          
         }
