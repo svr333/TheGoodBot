@@ -38,8 +38,8 @@ namespace TheGoodBot.Guilds
         private GuildUserAccountStruct GenerateBlankGuildUserConfig(ulong guildID, ulong userID) => new GuildUserAccountStruct()
         {
             UserId = userID,
-            GuildId = guildID
-
+            GuildId = guildID,
+            Language = "English"
         };
 
         private static bool FileExists(string filePath, string directory)

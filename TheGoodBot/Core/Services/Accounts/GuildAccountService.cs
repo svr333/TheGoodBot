@@ -57,7 +57,9 @@ namespace TheGoodOne.DataStorage
             AllowMembersCustomEmbedColour = true,
             AllowMembersPrivateAccounts = true,
             NoCommandFoundIsDisabled = false,
-            AllowedUsersOrRolesCheckPrivateAccounts = null
+            AllowedUsersOrRolesCheckPrivateAccounts = null,
+            Language = "English",
+            AllowMembersOwnLanguageSetting = true,
         };
     }
 }

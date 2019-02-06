@@ -3,6 +3,6 @@
     public class GlobalUserAccountStruct
     {
         public bool AutoPrivateProfile { get; set; }
-        public bool Language { get; set; }
+        public string Language { get; set; }
     }
 }
