@@ -71,5 +71,12 @@ namespace TheGoodBot.Core.Modules
 
             
         }
+
+        [Command("purge")]
+        public async Task Purge(int num)
+        {
+            var messages = await Context.Channel.GetMessagesAsync(num).FlattenAsync();
+            await ((ITextChannel)Context.Channel).DeleteMessagesAsync(messages);
+        }
     }
 }
