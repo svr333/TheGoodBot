@@ -32,7 +32,7 @@ namespace TheGoodBot.Languages
                 }
                 else  { fileName = commandList[i].Name; }
 
-                directory = language + "/" + commandList[i].Module.Name;
+                directory = "Languages/" + language + "/" + commandList[i].Module.Name;
                 filePath = directory + "/" + fileName + ".json";
 
                 if (File.Exists(filePath)) { continue; }

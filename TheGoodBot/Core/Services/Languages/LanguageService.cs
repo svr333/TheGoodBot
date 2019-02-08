@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Discord.Commands;
+using TheGoodBot.Core.Services.Accounts;
+using TheGoodBot.Guilds;
 using TheGoodBot.Languages;
+using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Entities
 {
@@ -10,10 +12,16 @@ namespace TheGoodBot.Entities
     {
         private List<string> _languageList = new List<string>();
         private ChangeCustomEmbedService _changeCustomEmbedService;
+        private GlobalUserAccountService _globalUserAccountService;
+        private GuildAccountService _guildAccountService;
+        private GuildUserAccountService _guildUserAccountService;
 
-        public LanguageService(ChangeCustomEmbedService changeCustomEmbedService = null)
+        public LanguageService(ChangeCustomEmbedService changeCustomEmbedService = null, GuildAccountService GuildAccount = null, GlobalUserAccountService GlobalUser = null, GuildUserAccountService GuildUser = null)
         {
             _changeCustomEmbedService = changeCustomEmbedService;
+            _guildAccountService = GuildAccount;
+            _globalUserAccountService = GlobalUser;
+            _guildUserAccountService = GuildUser;
         }
 
         public void CreateLanguageFiles()
@@ -27,6 +35,21 @@ namespace TheGoodBot.Entities
                 Directory.CreateDirectory(filePath);
                 _changeCustomEmbedService.CreateAllCommandFiles(language);
             }
+        }
+
+        public string GetLanguage(ulong guildID, ulong userID)
+        {
+            var guildAccount = _guildAccountService.GetOrCreateGuildAccount(guildID);
+            var globalUser = _globalUserAccountService.GetOrCreateGlobalUserAccount(userID);
+            var guildUser = _guildUserAccountService.GetOrCreateGuildUserAccount(guildID, userID);
+
+
+            if (guildAccount.AllowMembersOwnLanguageSetting == true)
+            {
+                if (globalUser.Language == String.Empty) { return guildUser.Language; }
+                else { return globalUser.Language; }
+            }
+            return guildAccount.Language;
         }
 
         public void GenerateNewLanguageList()
