@@ -87,6 +87,8 @@ namespace TheGoodBot.Core
                 .AddSingleton<LanguageStorage>()
                 .AddSingleton<CustomEmbedService>()
                 .AddSingleton<ChangeCustomEmbedService>()
+                .AddSingleton<LanguagePicker>()
+                .AddSingleton<LanguageService>()
                 .BuildServiceProvider();
         }
     }

@@ -18,26 +18,26 @@ namespace TheGoodBot.Core.Modules
         private GuildAccountService _guildAccountService;
         private GuildUserAccountService _guildUserAccountService;
         private GlobalUserAccountService _globalUserAccountService;
-        private LanguageSelector _languageSelector;
-        private ChangeCustomEmbedService _changeCustomEmbedService;
         private CommandService _commandService;
+        private LanguagePicker _languagePicker;
+        private LanguageService _languageService;
 
         public TestModule(GuildAccountService guildService = null, GuildUserAccountService guildUserService = null,
-            GlobalUserAccountService globalUserService = null, LanguageSelector languageSelector = null,
-            ChangeCustomEmbedService changeCustomEmbedService = null, CommandService Command = null)
+            GlobalUserAccountService globalUserService = null, LanguageService languageService = null,
+            CommandService Command = null, LanguagePicker languagePicker = null)
         {
             _guildAccountService = guildService;
             _guildUserAccountService = guildUserService;
             _globalUserAccountService = globalUserService;
-            _languageSelector = languageSelector;
-            _changeCustomEmbedService = changeCustomEmbedService;
             _commandService = Command;
+            _languagePicker = languagePicker;
+            _languageService = languageService;
         }
 
         [Command("Test"), RequireBotOwner()]
         public async Task TestAndStuff()
         { 
-            _changeCustomEmbedService.CreateAllCommandFiles();
+            _languageService.CreateLanguageFiles();
 
             var customembed = new CustomEmbedStruct();
             var embed = EmbedCreatorExt.CreateEmbed(customembed, out int amountsFailed);        

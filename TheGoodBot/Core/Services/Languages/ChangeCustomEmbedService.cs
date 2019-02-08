@@ -17,7 +17,7 @@ namespace TheGoodBot.Languages
             _commandService = command;
         }
 
-        public void CreateAllCommandFiles()
+        public void CreateAllCommandFiles(string language)
         {
             var commandList = _commandService.Commands.ToList(); 
             string fileName = String.Empty;
@@ -32,10 +32,10 @@ namespace TheGoodBot.Languages
                 }
                 else  { fileName = commandList[i].Name; }
 
-                directory = commandList[i].Module.Name;
+                directory = language + "/" + commandList[i].Module.Name;
                 filePath = directory + "/" + fileName + ".json";
 
-                if (File.Exists(filePath)) { return; }
+                if (File.Exists(filePath)) { continue; }
                 Directory.CreateDirectory(directory);
 
                 var rawData = JsonConvert.SerializeObject(GenerateCustomEmbedStruct(), Formatting.Indented);
@@ -43,12 +43,9 @@ namespace TheGoodBot.Languages
             }          
         }
 
-        public void ChangeCustomEmbed()
-        {
+       
 
-        }
-
-        public CustomEmbedStruct GenerateCustomEmbedStruct() => new CustomEmbedStruct()
+        private CustomEmbedStruct GenerateCustomEmbedStruct() => new CustomEmbedStruct()
         {
             FieldTitles = null,
             FieldValues = null,
