@@ -19,18 +19,16 @@ namespace TheGoodBot.Core.Modules
         private GuildUserAccountService _guildUserAccountService;
         private GlobalUserAccountService _globalUserAccountService;
         private CommandService _commandService;
-        private LanguagePicker _languagePicker;
         private LanguageService _languageService;
 
         public TestModule(GuildAccountService guildService = null, GuildUserAccountService guildUserService = null,
             GlobalUserAccountService globalUserService = null, LanguageService languageService = null,
-            CommandService Command = null, LanguagePicker languagePicker = null)
+            CommandService Command = null)
         {
             _guildAccountService = guildService;
             _guildUserAccountService = guildUserService;
             _globalUserAccountService = globalUserService;
             _commandService = Command;
-            _languagePicker = languagePicker;
             _languageService = languageService;
         }
 

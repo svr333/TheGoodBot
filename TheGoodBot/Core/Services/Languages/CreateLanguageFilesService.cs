@@ -8,11 +8,11 @@ using TheGoodBot.Entities;
 
 namespace TheGoodBot.Languages
 {
-    public class ChangeCustomEmbedService
+    public class CreateLanguageFilesService
     {
         private CommandService _commandService;
 
-        public ChangeCustomEmbedService(CommandService command)
+        public CreateLanguageFilesService(CommandService command)
         {
             _commandService = command;
         }
@@ -26,7 +26,7 @@ namespace TheGoodBot.Languages
 
             for (int i = 0; i < commandList.Count; i++)
             {
-                if (!(commandList[i].Module.Group == String.Empty))
+                if (!(commandList[i].Module.Group == null))
                 {
                     fileName = commandList[i].Module.Group + "-" + commandList[i].Name;
                 }
@@ -42,8 +42,6 @@ namespace TheGoodBot.Languages
                 File.WriteAllText(filePath, rawData);
             }          
         }
-
-       
 
         private CustomEmbedStruct GenerateCustomEmbedStruct() => new CustomEmbedStruct()
         {
