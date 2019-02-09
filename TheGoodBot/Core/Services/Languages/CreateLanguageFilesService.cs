@@ -31,11 +31,11 @@ namespace TheGoodBot.Languages
             {
                 if (!(commandList[i].Module.Group == null))
                 {
-                    fileName = commandList[i].Module.Group + "-" + commandList[i].Name;
+                    fileName = commandList[i].Module.Group.ToLower() + "-" + commandList[i].Name.ToLower();
                 }
-                else  { fileName = commandList[i].Name; }
+                else  { fileName = commandList[i].Name.ToLower(); }
 
-                directory = "Languages/" + language + "/" + commandList[i].Module.Name;
+                directory = "Languages/" + language + "/" + commandList[i].Module.Name.ToLower();
                 filePath = directory + "/" + fileName + ".json";
 
                 if (File.Exists(filePath)) { continue; }
