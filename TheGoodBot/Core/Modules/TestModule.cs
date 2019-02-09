@@ -36,8 +36,8 @@ namespace TheGoodBot.Core.Modules
         public async Task TestAndStuff()
         {
             var result = _commandService.Search(Context, "Test");
-            Console.WriteLine(result.Commands.FirstOrDefault().Command.Module.Name);
-            Console.WriteLine(result.Commands.FirstOrDefault().Command.Name);
+            var command = result.Commands.FirstOrDefault().Command;
+            string[] array = new string[] { command.Name, command.Module.Name, command.Module.Group};
 
             var customEmbed = new CustomEmbedStruct();
             var embed = EmbedCreatorExt.CreateEmbed(customEmbed, out int amountsFailed);        
@@ -72,7 +72,7 @@ namespace TheGoodBot.Core.Modules
             
         }
 
-        [Command("purge")]
+        [Command("Purge")]
         public async Task Purge(int num)
         {
             var messages = await Context.Channel.GetMessagesAsync(num).FlattenAsync();
