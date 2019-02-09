@@ -11,12 +11,12 @@ namespace TheGoodBot.Entities
     public class LanguageService
     {
         private List<string> _languageList = new List<string>();
-        private ChangeCustomEmbedService _changeCustomEmbedService;
+        private CreateLanguageFilesService _changeCustomEmbedService;
         private GlobalUserAccountService _globalUserAccountService;
         private GuildAccountService _guildAccountService;
         private GuildUserAccountService _guildUserAccountService;
 
-        public LanguageService(ChangeCustomEmbedService changeCustomEmbedService = null, GuildAccountService GuildAccount = null, GlobalUserAccountService GlobalUser = null, GuildUserAccountService GuildUser = null)
+        public LanguageService(CreateLanguageFilesService changeCustomEmbedService = null, GuildAccountService GuildAccount = null, GlobalUserAccountService GlobalUser = null, GuildUserAccountService GuildUser = null)
         {
             _changeCustomEmbedService = changeCustomEmbedService;
             _guildAccountService = GuildAccount;
