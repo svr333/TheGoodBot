@@ -32,7 +32,7 @@ namespace TheGoodBot.Core.Services.Languages
             else { name = groupName + "-" + commandName; }
 
             var language = _languageService.GetLanguage(guildID, userID);
-            if (language == String.Empty) { language = "English"; }
+            if (language == null || language == String.Empty) { language = "English"; }
             var filePath = "Languages/" + language + "/" + moduleName + "/" + name + ".json";
 
             var json = File.ReadAllText(filePath);
