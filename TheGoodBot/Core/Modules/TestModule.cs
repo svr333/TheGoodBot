@@ -32,17 +32,19 @@ namespace TheGoodBot.Core.Modules
             _languageService = languageService;
         }
 
-        [Command("Test"), RequireBotOwner()]
+        [Command("Test")]
         public async Task TestAndStuff()
-        { 
-            _languageService.CreateLanguageFiles();
+        {
+            var result = _commandService.Search(Context, "Test");
+            Console.WriteLine(result.Commands.FirstOrDefault().Command.Module.Name);
+            Console.WriteLine(result.Commands.FirstOrDefault().Command.Name);
 
-            var customembed = new CustomEmbedStruct();
-            var embed = EmbedCreatorExt.CreateEmbed(customembed, out int amountsFailed);        
+            var customEmbed = new CustomEmbedStruct();
+            var embed = EmbedCreatorExt.CreateEmbed(customEmbed, out int amountsFailed);        
 
             if (!(embed == null))
             {
-                await Context.Channel.SendMessageAsync(customembed.PlainText, false, embed);
+                await Context.Channel.SendMessageAsync(customEmbed.PlainText, false, embed);
                 await Context.Channel.SendMessageAsync($"Amounts failed to create a field: {amountsFailed}");
             }
             Console.WriteLine("embed was null");

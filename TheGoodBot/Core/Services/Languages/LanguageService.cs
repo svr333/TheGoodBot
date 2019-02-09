@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TheGoodBot.Core.Services.Accounts;
 using TheGoodBot.Guilds;
 using TheGoodBot.Languages;
@@ -9,32 +10,18 @@ using TheGoodOne.DataStorage;
 namespace TheGoodBot.Entities
 {
     public class LanguageService
-    {
-        private List<string> _languageList = new List<string>();
-        private CreateLanguageFilesService _changeCustomEmbedService;
+    {       
+        private CreateLanguageFilesService _createLanguageFilesService;
         private GlobalUserAccountService _globalUserAccountService;
         private GuildAccountService _guildAccountService;
         private GuildUserAccountService _guildUserAccountService;
 
-        public LanguageService(CreateLanguageFilesService changeCustomEmbedService = null, GuildAccountService GuildAccount = null, GlobalUserAccountService GlobalUser = null, GuildUserAccountService GuildUser = null)
+        public LanguageService(CreateLanguageFilesService createLanguageFilesService = null, GuildAccountService GuildAccount = null, GlobalUserAccountService GlobalUser = null, GuildUserAccountService GuildUser = null)
         {
-            _changeCustomEmbedService = changeCustomEmbedService;
+            _createLanguageFilesService = createLanguageFilesService;
             _guildAccountService = GuildAccount;
             _globalUserAccountService = GlobalUser;
             _guildUserAccountService = GuildUser;
-        }
-
-        public void CreateLanguageFiles()
-        {
-            //if (_languageList == null || !_languageList.Any()) { GenerateNewLanguageList(); }
-            GenerateNewLanguageList();
-
-            foreach (var language in _languageList)
-            {
-                string filePath = "Languages/" + language;
-                Directory.CreateDirectory(filePath);
-                _changeCustomEmbedService.CreateAllCommandFiles(language);
-            }
         }
 
         public string GetLanguage(ulong guildID, ulong userID)
@@ -52,13 +39,6 @@ namespace TheGoodBot.Entities
             return guildAccount.Language;
         }
 
-        public void GenerateNewLanguageList()
-        {
-            _languageList.Clear();
-            _languageList.Add("English");
-            _languageList.Add("Dutch");
-            _languageList.Add("French");
-            _languageList.Add("Spanish");
-        }
+        
     }
 }

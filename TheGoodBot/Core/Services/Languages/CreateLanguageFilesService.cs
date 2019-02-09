@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Discord;
@@ -10,6 +11,8 @@ namespace TheGoodBot.Languages
 {
     public class CreateLanguageFilesService
     {
+        private List<string> _languageList = new List<string>();
+
         private CommandService _commandService;
 
         public CreateLanguageFilesService(CommandService command)
@@ -43,12 +46,24 @@ namespace TheGoodBot.Languages
             }          
         }
 
+        public void CreateAllLanguageFiles()
+        {
+            if (_languageList == null || !_languageList.Any()) { GenerateNewLanguageList(); }
+
+            foreach (var language in _languageList)
+            {
+                string filePath = "Languages/" + language;
+                Directory.CreateDirectory(filePath);
+                CreateAllCommandFiles(language);
+            }
+        }
+
         private CustomEmbedStruct GenerateCustomEmbedStruct() => new CustomEmbedStruct()
         {
             FieldTitles = null,
             FieldValues = null,
             FieldInlineValues = null,
-            TimeStamp = DateTimeOffset.UtcNow,
+            TimeStamp = DateTimeOffset.MinValue,
             Title = String.Empty,
             Description = String.Empty,
             AuthorName = String.Empty,
@@ -62,5 +77,14 @@ namespace TheGoodBot.Languages
             FooterUrl = String.Empty,
             PlainText = String.Empty
         };
+
+        public void GenerateNewLanguageList()
+        {
+            _languageList.Clear();
+            _languageList.Add("English");
+            _languageList.Add("Dutch");
+            _languageList.Add("French");
+            _languageList.Add("Spanish");
+        }
     }
 }
