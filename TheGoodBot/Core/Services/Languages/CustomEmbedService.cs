@@ -1,50 +1,52 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using Discord;
+using Discord.Commands;
 using Newtonsoft.Json;
+using TheGoodBot.Core.Extensions;
 using TheGoodBot.Entities;
 
-namespace TheGoodBot.Languages
+namespace TheGoodBot.Core.Services.Languages
 {
     public class CustomEmbedService
     {
-        private Dictionary<string, CustomEmbedStruct> _pairs;
-        private string filePath = "Languages/LanguageFiles/English.json";
-        private string directory = "Languages/LanguageFiles";
+        private LanguageService _languageService;
+        private CommandService _commandService;
 
-        public void CreateFile()
+        public CustomEmbedService(LanguageService languageService = null, CommandService commandService = null)
         {
-            if (!File.Exists(filePath))
-            {
-                Directory.CreateDirectory(directory);
-                var rawData = JsonConvert.SerializeObject(_pairs, Formatting.Indented);
-                File.WriteAllText(filePath, rawData);
-            }
+            _languageService = languageService;
+            _commandService = commandService;
         }
 
-        private void SaveCustomEmbed(string key, CustomEmbedStruct embed)
+        private CustomEmbedStruct GetCustomEmbed(ulong guildID, ulong userID, string[] commandInfo)
         {
-            var rawData = JsonConvert.SerializeObject(embed, Formatting.Indented);
-            File.WriteAllText(filePath, rawData);
+            string commandName = commandInfo[0];
+            string moduleName = commandInfo[1];
+            string groupName = commandInfo[2];
+            string name = String.Empty;
+
+            if (groupName == null) { name = commandName; }
+            else { name = groupName + "-" + commandName; }
+
+            var language = _languageService.GetLanguage(guildID, userID);
+            if (language == String.Empty) { language = "English"; }
+            var filePath = "Languages/" + language + "/" + moduleName + "/" + name + ".json";
+
+            var json = File.ReadAllText(filePath);
+            var customEmbed = JsonConvert.DeserializeObject<CustomEmbedStruct>(json);
+            return customEmbed;
         }
 
-        public void AddOrChangePair(string key, CustomEmbedStruct embed)
+        public Embed GetAndCreateEmbed(ulong guildID, ulong userID, string[] commandInfo, out string text, out int amountsFailed)
         {
-            if (!_pairs.ContainsKey(key)) { AddPair(key, embed); }
-            else { ChangePair(key, embed); }
-        }
-
-        private void AddPair(string key, CustomEmbedStruct embed)
-        {
-            _pairs.Add(key, embed);
-        }
-
-        private void ChangePair(string key, CustomEmbedStruct embed)
-        {
-            var oldValue = _pairs[key];
-            _pairs[key] = embed;
-            var newValue = _pairs[key];
-            CustomEmbedStruct[] editedValue = new CustomEmbedStruct[] {oldValue, newValue};
-            SaveCustomEmbed(key, embed);
+            var customEmbed = GetCustomEmbed(guildID, userID, commandInfo);
+            var embed = EmbedCreatorExt.CreateEmbed(customEmbed, out int createFieldFailAmount);
+            text = customEmbed.PlainText;
+            amountsFailed = createFieldFailAmount;
+            return embed;
         }
     }
 }

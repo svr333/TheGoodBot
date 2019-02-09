@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 using TheGoodBot.Core.Services.Accounts;
+using TheGoodBot.Core.Services.Languages;
 using TheGoodBot.Guilds;
 using TheGoodBot.Languages;
 using TheGoodOne.DataStorage;
@@ -82,9 +83,10 @@ namespace TheGoodBot.Core
                 .AddSingleton<GuildAccountService>()
                 .AddSingleton<GuildUserAccountService>()
                 .AddSingleton<GlobalUserAccountService>()
-                .AddSingleton<CustomEmbedService>()
+                .AddSingleton<CustomEmbedServiceToRemove>()
                 .AddSingleton<CreateLanguageFilesService>()
                 .AddSingleton<LanguageService>()
+                .AddSingleton<CustomEmbedService>()
                 .BuildServiceProvider();
         }
     }

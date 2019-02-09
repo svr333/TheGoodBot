@@ -6,6 +6,7 @@ using Discord.Commands;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Core.Preconditions;
 using TheGoodBot.Core.Services.Accounts;
+using TheGoodBot.Core.Services.Languages;
 using TheGoodBot.Entities;
 using TheGoodBot.Guilds;
 using TheGoodBot.Languages;
@@ -20,16 +21,18 @@ namespace TheGoodBot.Core.Modules
         private GlobalUserAccountService _globalUserAccountService;
         private CommandService _commandService;
         private LanguageService _languageService;
+        private CustomEmbedService _customEmbedService;
 
         public TestModule(GuildAccountService guildService = null, GuildUserAccountService guildUserService = null,
             GlobalUserAccountService globalUserService = null, LanguageService languageService = null,
-            CommandService Command = null)
+            CommandService Command = null, CustomEmbedService customEmbedService = null)
         {
             _guildAccountService = guildService;
             _guildUserAccountService = guildUserService;
             _globalUserAccountService = globalUserService;
             _commandService = Command;
             _languageService = languageService;
+            _customEmbedService = customEmbedService;
         }
 
         [Command("Test")]
@@ -39,12 +42,11 @@ namespace TheGoodBot.Core.Modules
             var command = result.Commands.FirstOrDefault().Command;
             string[] array = new string[] { command.Name, command.Module.Name, command.Module.Group};
 
-            var customEmbed = new CustomEmbedStruct();
-            var embed = EmbedCreatorExt.CreateEmbed(customEmbed, out int amountsFailed);        
+            var embed = _customEmbedService.GetAndCreateEmbed(Context.Guild.Id, Context.User.Id, array, out string text, out int amountsFailed);   
 
             if (!(embed == null))
             {
-                await Context.Channel.SendMessageAsync(customEmbed.PlainText, false, embed);
+                await Context.Channel.SendMessageAsync(text, false, embed);
                 await Context.Channel.SendMessageAsync($"Amounts failed to create a field: {amountsFailed}");
             }
             Console.WriteLine("embed was null");
