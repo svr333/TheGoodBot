@@ -87,6 +87,7 @@ namespace TheGoodBot.Core
                 .AddSingleton<CreateLanguageFilesService>()
                 .AddSingleton<LanguageService>()
                 .AddSingleton<CustomEmbedService>()
+                .AddSingleton<EventHooker>()
                 .BuildServiceProvider();
         }
     }

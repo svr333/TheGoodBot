@@ -20,36 +20,30 @@ namespace TheGoodBot.Core.Services
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
         private readonly IServiceProvider _services;
-        private readonly Logger _logger;
         private readonly GuildAccountService _guildAccountService;
+        private readonly EventHooker _eventHooker;
 
-        public CommandHandlerService(IServiceProvider services, DiscordSocketClient client, CommandService commands, Logger logger, GuildAccountService guildAccount)
+        public CommandHandlerService(IServiceProvider services, DiscordSocketClient client, CommandService commands, 
+            GuildAccountService guildAccount, EventHooker eventHooker)
         {
             _commands = commands;
             _client = client;
             _services = services;
-            _logger = logger;
             _guildAccountService = guildAccount;
+            _eventHooker = eventHooker;
         }
 
         public async Task InitializeAsync()
         {
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
-            HookEvents();
+            HookCommandHandlers();
+            _eventHooker.HookEvents();
         }
 
-        private void HookEvents()
+        private void HookCommandHandlers()
         {
             _client.MessageReceived += HandlerMessageAsync;
             _commands.CommandExecuted += CommandExecutedAsync;
-            _commands.Log += LogAsync;
-        }
-
-
-        private Task LogAsync(LogMessage message)
-        {
-            _logger.Log(message.Message);
-            return Task.CompletedTask;
         }
 
         public async Task HandlerMessageAsync(SocketMessage socketMessage)
