@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using TheGoodBot.Core.Services.Accounts;
 using TheGoodBot.Guilds;
-using TheGoodBot.Languages;
 using TheGoodOne.DataStorage;
 
-namespace TheGoodBot.Entities
+namespace TheGoodBot.Languages
 {
     public class LanguageService
     {       

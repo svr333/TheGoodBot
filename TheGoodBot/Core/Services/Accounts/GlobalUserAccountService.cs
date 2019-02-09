@@ -14,7 +14,6 @@ namespace TheGoodBot.Core.Services.Accounts
             return globalUser;
         }
 
-
         public void CreateUserAccount(ulong userId)
         {
             string filePath = "GlobalUserAccounts/" + userId + ".json";
@@ -25,7 +24,6 @@ namespace TheGoodBot.Core.Services.Accounts
             var rawData = JsonConvert.SerializeObject(GenerateGlobalUserAccount(), Formatting.Indented);
             File.WriteAllText(filePath, rawData);
         }
-
 
         public void SaveUserAccount(GlobalUserAccountStruct user, ulong userId)
         {

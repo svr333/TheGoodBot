@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using Discord;
 using Discord.Commands;
 using Newtonsoft.Json;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Entities;
+using TheGoodBot.Languages;
 
 namespace TheGoodBot.Core.Services.Languages
 {
