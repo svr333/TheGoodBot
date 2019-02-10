@@ -46,9 +46,11 @@ namespace TheGoodBot.Core.Modules
             if (!(embed == null))
             {
                 await Context.Channel.SendMessageAsync(text, false, embed);
-                await Context.Channel.SendMessageAsync($"Amounts failed to create a field: {amountsFailed}");
+                if (!(amountsFailed == 0))
+                {
+                    await Context.Channel.SendMessageAsync($"There were titles missing to create other fields. Failures: `{amountsFailed}`");
+                }  
             }
-            Console.WriteLine("embed was null");
         }
 
 

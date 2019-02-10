@@ -28,10 +28,10 @@ namespace TheGoodBot.Core.Extensions
 
                 for (int i = 0; i < fields.Count; i++)
                 {
-                        eb.AddField(fields[i].FieldTitle, fields[i].FieldValue, fields[i].InlineValue);
+                    eb.AddField(fields[i].FieldTitle, fields[i].FieldValue, fields[i].InlineValue);
                 }
 
-                amountsFieldFailed = amountsFailed;
+                amountsFailed = amountsFieldFailed;
             }
 
             if (eb.Length == 0)
@@ -48,16 +48,11 @@ namespace TheGoodBot.Core.Extensions
         private static List<CustomField> GetFields(CustomEmbedStruct embed, out int amountsFailed)
         {
             var CustomFields = new List<CustomField>();
-            amountsFailed = 0;
             int amountOfSucceededFields = 0;
 
             for (int i = 0; i < embed.FieldTitles.Length; i++)
             {
-                if (embed.FieldTitles[i] == string.Empty)
-                {
-                    amountsFailed++;
-                    continue;
-                }
+                if (embed.FieldTitles[i] == String.Empty || embed.FieldTitles[i] == null) { continue; }
                 var field = new CustomField()
                 {
                     FieldTitle = embed.FieldTitles[i],
@@ -65,10 +60,11 @@ namespace TheGoodBot.Core.Extensions
                     InlineValue = embed.FieldInlineValues[i]
                 };
 
-                CustomFields[amountOfSucceededFields] = field;
+                CustomFields.Add(field);
                 amountOfSucceededFields++;
             }
 
+            amountsFailed = embed.FieldTitles.Length - amountOfSucceededFields;
             return CustomFields;
         }
         private struct CustomField

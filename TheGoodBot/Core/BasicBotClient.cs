@@ -83,7 +83,6 @@ namespace TheGoodBot.Core
                 .AddSingleton<GuildAccountService>()
                 .AddSingleton<GuildUserAccountService>()
                 .AddSingleton<GlobalUserAccountService>()
-                .AddSingleton<CustomEmbedServiceToRemove>()
                 .AddSingleton<CreateLanguageFilesService>()
                 .AddSingleton<LanguageService>()
                 .AddSingleton<CustomEmbedService>()
