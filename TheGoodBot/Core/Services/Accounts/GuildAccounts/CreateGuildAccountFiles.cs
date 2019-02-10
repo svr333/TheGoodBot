@@ -29,6 +29,7 @@ namespace TheGoodOne.DataStorage
             for (int i = 0; i < categoryList.Count; i++)
             {
                 string filePath = $"GuildAccounts/{guildID}/{categoryList[i]}.json";
+                if (File.Exists(filePath)) { continue; }
 
                 var categoryObject = _guildFilesGeneration.GetAndCreateObject(categoryList[i], guildID);
 
@@ -41,6 +42,7 @@ namespace TheGoodOne.DataStorage
         {
             categoryList.Add("Settings");
             categoryList.Add("Cooldowns");
+            categoryList.Add("Stats");
         }
     }
 }

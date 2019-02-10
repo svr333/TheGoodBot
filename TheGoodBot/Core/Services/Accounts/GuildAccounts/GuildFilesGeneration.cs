@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TheGoodBot.Guilds;
 
 namespace TheGoodOne.DataStorage
@@ -9,8 +10,16 @@ namespace TheGoodOne.DataStorage
         {
             if (category == "Settings") { return GenerateBlankSettingsFile(guildID); }
             if (category == "Cooldowns") { return GenerateBlankCooldownsFile(); }
+            if (category == "Stats") { return GenerateBlankStatsFile(); }
             else { return null; }
         }
+
+        private object GenerateBlankStatsFile() => new StatsStruct()
+        {
+            AllMembersCombinedXP = 0,
+            AllMembersCommandsExecuted = 0,
+            AllMembersMessagesSent = 0
+        };
 
         private GuildAccountStruct GenerateBlankSettingsFile(ulong guildID) => new GuildAccountStruct()
         {

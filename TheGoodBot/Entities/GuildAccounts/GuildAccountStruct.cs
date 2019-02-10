@@ -17,11 +17,6 @@ namespace TheGoodBot.Guilds
         public bool AllowMembersOwnLanguageSetting { get; set; }
         public List<ulong> AllowedUsersOrRolesCheckPrivateAccounts { get; set; }
 
-        //list of leaderboard stats
-        public uint AllMembersCombinedXP { get; set; }
-        public uint AllMembersCommandsExecuted { get; set; }
-        public uint AllMembersMessagesSent { get; set; }
-
         public struct Music
         {
             public uint AllMembersSongsQueued { get; set; }
