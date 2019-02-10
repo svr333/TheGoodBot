@@ -38,9 +38,8 @@ namespace TheGoodBot.Core.Modules
         [Command("Test")]
         public async Task TestAndStuff()
         {
-            var result = _commandService.Search(Context, "Test");
-            var command = result.Commands.FirstOrDefault().Command;
-            string[] array = new string[] { command.Name, command.Module.Name, command.Module.Group};
+            var command = _commandService.Search(Context, "Test").Commands.FirstOrDefault().Command;
+            string[] array = new string[] { command.Name, command.Module.Name, command.Module.Group };
 
             var embed = _customEmbedService.GetAndCreateEmbed(Context.Guild.Id, Context.User.Id, array, out string text, out int amountsFailed);   
 
