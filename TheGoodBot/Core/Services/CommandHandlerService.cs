@@ -21,10 +21,10 @@ namespace TheGoodBot.Core.Services
         private readonly CommandService _commands;
         private readonly IServiceProvider _services;
         private readonly GuildAccountService _guildAccountService;
-        private readonly EventHooker _eventHooker;
+        private readonly EventHookerService _eventHooker;
 
         public CommandHandlerService(IServiceProvider services, DiscordSocketClient client, CommandService commands, 
-            GuildAccountService guildAccount, EventHooker eventHooker)
+            GuildAccountService guildAccount, EventHookerService eventHooker)
         {
             _commands = commands;
             _client = client;

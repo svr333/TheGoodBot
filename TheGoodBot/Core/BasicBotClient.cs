@@ -20,9 +20,9 @@ namespace TheGoodBot.Core
         private CommandService _commands;
         private IServiceProvider _services;
         private BotConfigStruct _config;
-        private Logger _logger;
+        private LoggerService _logger;
 
-        public BasicBotClient(CommandService commands = null, DiscordSocketClient client = null, BotConfigStruct config = null, Logger logger = null)
+        public BasicBotClient(CommandService commands = null, DiscordSocketClient client = null, BotConfigStruct config = null, LoggerService logger = null)
         {
             _client = client ?? new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -38,7 +38,7 @@ namespace TheGoodBot.Core
             });
 
             _config = config ?? new BotConfigService().GetConfig();
-            _logger = logger ?? new Logger();
+            _logger = logger ?? new LoggerService();
         }
 
 
@@ -79,17 +79,17 @@ namespace TheGoodBot.Core
                 .AddSingleton(_commands)
                 .AddSingleton<CommandHandlerService>()
                 .AddSingleton<BotConfigService>()
-                .AddSingleton<Logger>()
+                .AddSingleton<LoggerService>()
                 .AddSingleton<GuildAccountService>()
                 .AddSingleton<GuildUserAccountService>()
                 .AddSingleton<GlobalUserAccountService>()
                 .AddSingleton<CreateLanguageFilesService>()
                 .AddSingleton<LanguageService>()
                 .AddSingleton<CustomEmbedService>()
-                .AddSingleton<EventHooker>()
-                .AddSingleton<GuildList>()
-                .AddSingleton<CreateGuildAccountFiles>()
-                .AddSingleton<GuildFilesGeneration>()
+                .AddSingleton<EventHookerService>()
+                .AddSingleton<GuildListService>()
+                .AddSingleton<CreateGuildAccountFilesService>()
+                .AddSingleton<GuildFilesGenerationService>()
                 .BuildServiceProvider();
         }
     }

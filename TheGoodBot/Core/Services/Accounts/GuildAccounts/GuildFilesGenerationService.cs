@@ -4,7 +4,7 @@ using TheGoodBot.Guilds;
 
 namespace TheGoodOne.DataStorage
 {
-    public class GuildFilesGeneration
+    public class GuildFilesGenerationService
     {
         public object GetAndCreateObject(string category, ulong guildID)
         {
@@ -26,9 +26,6 @@ namespace TheGoodOne.DataStorage
             GuildID = guildID,
             ModRoles = null,
             PrefixList = new List<string>() { "!", "?" },
-            AllMembersCombinedXP = 0,
-            AllMembersCommandsExecuted = 0,
-            AllMembersMessagesSent = 0,
             AllowMembersCustomEmbedColour = true,
             AllowMembersPrivateAccounts = true,
             NoCommandFoundIsDisabled = false,

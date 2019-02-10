@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 
 namespace TheGoodOne.DataStorage
 {
-    public class CreateGuildAccountFiles
+    public class CreateGuildAccountFilesService
     {
         private List<string> categoryList = new List<string>();
-        private GuildFilesGeneration _guildFilesGeneration;
+        private GuildFilesGenerationService _guildFilesGeneration;
 
-        public CreateGuildAccountFiles(GuildFilesGeneration guildFilesGeneration)
+        public CreateGuildAccountFilesService(GuildFilesGenerationService guildFilesGeneration)
         {
             _guildFilesGeneration = guildFilesGeneration;
         }
