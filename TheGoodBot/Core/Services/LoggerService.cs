@@ -2,7 +2,7 @@
 
 namespace TheGoodBot.Core.Services
 {
-    public class Logger
+    public class LoggerService
     {
         public void Log(string msg)
         {

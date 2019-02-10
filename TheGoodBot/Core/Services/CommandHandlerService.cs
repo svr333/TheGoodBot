@@ -59,7 +59,7 @@ namespace TheGoodBot.Core.Services
             int argPos;
             var guildUser = message.Author as SocketGuildUser;
             var guildID = guildUser.Guild.Id;
-            var guild = _guildAccountService.GetOrCreateGuildAccount(guildID);
+            var guild = _guildAccountService.GetOrCreateGuildAccountCategory(guildID, "Settings");
 
             if (!(PrefixCheckerExt.HasPrefix(message, _client, out argPos, guild.PrefixList))) { return; }
             if (message.Author.IsBot) { return; }
@@ -72,10 +72,10 @@ namespace TheGoodBot.Core.Services
         public async Task CommandExecutedAsync(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
             var guildID = context.Guild.Id;
-            var guildAccount = _guildAccountService.GetOrCreateGuildAccount(guildID);
-            if (guildAccount.NoCommandFoundIsDisabled) { return; }
+            var guildAccount = _guildAccountService.GetOrCreateGuildAccountCategory(guildID, "Settings");          
             if (!command.IsSpecified)
             {
+                if (guildAccount.NoCommandFoundIsDisabled) { return; }
                 await context.Channel.SendMessageAsync($"This command is not defined.");
                 return;
             }

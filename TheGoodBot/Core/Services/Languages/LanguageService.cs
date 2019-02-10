@@ -22,7 +22,7 @@ namespace TheGoodBot.Languages
 
         public string GetLanguage(ulong guildID, ulong userID)
         {
-            var guildAccount = _guildAccountService.GetOrCreateGuildAccount(guildID);
+            var guildAccount = _guildAccountService.GetOrCreateGuildAccountCategory(guildID, "Settings");
             var globalUser = _globalUserAccountService.GetOrCreateGlobalUserAccount(userID);
             var guildUser = _guildUserAccountService.GetOrCreateGuildUserAccount(guildID, userID);
 

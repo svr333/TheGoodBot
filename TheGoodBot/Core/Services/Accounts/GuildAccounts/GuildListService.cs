@@ -5,13 +5,13 @@ using Newtonsoft.Json;
 
 namespace TheGoodOne.DataStorage
 {
-    public class GuildList
+    public class GuildListService
     {
         private List<ulong> guildIDs;
         private string filePath = "AllGuildID's.json";
-        private CreateGuildAccountFiles _createGuildAccountFiles;
+        private CreateGuildAccountFilesService _createGuildAccountFiles;
 
-        public GuildList(CreateGuildAccountFiles createGuildAccountFiles)
+        public GuildListService(CreateGuildAccountFilesService createGuildAccountFiles)
         {
             if (!File.Exists(filePath)) { CreateFile(); }
             _createGuildAccountFiles = createGuildAccountFiles;

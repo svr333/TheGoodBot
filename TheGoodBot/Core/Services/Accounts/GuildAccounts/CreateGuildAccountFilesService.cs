@@ -22,7 +22,7 @@ namespace TheGoodOne.DataStorage
             CreateGuildFiles(guildID);
         }
 
-        public void CreateGuildFiles(ulong guildID)
+        private void CreateGuildFiles(ulong guildID)
         {
             if (categoryList == null || !categoryList.Any()) { GenerateNewCategoryList(); }
 

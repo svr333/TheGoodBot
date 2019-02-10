@@ -6,6 +6,7 @@ namespace TheGoodOne.DataStorage
 {
     public class GuildFilesGenerationService
     {
+
         public object GetAndCreateObject(string category, ulong guildID)
         {
             if (category == "Settings") { return GenerateBlankSettingsFile(guildID); }

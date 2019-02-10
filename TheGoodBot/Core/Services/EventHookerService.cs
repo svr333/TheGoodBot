@@ -10,19 +10,19 @@ using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Services
 {
-    public class EventHooker
+    public class EventHookerService
     {
         private DiscordSocketClient _client;
         private CommandService _commands;
-        private Logger _logger;
+        private LoggerService _logger;
         private GuildUserAccountService _guildUser;
         private GlobalUserAccountService _user;
         private CreateLanguageFilesService _language;
-        private GuildList _guildList;
+        private GuildListService _guildList;
 
-        public EventHooker(DiscordSocketClient client, CommandService command, Logger logger,
+        public EventHookerService(DiscordSocketClient client, CommandService command, LoggerService logger,
             GuildUserAccountService guildUser, GlobalUserAccountService user, CreateLanguageFilesService language,
-            GuildList guildList)
+            GuildListService guildList)
         {
             _client = client;
             _commands = command;

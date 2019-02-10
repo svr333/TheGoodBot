@@ -7,22 +7,23 @@ namespace TheGoodOne.DataStorage
 {
     public class GuildAccountService
     {
-        private void CreateGuildAccount(ulong guildID)
+        private CreateGuildAccountFilesService _guildFiles;
+
+        public GuildAccountService(CreateGuildAccountFilesService guildFiles)
         {
-            string directory = "GuildAccounts";
-            string saveFile = directory + "/" + guildID + ".json";
-
-            if(CheckDirectoryExists(saveFile, directory)) return;
-
-            string text = JsonConvert.SerializeObject(GenerateBlankGuildConfig(guildID), Formatting.Indented);
-            File.WriteAllText(saveFile, text);
+            _guildFiles = guildFiles;
         }
 
-        public GuildAccountStruct GetOrCreateGuildAccount(ulong guildID)
+        private void CreateGuildAccount(ulong guildID)
+        {
+            _guildFiles.CreateGuildAccount(guildID);
+        }
+
+        public GuildAccountStruct GetOrCreateGuildAccountCategory(ulong guildID, string category)
         {
             CreateGuildAccount(guildID);
-            var guild = GetGuildAccount("GuildAccounts/" + guildID + ".json");
-            return guild;
+            var guild = GetGuildAccount($"GuildAccounts/{guildID}/{category}.json", category);
+            return guild as GuildAccountStruct;
         }
 
         private bool CheckDirectoryExists(string filePath, string directory)
@@ -40,23 +41,10 @@ namespace TheGoodOne.DataStorage
             File.WriteAllText(filePath, rawData);
         }
 
-        private GuildAccountStruct GetGuildAccount(string filePath)
+        private object GetGuildAccount(string filePath, string category)
         {
             string rawData = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<GuildAccountStruct>(rawData);
+            return JsonConvert.DeserializeObject<object>(rawData);
         }
-
-        private GuildAccountStruct GenerateBlankGuildConfig(ulong guildID) => new GuildAccountStruct()
-        {
-            GuildID = guildID,
-            ModRoles = null,
-            PrefixList = new List<string>() {"!", "?"},
-            AllowMembersCustomEmbedColour = true,
-            AllowMembersPrivateAccounts = true,
-            NoCommandFoundIsDisabled = false,
-            AllowedUsersOrRolesCheckPrivateAccounts = null,
-            Language = "English",
-            AllowMembersOwnLanguageSetting = true,
-        };
     }
 }

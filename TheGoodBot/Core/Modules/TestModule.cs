@@ -16,17 +16,19 @@ namespace TheGoodBot.Core.Modules
 {
     public class TestModule : ModuleBase<SocketCommandContext>
     {
+        private GuildAccountService _guildAccountService;
         private GuildUserAccountService _guildUserAccountService;
         private GlobalUserAccountService _globalUserAccountService;
         private CommandService _commandService;
         private LanguageService _languageService;
         private CustomEmbedService _customEmbedService;
-        private CreateGuildAccountFiles _createGuildAccountFiles;
+        private CreateGuildAccountFilesService _createGuildAccountFiles;
 
-        public TestModule(GuildUserAccountService guildUserService = null,
+        public TestModule(GuildAccountService guildAccountService, GuildUserAccountService guildUserService = null,
             GlobalUserAccountService globalUserService = null, LanguageService languageService = null,
-            CommandService Command = null, CustomEmbedService customEmbedService = null, CreateGuildAccountFiles createGuildAccountFiles = null)
+            CommandService Command = null, CustomEmbedService customEmbedService = null, CreateGuildAccountFilesService createGuildAccountFiles = null)
         {
+            _guildAccountService = guildAccountService;
             _guildUserAccountService = guildUserService;
             _globalUserAccountService = globalUserService;
             _commandService = Command;
@@ -57,7 +59,8 @@ namespace TheGoodBot.Core.Modules
         [Command("Guild")]
         public async Task Guild()
         {
-            
+            var test = _guildAccountService.GetOrCreateGuildAccountCategory(Context.Guild.Id, "Settings");
+            await Context.Channel.SendMessageAsync(test.GuildID.ToString());
         }
 
         [Command("Purge")]

@@ -22,7 +22,7 @@ namespace TheGoodBot.Core.Modules.ManagingModule
         [Command("add")]
         public async Task AddGuildPrefix()
         {
-            var guild = _guildAccountService.GetOrCreateGuildAccount(Context.Guild.Id);
+            var guild = _guildAccountService.GetOrCreateGuildAccountCategory(Context.Guild.Id, "Settings");
             await Context.Channel.SendMessageAsync($"The previous prefixes were:");
         }
     }
