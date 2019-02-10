@@ -87,6 +87,8 @@ namespace TheGoodBot.Core
                 .AddSingleton<LanguageService>()
                 .AddSingleton<CustomEmbedService>()
                 .AddSingleton<EventHooker>()
+                .AddSingleton<GuildList>()
+                .AddSingleton<CreateGuildAccountFiles>()
                 .BuildServiceProvider();
         }
     }
