@@ -7,7 +7,7 @@ namespace TheGoodOne.DataStorage
 {
     public class CreateGuildAccountFiles
     {
-        private List<string> categoryList;
+        private List<string> categoryList = new List<string>();
         private GuildFilesGeneration _guildFilesGeneration;
 
         public CreateGuildAccountFiles(GuildFilesGeneration guildFilesGeneration)

@@ -13,13 +13,20 @@ namespace TheGoodOne.DataStorage
 
         public GuildList(CreateGuildAccountFiles createGuildAccountFiles)
         {
+            if (!File.Exists(filePath)) { CreateFile(); }
             _createGuildAccountFiles = createGuildAccountFiles;
             string json = File.ReadAllText(filePath);
             guildIDs = JsonConvert.DeserializeObject<List<ulong>>(json);
         }
 
+        private void CreateFile()
+        {
+            File.WriteAllText(filePath, "");
+        }
+
         public void CreateAllGuildAccounts()
         {
+            guildIDs = new List<ulong>();
             for (int i = 0; i < guildIDs.Count; i++)
             {
                 _createGuildAccountFiles.CreateGuildAccount(guildIDs[i]);

@@ -22,10 +22,11 @@ namespace TheGoodBot.Core.Modules
         private CommandService _commandService;
         private LanguageService _languageService;
         private CustomEmbedService _customEmbedService;
+        private CreateGuildAccountFiles _createGuildAccountFiles;
 
         public TestModule(GuildAccountService guildService = null, GuildUserAccountService guildUserService = null,
             GlobalUserAccountService globalUserService = null, LanguageService languageService = null,
-            CommandService Command = null, CustomEmbedService customEmbedService = null)
+            CommandService Command = null, CustomEmbedService customEmbedService = null, CreateGuildAccountFiles createGuildAccountFiles = null)
         {
             _guildAccountService = guildService;
             _guildUserAccountService = guildUserService;
@@ -33,6 +34,7 @@ namespace TheGoodBot.Core.Modules
             _commandService = Command;
             _languageService = languageService;
             _customEmbedService = customEmbedService;
+            _createGuildAccountFiles = createGuildAccountFiles;
         }
 
         [Command("Test")]
@@ -80,6 +82,13 @@ namespace TheGoodBot.Core.Modules
         {
             var messages = await Context.Channel.GetMessagesAsync(num).FlattenAsync();
             await ((ITextChannel)Context.Channel).DeleteMessagesAsync(messages);
+        }
+
+        [Command("okay")]
+        public async Task Okay()
+        {
+            _createGuildAccountFiles.CreateGuildAccount(Context.Guild.Id);
+            await Context.Channel.SendMessageAsync("Files created");
         }
     }
 }
