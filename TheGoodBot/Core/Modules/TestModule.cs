@@ -55,11 +55,10 @@ namespace TheGoodBot.Core.Modules
             }
         }
 
-
         [Command("Guild")]
         public async Task Guild()
         {
-            var test = _guildAccountService.GetOrCreateGuildAccountCategory(Context.Guild.Id, "Settings");
+            var test = _guildAccountService.GetSettingsAccount(Context.Guild.Id);
             await Context.Channel.SendMessageAsync(test.GuildID.ToString());
         }
 

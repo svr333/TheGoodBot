@@ -1,10 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord.Commands;
-using TheGoodBot.Core.Services.Accounts;
 using TheGoodBot.Guilds;
-using TheGoodBot.Languages;
 using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Modules.ManagingModule
@@ -22,7 +18,7 @@ namespace TheGoodBot.Core.Modules.ManagingModule
         [Command("add")]
         public async Task AddGuildPrefix()
         {
-            var guild = _guildAccountService.GetOrCreateGuildAccountCategory(Context.Guild.Id, "Settings");
+            var guild = _guildAccountService.GetSettingsAccount(Context.Guild.Id);
             await Context.Channel.SendMessageAsync($"The previous prefixes were:");
         }
     }

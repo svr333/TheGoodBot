@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using TheGoodBot.Guilds;
@@ -19,13 +20,6 @@ namespace TheGoodOne.DataStorage
             _guildFiles.CreateGuildAccount(guildID);
         }
 
-        public GuildAccountStruct GetOrCreateGuildAccountCategory(ulong guildID, string category)
-        {
-            CreateGuildAccount(guildID);
-            var guild = GetGuildAccount($"GuildAccounts/{guildID}/{category}.json", category);
-            return guild as GuildAccountStruct;
-        }
-
         private bool CheckDirectoryExists(string filePath, string directory)
         {
             if (File.Exists(filePath)) { return true; }
@@ -41,10 +35,25 @@ namespace TheGoodOne.DataStorage
             File.WriteAllText(filePath, rawData);
         }
 
-        private object GetGuildAccount(string filePath, string category)
+        public GuildAccountStruct GetSettingsAccount(ulong guildID)
         {
+            string filePath = $"GuildAccounts/{guildID}/Settings.json";
             string rawData = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<object>(rawData);
+            return JsonConvert.DeserializeObject<GuildAccountStruct>(rawData);
+        }
+
+        public CooldownsStruct GetCooldownsAccount(ulong guildID)
+        {
+            string filePath = $"GuildAccounts/{guildID}/Cooldowns.json";
+            string rawData = File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<CooldownsStruct>(rawData);
+        }
+
+        public StatsStruct GetStatsAccount(ulong guildID)
+        {
+            string filePath = $"GuildAccounts/{guildID}/Stats.json";
+            string rawData = File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<StatsStruct>(rawData);
         }
     }
 }
