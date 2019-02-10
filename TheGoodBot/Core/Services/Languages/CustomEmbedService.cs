@@ -42,7 +42,7 @@ namespace TheGoodBot.Core.Services.Languages
         public Embed GetAndCreateEmbed(ulong guildID, ulong userID, string[] commandInfo, out string text, out int amountsFailed)
         {
             var customEmbed = GetCustomEmbed(guildID, userID, commandInfo);
-            var embed = EmbedCreatorExt.CreateEmbed(customEmbed, out int createFieldFailAmount);
+            var embed = customEmbed.CreateEmbed(out int createFieldFailAmount);
             text = customEmbed.PlainText;
             amountsFailed = createFieldFailAmount;
             return embed;
