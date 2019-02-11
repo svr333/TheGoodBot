@@ -43,7 +43,7 @@ namespace TheGoodBot.Core.Modules
             var command = _commandService.Search(Context, "Test").Commands.FirstOrDefault().Command;
             string[] array = new string[] { command.Name, command.Module.Name, command.Module.Group };
 
-            var embed = _customEmbedService.GetAndCreateEmbed(Context.Guild.Id, Context.User.Id, array, out string text, out int amountsFailed);   
+            var embed = _customEmbedService.GetAndConvertToDiscEmbed(Context.Guild.Id, Context.User.Id, array, out string text, out int amountsFailed);   
 
             if (!(embed == null))
             {

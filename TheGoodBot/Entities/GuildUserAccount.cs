@@ -1,6 +1,6 @@
 ﻿namespace TheGoodBot.Entities
 {
-    public class GuildUserAccountStruct
+    public class GuildUserAccount
     {
         public ulong UserId { get; set; }
         public ulong GuildId { get; set; }

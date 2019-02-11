@@ -15,14 +15,14 @@ namespace TheGoodBot.Core.Services
         private DiscordSocketClient _client;
         private CommandService _commands;
         private LoggerService _logger;
+        private GuildAccountService _guildAccount;
         private GuildUserAccountService _guildUser;
         private GlobalUserAccountService _user;
         private CreateLanguageFilesService _language;
-        private GuildListService _guildList;
 
         public EventHookerService(DiscordSocketClient client, CommandService command, LoggerService logger,
             GuildUserAccountService guildUser, GlobalUserAccountService user, CreateLanguageFilesService language,
-            GuildListService guildList)
+            GuildAccountService guildAccount)
         {
             _client = client;
             _commands = command;
@@ -30,7 +30,7 @@ namespace TheGoodBot.Core.Services
             _guildUser = guildUser;
             _user = user;
             _language = language;
-            _guildList = guildList;
+            _guildAccount = guildAccount;
         }
 
         public void HookEvents()
@@ -42,14 +42,14 @@ namespace TheGoodBot.Core.Services
 
         private Task GuildJoined(SocketGuild guild)
         {
-            _guildList.AddGuild(guild.Id);
+            _guildAccount.AddGuild(guild.Id);
             return Task.CompletedTask;
         }
 
         private Task Ready()
         {
             _language.CreateAllLanguageFiles();
-            _guildList.CreateAllGuildAccounts();
+            _guildAccount.CreateAllGuildAccounts();
             return Task.CompletedTask;
         }
 

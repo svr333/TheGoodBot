@@ -58,7 +58,7 @@ namespace TheGoodBot.Languages
             }
         }
 
-        private CustomEmbedStruct GenerateCustomEmbedStruct() => new CustomEmbedStruct()
+        private CustomEmbed GenerateCustomEmbedStruct() => new CustomEmbed()
         {
             FieldTitles = null,
             FieldValues = null,

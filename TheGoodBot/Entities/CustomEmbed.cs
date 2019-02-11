@@ -3,7 +3,7 @@ using Discord;
 
 namespace TheGoodBot.Entities
 {
-    public class CustomEmbedStruct
+    public class CustomEmbed
     {
         public string PlainText { get; set; }
 

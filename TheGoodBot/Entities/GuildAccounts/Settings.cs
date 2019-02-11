@@ -4,7 +4,7 @@ using Discord.WebSocket;
 
 namespace TheGoodBot.Guilds
 {
-    public class GuildAccountStruct
+    public class Settings
     {
         //list of settings
         public ulong GuildID { get; set; }
@@ -16,11 +16,5 @@ namespace TheGoodBot.Guilds
         public bool AllowMembersPrivateAccounts { get; set; }
         public bool AllowMembersOwnLanguageSetting { get; set; }
         public List<ulong> AllowedUsersOrRolesCheckPrivateAccounts { get; set; }
-
-        public struct Music
-        {
-            public uint AllMembersSongsQueued { get; set; }
-            public uint AllMembersHoursMusicPlayed { get; set; }
-        }
     }
 }

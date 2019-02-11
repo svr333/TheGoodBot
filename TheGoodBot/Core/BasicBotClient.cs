@@ -6,6 +6,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
+using Discord.Addons.Interactive;
 using TheGoodBot.Core.Services.Accounts;
 using TheGoodBot.Core.Services.Languages;
 using TheGoodBot.Guilds;
@@ -19,10 +20,10 @@ namespace TheGoodBot.Core
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
-        private BotConfigStruct _config;
+        private BotConfig _config;
         private LoggerService _logger;
 
-        public BasicBotClient(CommandService commands = null, DiscordSocketClient client = null, BotConfigStruct config = null, LoggerService logger = null)
+        public BasicBotClient(CommandService commands = null, DiscordSocketClient client = null, BotConfig config = null, LoggerService logger = null)
         {
             _client = client ?? new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -87,9 +88,9 @@ namespace TheGoodBot.Core
                 .AddSingleton<LanguageService>()
                 .AddSingleton<CustomEmbedService>()
                 .AddSingleton<EventHookerService>()
-                .AddSingleton<GuildListService>()
                 .AddSingleton<CreateGuildAccountFilesService>()
                 .AddSingleton<GuildFilesGenerationService>()
+                .AddSingleton<InteractiveService>()
                 .BuildServiceProvider();
         }
     }

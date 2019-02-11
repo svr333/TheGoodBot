@@ -9,14 +9,14 @@ namespace TheGoodBot.Guilds
 {
     public class GuildUserAccountService
     {
-        public GuildUserAccountStruct GetOrCreateGuildUserAccount(ulong guildID, ulong userID)
+        public GuildUserAccount GetOrCreateGuildUserAccount(ulong guildID, ulong userID)
         {
             CreateGuildUserAccount(guildID, userID);
             var guild = GetAccount(guildID, userID);
             return guild;
         }
 
-        public void SaveGuildUserAccount(GuildUserAccountStruct guildUser, string filePath)
+        public void SaveGuildUserAccount(GuildUserAccount guildUser, string filePath)
         {
             var rawData = JsonConvert.SerializeObject(guildUser, Formatting.Indented);
             File.WriteAllText(filePath, rawData);
@@ -35,7 +35,7 @@ namespace TheGoodBot.Guilds
 
         }
 
-        private GuildUserAccountStruct GenerateBlankGuildUserConfig(ulong guildID, ulong userID) => new GuildUserAccountStruct()
+        private GuildUserAccount GenerateBlankGuildUserConfig(ulong guildID, ulong userID) => new GuildUserAccount()
         {
             UserId = userID,
             GuildId = guildID,
@@ -50,11 +50,11 @@ namespace TheGoodBot.Guilds
             return false;
         }
 
-        private GuildUserAccountStruct GetAccount(ulong guildID, ulong userID)
+        private GuildUserAccount GetAccount(ulong guildID, ulong userID)
         {
             string filePath = "GuildUserAccounts/" + guildID + "/" + userID + ".json";
             var rawData = File.ReadAllText(filePath);
-            var guildUser = JsonConvert.DeserializeObject<GuildUserAccountStruct>(rawData);
+            var guildUser = JsonConvert.DeserializeObject<GuildUserAccount>(rawData);
             return guildUser;
         }
     }

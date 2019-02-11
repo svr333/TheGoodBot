@@ -20,7 +20,7 @@ namespace TheGoodBot.Core.Services.Languages
             _commandService = commandService;
         }
 
-        private CustomEmbedStruct GetCustomEmbed(ulong guildID, ulong userID, string[] commandInfo)
+        private CustomEmbed GetCustomEmbed(ulong guildID, ulong userID, string[] commandInfo)
         {
             string commandName = commandInfo[0];
             string moduleName = commandInfo[1];
@@ -35,17 +35,22 @@ namespace TheGoodBot.Core.Services.Languages
             var filePath = "Languages/" + language + "/" + moduleName + "/" + name + ".json";
 
             var json = File.ReadAllText(filePath);
-            var customEmbed = JsonConvert.DeserializeObject<CustomEmbedStruct>(json);
+            var customEmbed = JsonConvert.DeserializeObject<CustomEmbed>(json);
             return customEmbed;
         }
 
-        public Embed GetAndCreateEmbed(ulong guildID, ulong userID, string[] commandInfo, out string text, out int amountsFailed)
+        public Embed GetAndConvertToDiscEmbed(ulong guildID, ulong userID, string[] commandInfo, out string text, out int amountsFailed)
         {
             var customEmbed = GetCustomEmbed(guildID, userID, commandInfo);
             var embed = customEmbed.CreateEmbed(out int createFieldFailAmount);
             text = customEmbed.PlainText;
             amountsFailed = createFieldFailAmount;
             return embed;
+        }
+
+        public CustomEmbed GetAndChangeEmbed(ulong guildID, ulong userID, string[] commandInfo)
+        {
+            var customEmbed = GetCustomEmbed(guildID, userID, commandInfo);
         }
     }
 }

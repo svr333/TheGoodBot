@@ -8,7 +8,7 @@ namespace TheGoodBot.Core.Extensions
 {
     public static class EmbedCreatorExt
     {
-        public static Embed CreateEmbed(this CustomEmbedStruct embed, out int createFieldFailAmount)
+        public static Embed CreateEmbed(this CustomEmbed embed, out int createFieldFailAmount)
         {
             var eb = new EmbedBuilder();
             eb.WithAuthor(embed.AuthorName, embed.AuthorIconUrl, embed.AuthorUrl);
@@ -24,14 +24,12 @@ namespace TheGoodBot.Core.Extensions
 
             if (!(embed.FieldTitles == null))
             {
-                var fields = GetFields(embed, out int amountsFieldFailed);
+                var fields = embed.GetFields(out amountsFailed);
 
                 for (int i = 0; i < fields.Count; i++)
                 {
                     eb.AddField(fields[i].FieldTitle, fields[i].FieldValue, fields[i].InlineValue);
                 }
-
-                amountsFailed = amountsFieldFailed;
             }
 
             if (eb.Length == 0)
@@ -45,7 +43,7 @@ namespace TheGoodBot.Core.Extensions
             return eb.Build();
         }
 
-        private static List<CustomField> GetFields(CustomEmbedStruct embed, out int amountsFailed)
+        private static List<CustomField> GetFields(this CustomEmbed embed, out int amountsFailed)
         {
             var CustomFields = new List<CustomField>();
             int amountOfSucceededFields = 0;

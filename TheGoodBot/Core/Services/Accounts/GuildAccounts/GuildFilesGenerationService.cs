@@ -15,14 +15,14 @@ namespace TheGoodOne.DataStorage
             else { return null; }
         }
 
-        private object GenerateBlankStatsFile() => new StatsStruct()
+        private object GenerateBlankStatsFile() => new Stats()
         {
             AllMembersCombinedXP = 0,
             AllMembersCommandsExecuted = 0,
             AllMembersMessagesSent = 0
         };
 
-        private GuildAccountStruct GenerateBlankSettingsFile(ulong guildID) => new GuildAccountStruct()
+        private Settings GenerateBlankSettingsFile(ulong guildID) => new Settings()
         {
             GuildID = guildID,
             ModRoles = null,
@@ -35,7 +35,7 @@ namespace TheGoodOne.DataStorage
             AllowMembersOwnLanguageSetting = true
         };
 
-        private CooldownsStruct GenerateBlankCooldownsFile() => new CooldownsStruct()
+        private Cooldowns GenerateBlankCooldownsFile() => new Cooldowns()
         {
             Guild = 0,
             Test = 0

@@ -1,6 +1,6 @@
 ﻿namespace TheGoodBot.Entities
 {
-    public class BotConfigStruct
+    public class BotConfig
     {
         public string DiscordToken { get; set; }
         public string GameStatus { get; set; }

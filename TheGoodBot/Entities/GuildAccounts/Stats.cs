@@ -1,6 +1,6 @@
 ﻿namespace TheGoodBot.Guilds
 {
-    public class StatsStruct
+    public class Stats
     {
         public uint AllMembersCombinedXP { get; set; }
         public uint AllMembersCommandsExecuted { get; set; }
