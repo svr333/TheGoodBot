@@ -29,7 +29,7 @@ namespace TheGoodOne.DataStorage
             PrefixList = new List<string>() { "!", "?" },
             AllowMembersCustomEmbedColour = true,
             AllowMembersPrivateAccounts = true,
-            NoCommandFoundIsDisabled = false,
+            NoCommandFoundResponseIsDisabled = false,
             AllowedUsersOrRolesCheckPrivateAccounts = null,
             Language = "English",
             AllowMembersOwnLanguageSetting = true

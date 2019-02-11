@@ -3,6 +3,8 @@ using Discord.Commands;
 using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Preconditions
 {
@@ -37,6 +39,8 @@ namespace TheGoodBot.Core.Preconditions
 
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
+            var guildAccount = services.GetRequiredService<GuildAccountService>();
+
             if (!AdminsAreLimited && context.User is IGuildUser user && user.GuildPermissions.Administrator)
                 return Task.FromResult(PreconditionResult.FromSuccess());
 

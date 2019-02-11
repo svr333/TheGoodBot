@@ -76,7 +76,7 @@ namespace TheGoodBot.Core.Services
             var guildAccount = _guildAccountService.GetSettingsAccount(guildID);          
             if (!command.IsSpecified)
             {
-                if (guildAccount.NoCommandFoundIsDisabled) { return; }
+                if (guildAccount.NoCommandFoundResponseIsDisabled) { return; }
                 await context.Channel.SendMessageAsync($"This command is not defined.");
                 return;
             }
