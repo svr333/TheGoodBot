@@ -2,7 +2,10 @@
 {
     public class Cooldowns
     {
-        public int Test { get; set; }
-        public int Guild { get; set; }
+        public bool AdminsAreLimited { get; set; }
+        public int GlobalCooldown { get; set; }
+
+        public uint test { get; set; }
+        public uint guild { get; set; }
     }
 }

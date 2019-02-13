@@ -70,6 +70,7 @@ namespace TheGoodOne.DataStorage
         public Settings GetSettingsAccount(ulong guildID)
         {
             string filePath = $"GuildAccounts/{guildID}/Settings.json";
+            if (!File.Exists(filePath)) { _guildFiles.CreateGuildAccount(guildID);}
             string rawData = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<Settings>(rawData);
         }
@@ -77,6 +78,7 @@ namespace TheGoodOne.DataStorage
         public Cooldowns GetCooldownsAccount(ulong guildID)
         {
             string filePath = $"GuildAccounts/{guildID}/Cooldowns.json";
+            if (!File.Exists(filePath)) { _guildFiles.CreateGuildAccount(guildID); }
             string rawData = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<Cooldowns>(rawData);
         }
@@ -84,6 +86,7 @@ namespace TheGoodOne.DataStorage
         public Stats GetStatsAccount(ulong guildID)
         {
             string filePath = $"GuildAccounts/{guildID}/Stats.json";
+            if (!File.Exists(filePath)) { _guildFiles.CreateGuildAccount(guildID); }
             string rawData = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<Stats>(rawData);
         }

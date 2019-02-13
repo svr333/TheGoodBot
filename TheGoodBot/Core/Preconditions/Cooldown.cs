@@ -4,26 +4,14 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using TheGoodBot.Core.Extensions;
 using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Preconditions
 {
     public class Cooldown : PreconditionAttribute
     {
-        TimeSpan CooldownLength { get; set; }
-        bool AdminsAreLimited { get; set; }
         readonly ConcurrentDictionary<CooldownInfo, DateTime> _cooldowns = new ConcurrentDictionary<CooldownInfo, DateTime>();
-
-        /// <summary>
-        /// Sets the cooldown for a user to use this command
-        /// </summary>
-        /// <param name="seconds">Sets the cooldown in seconds.</param>
-        /// <param name="adminsAreLimited">Set whether admins should have cooldowns between commands use.</param>
-        public Cooldown(int seconds, bool adminsAreLimited = false)
-        {
-            CooldownLength = TimeSpan.FromSeconds(seconds);
-            AdminsAreLimited = adminsAreLimited;
-        }
 
         public struct CooldownInfo
         {
@@ -39,10 +27,17 @@ namespace TheGoodBot.Core.Preconditions
 
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
-            var guildAccount = services.GetRequiredService<GuildAccountService>();
+            var guildAccountService = services.GetRequiredService<GuildAccountService>();
+            var Cguild = guildAccountService.GetCooldownsAccount(context.Guild.Id);
+            var Sguild = guildAccountService.GetSettingsAccount(context.Guild.Id);
+            var propertyName = $"{command.Module.Group.ToLower()}{command.Name.ToLower()}";
 
-            if (!AdminsAreLimited && context.User is IGuildUser user && user.GuildPermissions.Administrator)
+            var cooldown = Cguild.test;
+            var cooldown = Cguild.propertyName;
+
+            if (!Cguild.AdminsAreLimited && context.User is IGuildUser user && user.GuildPermissions.Administrator || UserIsAllowedToBypass())
                 return Task.FromResult(PreconditionResult.FromSuccess());
+
 
             var key = new CooldownInfo(context.User.Id, command.GetHashCode());
             if (_cooldowns.TryGetValue(key, out DateTime endsAt))
@@ -52,6 +47,7 @@ namespace TheGoodBot.Core.Preconditions
                 {
                     return Task.FromResult(PreconditionResult.FromError($"You can use this command in {difference.ToString(@"mm\:ss")}"));
                 }
+
                 var time = DateTime.UtcNow.Add(CooldownLength);
                 _cooldowns.TryUpdate(key, time, endsAt);
             }
@@ -61,6 +57,18 @@ namespace TheGoodBot.Core.Preconditions
             }
 
             return Task.FromResult(PreconditionResult.FromSuccess());
+
+            bool UserIsAllowedToBypass()
+            {
+                var guildUser = (IGuildUser) context.User;
+                var roleOrUserID = Sguild.AllowedUsersAndRolesToBypassCooldowns;
+
+                for (int i = 0; i < Sguild.AllowedUsersAndRolesToBypassCooldowns.Count; i++)
+                {
+                    if (context.User.Id == roleOrUserID[i] || guildUser.UserHasRole(roleOrUserID[i])) { return true; }
+                }
+                return false;
+            }
         }
     }
 }

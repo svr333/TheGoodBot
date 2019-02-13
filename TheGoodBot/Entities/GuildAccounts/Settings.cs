@@ -19,5 +19,6 @@ namespace TheGoodBot.Guilds
         public List<ulong> AllowedUsersOrRolesCheckPrivateAccounts { get; set; }
 
         public bool AllowAdminsToBypassCooldowns { get; set; }
+        public List<ulong> AllowedUsersAndRolesToBypassCooldowns { get; set; }
     }
 }
