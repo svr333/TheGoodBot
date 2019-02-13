@@ -51,6 +51,7 @@ namespace TheGoodBot.Core.Services.Languages
         public CustomEmbed GetAndChangeEmbed(ulong guildID, ulong userID, string[] commandInfo)
         {
             var customEmbed = GetCustomEmbed(guildID, userID, commandInfo);
+            return customEmbed;
         }
     }
 }

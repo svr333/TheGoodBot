@@ -91,6 +91,7 @@ namespace TheGoodBot.Core
                 .AddSingleton<CreateGuildAccountFilesService>()
                 .AddSingleton<GuildFilesGenerationService>()
                 .AddSingleton<InteractiveService>()
+                .AddSingleton<CooldownService>()
                 .BuildServiceProvider();
         }
     }

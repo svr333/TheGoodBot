@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -19,10 +20,11 @@ namespace TheGoodBot.Core.Services
         private GuildUserAccountService _guildUser;
         private GlobalUserAccountService _user;
         private CreateLanguageFilesService _language;
+        private CooldownService _cooldown;
 
         public EventHookerService(DiscordSocketClient client, CommandService command, LoggerService logger,
             GuildUserAccountService guildUser, GlobalUserAccountService user, CreateLanguageFilesService language,
-            GuildAccountService guildAccount)
+            GuildAccountService guildAccount, CooldownService cooldown)
         {
             _client = client;
             _commands = command;
@@ -31,6 +33,7 @@ namespace TheGoodBot.Core.Services
             _user = user;
             _language = language;
             _guildAccount = guildAccount;
+            _cooldown = cooldown;
         }
 
         public void HookEvents()
@@ -50,6 +53,7 @@ namespace TheGoodBot.Core.Services
         {
             _language.CreateAllLanguageFiles();
             _guildAccount.CreateAllGuildAccounts();
+            _guildAccount.CreateAllGuildCooldowns();
             return Task.CompletedTask;
         }
 

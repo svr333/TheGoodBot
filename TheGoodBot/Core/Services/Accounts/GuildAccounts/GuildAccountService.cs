@@ -8,17 +8,30 @@ namespace TheGoodOne.DataStorage
 {
     public class GuildAccountService
     {
-        private List<ulong> guildIDs;
+        public List<ulong> guildIDs;
         private string filePath = "AllGuildID's.json";
         private CreateGuildAccountFilesService _guildFiles;
+        private CooldownService _cooldown;
 
-        public GuildAccountService(CreateGuildAccountFilesService guildFiles)
+        public GuildAccountService(CreateGuildAccountFilesService guildFiles, CooldownService cooldown)
         {
             if (!File.Exists(filePath)) { CreateFile(); }
             string json = File.ReadAllText(filePath);
             guildIDs = JsonConvert.DeserializeObject<List<ulong>>(json);
+            Console.WriteLine(guildIDs.Count);
 
             _guildFiles = guildFiles;
+            _cooldown = cooldown;
+        }
+
+        public void CreateAllGuildCooldowns()
+        {
+            string json = File.ReadAllText(filePath);
+            guildIDs = JsonConvert.DeserializeObject<List<ulong>>(json);
+            for (int i = 0; i < guildIDs.Count; i++)
+            {
+                _cooldown.CreateAllPairs(guildIDs[i]);
+            }
         }
 
         private void CreateFile()
@@ -73,14 +86,6 @@ namespace TheGoodOne.DataStorage
             if (!File.Exists(filePath)) { _guildFiles.CreateGuildAccount(guildID);}
             string rawData = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<Settings>(rawData);
-        }
-
-        public Cooldowns GetCooldownsAccount(ulong guildID)
-        {
-            string filePath = $"GuildAccounts/{guildID}/Cooldowns.json";
-            if (!File.Exists(filePath)) { _guildFiles.CreateGuildAccount(guildID); }
-            string rawData = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<Cooldowns>(rawData);
         }
 
         public Stats GetStatsAccount(ulong guildID)

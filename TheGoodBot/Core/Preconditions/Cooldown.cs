@@ -30,7 +30,7 @@ namespace TheGoodBot.Core.Preconditions
             var guildAccountService = services.GetRequiredService<GuildAccountService>();
             var Cguild = guildAccountService.GetCooldownsAccount(context.Guild.Id);
             var Sguild = guildAccountService.GetSettingsAccount(context.Guild.Id);
-            var propertyName = $"{command.Module.Group.ToLower()}{command.Name.ToLower()}";
+            var propertyName = $"{command.Module.Group}{command.Name}";
 
             var cooldown = Cguild.test;
             var cooldown = Cguild.propertyName;

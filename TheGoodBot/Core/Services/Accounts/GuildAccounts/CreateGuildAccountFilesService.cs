@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using TheGoodBot.Guilds;
 
 namespace TheGoodOne.DataStorage
 {
@@ -9,10 +10,12 @@ namespace TheGoodOne.DataStorage
     {
         private List<string> categoryList = new List<string>();
         private GuildFilesGenerationService _guildFilesGeneration;
+        private CooldownService _cooldown;
 
-        public CreateGuildAccountFilesService(GuildFilesGenerationService guildFilesGeneration)
+        public CreateGuildAccountFilesService(GuildFilesGenerationService guildFilesGeneration, CooldownService cooldown) 
         {
             _guildFilesGeneration = guildFilesGeneration;
+            _cooldown = cooldown;
         }
 
         public void CreateGuildAccount(ulong guildID)
@@ -32,6 +35,7 @@ namespace TheGoodOne.DataStorage
                 if (File.Exists(filePath)) { continue; }
 
                 var categoryObject = _guildFilesGeneration.GetAndCreateObject(categoryList[i], guildID);
+                _cooldown.CreateAllPairs(guildID);
 
                 var rawData = JsonConvert.SerializeObject(categoryObject, Formatting.Indented);
                 File.WriteAllText(filePath, rawData);
@@ -41,7 +45,6 @@ namespace TheGoodOne.DataStorage
         private void GenerateNewCategoryList()
         {
             categoryList.Add("Settings");
-            categoryList.Add("Cooldowns");
             categoryList.Add("Stats");
         }
     }
