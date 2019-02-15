@@ -53,6 +53,8 @@ namespace TheGoodBot.Core.Modules
                     await Context.Channel.SendMessageAsync($"There were titles missing to create other fields. Failures: `{amountsFailed}`");
                 }  
             }
+
+            await Context.Channel.SendMessageAsync("Command executed");
         }
 
         [Command("Guild")]

@@ -67,7 +67,6 @@ namespace TheGoodBot.Core.Services
 
             var context = new SocketCommandContext(_client, message);
             var result = await _commands.ExecuteAsync(context, argPos, _services);
-            Console.WriteLine(result);
         }
 
         public async Task CommandExecutedAsync(Optional<CommandInfo> command, ICommandContext context, IResult result)

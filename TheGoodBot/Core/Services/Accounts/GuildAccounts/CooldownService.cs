@@ -29,7 +29,7 @@ namespace TheGoodBot.Guilds
                 var key = $"{commands[i].Module.Group}-{commands[i].Name}";
 
                 if (Cooldowns.ContainsKey(key)) continue;
-                if(Cooldowns.TryAdd(key, 0));
+                if(Cooldowns.TryAdd(key, 50));
             }
 
             SaveAccount(guildID);
@@ -38,7 +38,6 @@ namespace TheGoodBot.Guilds
         private void GetAccount(ulong guildID)
         {
             filePath = $"GuildAccounts/{guildID}/Cooldowns.json";
-            if (!File.Exists(filePath)) ; //create all files
             var json = File.ReadAllText(filePath);
             Cooldowns = JsonConvert.DeserializeObject<ConcurrentDictionary<string, uint>>(json);
         }
