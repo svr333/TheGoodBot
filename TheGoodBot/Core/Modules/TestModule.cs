@@ -37,7 +37,7 @@ namespace TheGoodBot.Core.Modules
             _createGuildAccountFiles = createGuildAccountFiles;
         }
 
-        [Command("Test")]
+        [Command("Test"), Cooldown()]
         public async Task TestAndStuff()
         {
             var command = _commandService.Search(Context, "Test").Commands.FirstOrDefault().Command;

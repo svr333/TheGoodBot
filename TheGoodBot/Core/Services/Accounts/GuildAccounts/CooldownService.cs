@@ -17,10 +17,6 @@ namespace TheGoodBot.Guilds
 
         public CooldownService(CommandService command)
         {
-            if (!File.Exists(filePath)) ;
-            string json = File.ReadAllText(filePath);
-            Cooldowns = JsonConvert.DeserializeObject<ConcurrentDictionary<string, uint>>(json);
-
             _command = command;
         }
 
@@ -39,6 +35,14 @@ namespace TheGoodBot.Guilds
             SaveAccount(guildID);
         }
 
+        private void GetAccount(ulong guildID)
+        {
+            filePath = $"GuildAccounts/{guildID}/Cooldowns.json";
+            if (!File.Exists(filePath)) ; //create all files
+            var json = File.ReadAllText(filePath);
+            Cooldowns = JsonConvert.DeserializeObject<ConcurrentDictionary<string, uint>>(json);
+        }
+
         private void SaveAccount(ulong guildID)
         {
             filePath = $"GuildAccounts/{guildID}/Cooldowns.json";
@@ -46,8 +50,9 @@ namespace TheGoodBot.Guilds
             File.WriteAllText(filePath, rawData);
         }
 
-        public uint GetCooldown(string key)
+        public uint GetCooldown(string key, ulong guildID)
         {
+            GetAccount(guildID);
             Cooldowns.TryGetValue(key, out uint value);
             return value;
         }

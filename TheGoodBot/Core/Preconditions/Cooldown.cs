@@ -28,14 +28,11 @@ namespace TheGoodBot.Core.Preconditions
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
             var guildAccountService = services.GetRequiredService<GuildAccountService>();
-            var Cguild = guildAccountService.GetCooldownsAccount(context.Guild.Id);
+            var cooldown = guildAccountService.GetCooldown($"{command.Module.Group}-{command.Name}", context.Guild.Id);
             var Sguild = guildAccountService.GetSettingsAccount(context.Guild.Id);
-            var propertyName = $"{command.Module.Group}{command.Name}";
+            var ts = TimeSpan.FromSeconds(cooldown);
 
-            var cooldown = Cguild.test;
-            var cooldown = Cguild.propertyName;
-
-            if (!Cguild.AdminsAreLimited && context.User is IGuildUser user && user.GuildPermissions.Administrator || UserIsAllowedToBypass())
+            if (!Sguild.AdminsAreLimited && context.User is IGuildUser user && user.GuildPermissions.Administrator || UserIsAllowedToBypass())
                 return Task.FromResult(PreconditionResult.FromSuccess());
 
 
@@ -48,12 +45,12 @@ namespace TheGoodBot.Core.Preconditions
                     return Task.FromResult(PreconditionResult.FromError($"You can use this command in {difference.ToString(@"mm\:ss")}"));
                 }
 
-                var time = DateTime.UtcNow.Add(CooldownLength);
+                var time = DateTime.UtcNow.Add(ts);
                 _cooldowns.TryUpdate(key, time, endsAt);
             }
             else
             {
-                _cooldowns.TryAdd(key, DateTime.UtcNow.Add(CooldownLength));
+                _cooldowns.TryAdd(key, DateTime.UtcNow.Add(ts));
             }
 
             return Task.FromResult(PreconditionResult.FromSuccess());
