@@ -22,6 +22,7 @@ namespace TheGoodBot.Guilds
 
         public void CreateAllPairs(ulong guildID)
         {
+            GetAccount(guildID);
             var commands = _command.Commands.ToList();
 
             for (int i = 0; i < commands.Count; i++)

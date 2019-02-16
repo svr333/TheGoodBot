@@ -96,9 +96,15 @@ namespace TheGoodOne.DataStorage
             return JsonConvert.DeserializeObject<Stats>(rawData);
         }
 
-        public uint GetCooldown(string commandName, ulong guildID)
+        public uint GetCooldown(string key, ulong guildID)
         {
-            var cooldown = _cooldown.GetCooldown($"{commandName[0]}-{commandName[1]}", guildID);
+            var Sguild = GetSettingsAccount(guildID);
+            var cooldown = _cooldown.GetCooldown(key, guildID);
+
+            if (!(Sguild.GlobalCooldown == 0))
+            {
+                if (Sguild.GlobalCooldown >= cooldown) { cooldown = Sguild.GlobalCooldown; }
+            }         
             return cooldown;
         }
     }

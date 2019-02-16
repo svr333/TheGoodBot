@@ -22,6 +22,6 @@ namespace TheGoodBot.Guilds
         public List<ulong> AllowedUsersAndRolesToBypassCooldowns { get; set; }
 
         public bool AdminsAreLimited { get; set; }
-        public int GlobalCooldown { get; set; }
+        public uint GlobalCooldown { get; set; }
     }
 }

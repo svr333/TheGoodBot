@@ -32,8 +32,8 @@ namespace TheGoodBot.Core.Preconditions
             var Sguild = guildAccountService.GetSettingsAccount(context.Guild.Id);
             var ts = TimeSpan.FromSeconds(cooldown);
 
-            //if (!Sguild.AdminsAreLimited && context.User is IGuildUser user && user.GuildPermissions.Administrator || UserIsAllowedToBypass())
-                //return Task.FromResult(PreconditionResult.FromSuccess());
+            if (!Sguild.AdminsAreLimited && context.User is IGuildUser user && user.GuildPermissions.Administrator || UserIsAllowedToBypass())
+                return Task.FromResult(PreconditionResult.FromSuccess());
 
             var key = new CooldownInfo(context.User.Id, command.GetHashCode());
             if (_cooldowns.TryGetValue(key, out DateTime endsAt))
@@ -41,7 +41,7 @@ namespace TheGoodBot.Core.Preconditions
                 var difference = endsAt.Subtract(DateTime.UtcNow);
                 if (difference.Seconds > 0)
                 {
-                    return Task.FromResult(PreconditionResult.FromError($"You can use this command in {difference.ToString(@"mm\:ss")}"));
+                    return Task.FromResult(PreconditionResult.FromError($"You can use this command in {difference.ToString(@"mm\:ss")}m"));
                 }
 
                 var time = DateTime.UtcNow.Add(ts);
