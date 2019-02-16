@@ -67,12 +67,6 @@ namespace TheGoodBot.Core
             await _client.SetGameAsync(_config.GameStatus);
         }
 
-        private Task LogAsync(LogMessage log)
-        {
-            _logger.Log(log.Message);
-            return Task.CompletedTask;
-        }
-
         private ServiceProvider ConfigureServices()
         {
             return new ServiceCollection()
