@@ -50,21 +50,10 @@ namespace TheGoodBot.Core
             await _client.LoginAsync(TokenType.Bot, _config.DiscordToken);
             await _client.StartAsync();
 
-            HookEvents();
+
 
             await _services.GetRequiredService<CommandHandlerService>().InitializeAsync();
             await Task.Delay(-1);
-        }
-
-        private void HookEvents()
-        {
-            _client.Log += LogAsync;
-            _client.Ready += OnReadyAsync;
-        }
-
-        private async Task OnReadyAsync()
-        {
-            await _client.SetGameAsync(_config.GameStatus);
         }
 
         private ServiceProvider ConfigureServices()
@@ -86,6 +75,7 @@ namespace TheGoodBot.Core
                 .AddSingleton<GuildFilesGenerationService>()
                 .AddSingleton<InteractiveService>()
                 .AddSingleton<CooldownService>()
+                .AddSingleton<BotConfig>()
                 .BuildServiceProvider();
         }
     }

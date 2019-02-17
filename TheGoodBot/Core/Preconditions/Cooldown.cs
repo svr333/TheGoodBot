@@ -30,9 +30,10 @@ namespace TheGoodBot.Core.Preconditions
             var guildAccountService = services.GetRequiredService<GuildAccountService>();
             var cooldown = guildAccountService.GetCooldown($"{command.Module.Group}-{command.Name}", context.Guild.Id);
             var Sguild = guildAccountService.GetSettingsAccount(context.Guild.Id);
+            var allowedUsersAndRoles = Sguild.AllowedUsersAndRolesToBypassCooldowns;
             var ts = TimeSpan.FromSeconds(cooldown);
 
-            if (!Sguild.AdminsAreLimited && context.User is IGuildUser user && user.GuildPermissions.Administrator || UserIsAllowedToBypass())
+            if (!Sguild.AdminsAreLimited && context.User is IGuildUser user && user.GuildPermissions.Administrator || allowedUsersAndRoles.ValidatePermissions(context))
                 return Task.FromResult(PreconditionResult.FromSuccess());
 
             var key = new CooldownInfo(context.User.Id, command.GetHashCode());

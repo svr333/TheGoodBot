@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using TheGoodBot.Core.Services.Accounts;
+using TheGoodBot.Entities;
 using TheGoodBot.Guilds;
 using TheGoodBot.Languages;
 using TheGoodOne.DataStorage;
@@ -22,10 +20,11 @@ namespace TheGoodBot.Core.Services
         private GlobalUserAccountService _user;
         private CreateLanguageFilesService _language;
         private CooldownService _cooldown;
+        private BotConfig _config;
 
         public EventHookerService(DiscordSocketClient client, CommandService command, LoggerService logger,
             GuildUserAccountService guildUser, GlobalUserAccountService user, CreateLanguageFilesService language,
-            GuildAccountService guildAccount, CooldownService cooldown)
+            GuildAccountService guildAccount, CooldownService cooldown, BotConfig config)
         {
             _client = client;
             _commands = command;
@@ -35,6 +34,7 @@ namespace TheGoodBot.Core.Services
             _language = language;
             _guildAccount = guildAccount;
             _cooldown = cooldown;
+            _config = config;
         }
 
         public void HookEvents()
@@ -44,24 +44,24 @@ namespace TheGoodBot.Core.Services
             _client.JoinedGuild += GuildJoined;
         }
 
-        private Task GuildJoined(SocketGuild guild)
+        private async Task GuildJoined(SocketGuild guild)
         {
             _guildAccount.AddGuild(guild.Id);
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
-        private Task Ready()
+        private async Task Ready()
         {
             _language.CreateAllLanguageFiles();
             _guildAccount.CreateAllGuildAccounts();
             _guildAccount.CreateAllGuildCooldowns();
-            return Task.CompletedTask;
+            await _client.SetGameAsync(_config.GameStatus);
         }
 
-        private Task LogAsync(LogMessage message)
+        private async Task LogAsync(LogMessage message)
         {
             _logger.Log(message.Message);
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
     }
 }

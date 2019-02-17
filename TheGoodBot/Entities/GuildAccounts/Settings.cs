@@ -18,10 +18,14 @@ namespace TheGoodBot.Guilds
         public bool AllowMembersOwnLanguageSetting { get; set; }
         public List<ulong> AllowedUsersOrRolesCheckPrivateAccounts { get; set; }
 
+        //cooldown settings
         public bool AllowAdminsToBypassCooldowns { get; set; }
         public List<ulong> AllowedUsersAndRolesToBypassCooldowns { get; set; }
-
         public bool AdminsAreLimited { get; set; }
         public uint GlobalCooldown { get; set; }
+
+        //exp settings
+        public bool ResetEXPOnLeave { get; set; }
+        public bool ResetEXPOnBan { get; set; }
     }
 }
