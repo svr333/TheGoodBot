@@ -16,46 +16,20 @@ namespace TheGoodBot.Core.Modules
 {
     public class TestModule : ModuleBase<SocketCommandContext>
     {
-        private GuildAccountService _guildAccountService;
-        private GuildUserAccountService _guildUserAccountService;
-        private GlobalUserAccountService _globalUserAccountService;
-        private CommandService _commandService;
-        private LanguageService _languageService;
         private CustomEmbedService _customEmbedService;
         private CreateGuildAccountFilesService _createGuildAccountFiles;
+        private GuildAccountService _guildAccountService;
 
-        public TestModule(GuildAccountService guildAccountService, GuildUserAccountService guildUserService = null,
-            GlobalUserAccountService globalUserService = null, LanguageService languageService = null,
-            CommandService Command = null, CustomEmbedService customEmbedService = null, CreateGuildAccountFilesService createGuildAccountFiles = null)
+        public TestModule(CustomEmbedService customEmbedService = null, CreateGuildAccountFilesService createGuildAccountFiles = null,
+            GuildAccountService guildAccountService = null)
         {
-            _guildAccountService = guildAccountService;
-            _guildUserAccountService = guildUserService;
-            _globalUserAccountService = globalUserService;
-            _commandService = Command;
-            _languageService = languageService;
             _customEmbedService = customEmbedService;
             _createGuildAccountFiles = createGuildAccountFiles;
+            _guildAccountService = guildAccountService;
         }
 
         [Command("Test"), Cooldown()]
-        public async Task TestAndStuff()
-        {
-            var command = _commandService.Search(Context, "Test").Commands.FirstOrDefault().Command;
-            string[] array = new string[] { command.Name, command.Module.Name, command.Module.Group };
-
-            var embed = _customEmbedService.GetAndConvertToDiscEmbed(Context.Guild.Id, Context.User.Id, array, out string text, out int amountsFailed);   
-
-            if (!(embed == null))
-            {
-                await Context.Channel.SendMessageAsync(text, false, embed);
-                if (!(amountsFailed == 0))
-                {
-                    await Context.Channel.SendMessageAsync($"There were titles missing to create other fields. Failures: `{amountsFailed}`");
-                }  
-            }
-
-            await Context.Channel.SendMessageAsync("Command executed");
-        }
+        public async Task TestAndStuff() => await _customEmbedService.CreateAndPostEmbed(Context, "Test");
 
         [Command("Guild")]
         public async Task Guild()

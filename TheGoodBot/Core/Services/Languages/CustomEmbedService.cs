@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Newtonsoft.Json;
@@ -32,7 +34,7 @@ namespace TheGoodBot.Core.Services.Languages
 
             var language = _languageService.GetLanguage(guildID, userID);
             if (language == null || language == String.Empty) { language = "English"; }
-            var filePath = "Languages/" + language + "/" + moduleName + "/" + name + ".json";
+            var filePath = $"Languages/{language}/{moduleName}/{name}.json";
 
             var json = File.ReadAllText(filePath);
             var customEmbed = JsonConvert.DeserializeObject<CustomEmbed>(json);
@@ -48,10 +50,27 @@ namespace TheGoodBot.Core.Services.Languages
             return embed;
         }
 
-        public CustomEmbed GetAndChangeEmbed(ulong guildID, ulong userID, string[] commandInfo)
+        private CustomEmbed GetAndChangeEmbed(ulong guildID, ulong userID, string[] commandInfo)
         {
             var customEmbed = GetCustomEmbed(guildID, userID, commandInfo);
             return customEmbed;
+        }
+
+        public async Task CreateAndPostEmbed(SocketCommandContext context, string name)
+        {
+            var command = _commandService.Search(context, name).Commands.FirstOrDefault().Command;
+            string[] array = new string[] { command.Name, command.Module.Name, command.Module.Group };
+
+            var embed = GetAndConvertToDiscEmbed(context.Guild.Id, context.User.Id, array, out string text, out int amountsFailed);
+
+            if (!(embed == null) || !(text == null))
+            {
+                await context.Channel.SendMessageAsync(text, false, embed);
+                if (!(amountsFailed == 0))
+                {
+                    await context.Channel.SendMessageAsync($"There were titles missing to create other fields. Failures: `{amountsFailed}`\nCheck the guild's language for fixes.");
+                }
+            }
         }
     }
 }
