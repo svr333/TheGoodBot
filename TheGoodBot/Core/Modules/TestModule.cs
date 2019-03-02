@@ -1,15 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using TheGoodBot.Core.Extensions;
 using TheGoodBot.Core.Preconditions;
-using TheGoodBot.Core.Services.Accounts;
 using TheGoodBot.Core.Services.Languages;
-using TheGoodBot.Entities;
-using TheGoodBot.Guilds;
-using TheGoodBot.Languages;
 using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Modules

@@ -12,6 +12,7 @@ namespace TheGoodBot.Languages
     public class CreateLanguageFilesService
     {
         private List<string> _languageList = new List<string>();
+        private List<string> _unchangeableEmbedList = new List<string>();
 
         private CommandService _commandService;
 
@@ -20,6 +21,8 @@ namespace TheGoodBot.Languages
             _commandService = command;
         }
 
+        /// <summary> Creates the language's corresponding embed files.</summary>
+        /// <param name="language"></param>
         public void CreateAllCommandFiles(string language)
         {
             var commandList = _commandService.Commands.ToList(); 
@@ -35,29 +38,49 @@ namespace TheGoodBot.Languages
                 }
                 else  { fileName = commandList[i].Name.ToLower(); }
 
-                directory = "Languages/" + language + "/" + commandList[i].Module.Name.ToLower();
-                filePath = directory + "/" + fileName + ".json";
+                directory = $"Languages/{language}/{commandList[i].Module.Name.ToLower()}";
+                filePath = $"{directory}/{fileName}.json";
 
                 if (File.Exists(filePath)) { continue; }
                 Directory.CreateDirectory(directory);
 
                 var rawData = JsonConvert.SerializeObject(GenerateCustomEmbedStruct(), Formatting.Indented);
                 File.WriteAllText(filePath, rawData);
-            }          
+            }
         }
-
-        public void CreateAllLanguageFiles()
+        /// <summary>Creates all the required embeds for static core functionality IF they don't already exist.</summary>
+        /// <param name="language"></param>
+        public void CreateAllUnchangeableEmbeds(string language)
         {
-            if (_languageList == null || !_languageList.Any()) { GenerateNewLanguageList(); }
 
-            foreach (var language in _languageList)
+            foreach (var embed in _unchangeableEmbedList)
             {
-                string filePath = "Languages/" + language;
-                Directory.CreateDirectory(filePath);
-                CreateAllCommandFiles(language);
+                string filePath = $"Languages/{language}/{embed}.json";
+
+                if (!File.Exists(filePath))
+                {
+                    var rawData = JsonConvert.SerializeObject(GenerateCustomEmbedStruct(), Formatting.Indented);
+                    File.WriteAllText(filePath, rawData);
+                }
             }
         }
 
+        /// <summary> Creates all the languages and the corresponding files.</summary>
+        public void CreateAllLanguageFiles()
+        {
+            if (_languageList == null || !_languageList.Any()) { GenerateNewLanguageList(); }
+            if (_unchangeableEmbedList == null || !_unchangeableEmbedList.Any()) { CreateUnchangeableEmbedList(); }
+
+            foreach (var language in _languageList)
+            {
+                string filePath = $"Languages/{language}";
+                Directory.CreateDirectory(filePath);
+                CreateAllCommandFiles(language);
+                CreateAllUnchangeableEmbeds(language);
+            }
+        }
+
+        /// <summary> Generates the custom embed structure for the json files.</summary>
         private CustomEmbed GenerateCustomEmbedStruct() => new CustomEmbed()
         {
             FieldTitles = null,
@@ -78,13 +101,22 @@ namespace TheGoodBot.Languages
             PlainText = String.Empty
         };
 
-        public void GenerateNewLanguageList()
+        /// <summary> Creates the list of all languages.</summary>
+        private void GenerateNewLanguageList()
         {
             _languageList.Clear();
             _languageList.Add("English");
             _languageList.Add("Dutch");
             _languageList.Add("French");
             _languageList.Add("Spanish");
+        }
+
+        /// <summary> Creates the list of unchangeable embeds.</summary>
+        private void CreateUnchangeableEmbedList()
+        {
+            _unchangeableEmbedList.Clear();
+            _unchangeableEmbedList.Add("NoCommandFound");
+            _unchangeableEmbedList.Add("UncalculatedError");
         }
     }
 }

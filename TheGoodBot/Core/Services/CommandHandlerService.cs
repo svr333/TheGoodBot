@@ -9,6 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using TheGoodBot.Core.Extensions;
+using TheGoodBot.Core.Services.Languages;
 using TheGoodBot.Guilds;
 using TheGoodBot.Languages;
 using TheGoodOne.DataStorage;
@@ -22,15 +23,17 @@ namespace TheGoodBot.Core.Services
         private readonly IServiceProvider _services;
         private readonly GuildAccountService _guildAccountService;
         private readonly EventHookerService _eventHooker;
+        private readonly CustomEmbedService _customEmbed;
 
         public CommandHandlerService(IServiceProvider services, DiscordSocketClient client, CommandService commands, 
-            GuildAccountService guildAccount, EventHookerService eventHooker)
+            GuildAccountService guildAccount, EventHookerService eventHooker, CustomEmbedService customEmbed)
         {
             _commands = commands;
             _client = client;
             _services = services;
             _guildAccountService = guildAccount;
             _eventHooker = eventHooker;
+            _customEmbed = customEmbed;
         }
 
         public async Task InitializeAsync()
@@ -76,6 +79,8 @@ namespace TheGoodBot.Core.Services
             if (!command.IsSpecified)
             {
                 if (guildAccount.NoCommandFoundResponseIsDisabled) { return; }
+
+                await _customEmbed.CreateAndPostEmbed((SocketCommandContext)context, "");
                 await context.Channel.SendMessageAsync($"This command is not defined.");
                 return;
             }
@@ -87,7 +92,7 @@ namespace TheGoodBot.Core.Services
                 return;
             }
 
-            await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\nContact svr333 / <@202095042372829184> for more information.");
+            await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\nContact svr333#3451 / <@202095042372829184> for more information.");
         }
     }
 }
