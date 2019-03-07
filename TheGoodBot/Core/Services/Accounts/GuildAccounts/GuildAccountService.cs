@@ -26,7 +26,6 @@ namespace TheGoodOne.DataStorage
         /// <summary>Creates all guild cooldowns of the guilds previously saved in the file. </summary>
         public void CreateAllGuildCooldowns()
         {
-            string json = File.ReadAllText(filePath);
             guildIDs = GetAllGuildIDs();
             for (int i = 0; i < guildIDs.Count; i++)
             {
@@ -54,7 +53,8 @@ namespace TheGoodOne.DataStorage
         /// <returns></returns>
         private List<ulong> GetAllGuildIDs()
         {
-            var guildList = JsonConvert.DeserializeObject<List<ulong>>(filePath);
+            var json = File.ReadAllText(filePath);
+            var guildList = JsonConvert.DeserializeObject<List<ulong>>(json);
             return guildList;
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Dynamic;
+using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using TheGoodBot.Core.Preconditions;
@@ -21,28 +22,25 @@ namespace TheGoodBot.Core.Modules
             _guildAccountService = guildAccountService;
         }
 
-        [Command("Test"), Cooldown()]
-        public async Task TestAndStuff() => await _customEmbedService.CreateAndPostEmbed(Context, "Test");
+        [Cooldown, Invoke]
+        [Command("test"), Alias()]
+        [Summary("Simple test command that does nothing but posting a message.")]
+        public async Task TestAndStuff() =>
+            await _customEmbedService.CreateAndPostEmbed(Context, "test");
 
-        [Command("Guild")]
-        public async Task Guild()
-        {
-            var test = _guildAccountService.GetSettingsAccount(Context.Guild.Id);
-            await Context.Channel.SendMessageAsync(test.GuildID.ToString());
-        }
+        [Cooldown, Invoke]
+        [Command("guild"), Alias()]
+        [Summary("Simple test command that does nothing but posting a message.")]
+        public async Task Guild() =>
+            await _customEmbedService.CreateAndPostEmbed(Context, "guild");
 
-        [Command("Purge")]
+        [Cooldown, Invoke]
+        [Command("purge"), Alias()]
+        [Summary("Simple test command that does nothing but posting a message.")]
         public async Task Purge(int num)
         {
             var messages = await Context.Channel.GetMessagesAsync(num).FlattenAsync();
             await ((ITextChannel)Context.Channel).DeleteMessagesAsync(messages);
-        }
-
-        [Command("okay")]
-        public async Task Okay()
-        {
-            _createGuildAccountFiles.CreateGuildAccount(Context.Guild.Id);
-            await Context.Channel.SendMessageAsync("Files created");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -51,13 +52,15 @@ namespace TheGoodBot.Core.Services
             await Task.CompletedTask;
         }
 
-        private async Task Ready()
+        private Task Ready()
         {
             _language.CreateAllLanguageFiles();
             _guildAccount.CreateAllGuildAccounts();
             _guildAccount.CreateAllGuildCooldowns();
-            await _client.SetStatusAsync(UserStatus.DoNotDisturb);
-            await _client.SetGameAsync(_config.GameStatus);
+            _client.SetStatusAsync(UserStatus.DoNotDisturb);
+            _client.SetGameAsync(_config.GameStatus);
+            Console.WriteLine("Ready, sir.");
+            return Task.CompletedTask;
         }
 
         private async Task LogAsync(LogMessage message)

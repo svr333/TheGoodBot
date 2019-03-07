@@ -17,15 +17,9 @@ namespace TheGoodBot.Core.Modules.NSFWModule
             _customEmbedService = customEmbedService;
         }
 
-        [Command("Butt"), Alias("butts, ass")]
-        public async Task Butt()
-        {
-            var command = _commandService.Search(Context, "Butt").Commands.FirstOrDefault().Command;
-            string[] array = new string[] { command.Name, command.Module.Name, command.Module.Group };
-
-            var embed = _customEmbedService.GetAndConvertToDiscEmbed(Context.Guild.Id, Context.User.Id, array, out string text, out int amountsFailed);
-
-            await Context.Channel.SendMessageAsync(text, false, embed);
-        }
+        [Command("butt"), Alias("butts, ass")]
+        [Summary("Gets a random butt from the database and returns it.")]
+        public async Task Butt() =>
+            await _customEmbedService.CreateAndPostEmbed(Context, "butt");
     }
 }

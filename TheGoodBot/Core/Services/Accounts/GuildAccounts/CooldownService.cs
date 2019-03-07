@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Discord.Commands;
@@ -10,7 +11,7 @@ namespace TheGoodBot.Guilds
 {
     public class CooldownService
     {
-        private ConcurrentDictionary<string, uint> Cooldowns = new ConcurrentDictionary<string, uint>();
+        private ConcurrentDictionary<string, uint> Cooldowns;
 
         private CommandService _command;
         private string filePath = "";
@@ -22,7 +23,8 @@ namespace TheGoodBot.Guilds
 
         public void CreateAllPairs(ulong guildID)
         {
-            GetAccount(guildID);
+            Cooldowns = new ConcurrentDictionary<string, uint>();
+            GetCooldownAccount(guildID);
             var commands = _command.Commands.ToList();
 
             for (int i = 0; i < commands.Count; i++)
@@ -30,17 +32,19 @@ namespace TheGoodBot.Guilds
                 var key = $"{commands[i].Module.Group}-{commands[i].Name}";
 
                 if (Cooldowns.ContainsKey(key)) continue;
-                if(Cooldowns.TryAdd(key, 50));
+                Cooldowns.TryAdd(key, 0);
             }
 
             SaveAccount(guildID);
         }
 
-        private void GetAccount(ulong guildID)
+        private void GetCooldownAccount(ulong guildID)
         {
             filePath = $"GuildAccounts/{guildID}/Cooldowns.json";
+            if (!File.Exists(filePath)) { File.WriteAllText(filePath, ""); }
             var json = File.ReadAllText(filePath);
             Cooldowns = JsonConvert.DeserializeObject<ConcurrentDictionary<string, uint>>(json);
+            if (Cooldowns == null) { Cooldowns = new ConcurrentDictionary<string, uint>(); }
         }
 
         private void SaveAccount(ulong guildID)
@@ -52,7 +56,7 @@ namespace TheGoodBot.Guilds
 
         public uint GetCooldown(string key, ulong guildID)
         {
-            GetAccount(guildID);
+            GetCooldownAccount(guildID);
             Cooldowns.TryGetValue(key, out uint value);
             return value;
         }
