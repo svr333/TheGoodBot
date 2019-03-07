@@ -18,53 +18,73 @@ namespace TheGoodOne.DataStorage
             if (!File.Exists(filePath)) { CreateFile(); }
             string json = File.ReadAllText(filePath);
             guildIDs = JsonConvert.DeserializeObject<List<ulong>>(json);
-            Console.WriteLine(guildIDs.Count);
 
             _guildFiles = guildFiles;
             _cooldown = cooldown;
         }
 
+        /// <summary>Creates all guild cooldowns of the guilds previously saved in the file. </summary>
         public void CreateAllGuildCooldowns()
         {
             string json = File.ReadAllText(filePath);
-            guildIDs = JsonConvert.DeserializeObject<List<ulong>>(json);
+            guildIDs = GetAllGuildIDs();
             for (int i = 0; i < guildIDs.Count; i++)
             {
                 _cooldown.CreateAllPairs(guildIDs[i]);
             }
         }
 
+        /// <summary>Creates an empty file at that file location. </summary>
         private void CreateFile()
         {
             File.WriteAllText(filePath, "");
         }
 
+        /// <summary>Creates all guild accounts - if not made already - saved in the file. </summary>
         public void CreateAllGuildAccounts()
         {
-            guildIDs = new List<ulong>();
+            guildIDs = GetAllGuildIDs();
             for (int i = 0; i < guildIDs.Count; i++)
             {
                 _guildFiles.CreateGuildAccount(guildIDs[i]);
             }
         }
 
+        /// <summary>Returns a list of all the already saved guilds. </summary>
+        /// <returns></returns>
+        private List<ulong> GetAllGuildIDs()
+        {
+            var guildList = JsonConvert.DeserializeObject<List<ulong>>(filePath);
+            return guildList;
+        }
+
+        /// <summary>Add guild to the list of guilds. </summary>
+        /// <param name="ID"></param>
         public void AddGuild(ulong ID)
         {
             guildIDs.Add(ID);
-            SaveAccount(guildIDs);
+            SaveAccounts(guildIDs);
         }
 
-        private void SaveAccount(List<ulong> guildIDs)
+        /// <summary>Saves all guild's id's in a file that can be used anywhere. </summary>
+        /// <param name="guildIDs"></param>
+        private void SaveAccounts(List<ulong> guildIDs)
         {
             var json = JsonConvert.SerializeObject(guildIDs, Formatting.Indented);
             File.WriteAllText(filePath, json);
         }
 
+        /// <summary>Create a guild account. </summary>
+        /// <param name="guildID"></param>
         private void CreateGuildAccount(ulong guildID)
         {
             _guildFiles.CreateGuildAccount(guildID);
         }
 
+        /// <summary>Checks if the directory and or path exists and creates it if necessary. </summary>
+        /// <param name="filePath"></param>
+        /// <param name="directory"></param>
+        /// <returns></returns>
         private bool CheckDirectoryExists(string filePath, string directory)
         {
             if (File.Exists(filePath)) { return true; }
@@ -73,13 +93,29 @@ namespace TheGoodOne.DataStorage
             return false;
         }
 
-        public void SaveGuildAccount(Settings guildAccount, ulong guildID)
+        /// <summary>Save a copy of the Settings entity at the guild location. </summary>
+        /// <param name="guildAccount"></param>
+        /// <param name="guildID"></param>
+        public void SaveSettingsGuildAccount(Settings guildAccount, ulong guildID)
         {
-            string filePath = "GuildAccounts/" + guildID + ".json"; 
+            string filePath = $"GuildAccounts/{guildID}/Settings.json"; 
             string rawData = JsonConvert.SerializeObject(guildAccount, Formatting.Indented);
             File.WriteAllText(filePath, rawData);
         }
 
+        /// <summary>Save a copy of the Stats entity at the guild location. </summary>
+        /// <param name="guildAccount"></param>
+        /// <param name="guildID"></param>
+        public void SaveStatsGuildAccount(Stats guildAccount, ulong guildID)
+        {
+            string filePath = $"GuildAccounts/{guildID}/Stats.json";
+            string rawData = JsonConvert.SerializeObject(guildAccount, Formatting.Indented);
+            File.WriteAllText(filePath, rawData);
+        }
+
+        /// <summary>Get a copy of the already saved Settings entity. </summary>
+        /// <param name="guildID"></param>
+        /// <returns></returns>
         public Settings GetSettingsAccount(ulong guildID)
         {
             string filePath = $"GuildAccounts/{guildID}/Settings.json";
@@ -88,6 +124,9 @@ namespace TheGoodOne.DataStorage
             return JsonConvert.DeserializeObject<Settings>(rawData);
         }
 
+        /// <summary>Get a copy of the already saved Stats entity. </summary>
+        /// <param name="guildID"></param>
+        /// <returns></returns>
         public Stats GetStatsAccount(ulong guildID)
         {
             string filePath = $"GuildAccounts/{guildID}/Stats.json";
@@ -96,6 +135,10 @@ namespace TheGoodOne.DataStorage
             return JsonConvert.DeserializeObject<Stats>(rawData);
         }
 
+        /// <summary>Get the cooldown of that command(-name) in that specific guild. If 0 -> return global cooldown. </summary>
+        /// <param name="key"></param>
+        /// <param name="guildID"></param>
+        /// <returns></returns>
         public uint GetCooldown(string key, ulong guildID)
         {
             var Sguild = GetSettingsAccount(guildID);

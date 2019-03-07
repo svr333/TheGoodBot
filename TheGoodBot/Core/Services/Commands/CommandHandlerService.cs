@@ -24,9 +24,11 @@ namespace TheGoodBot.Core.Services
         private readonly GuildAccountService _guildAccountService;
         private readonly EventHookerService _eventHooker;
         private readonly CustomEmbedService _customEmbed;
+        private readonly CommandFailedService _commandFailed;
 
         public CommandHandlerService(IServiceProvider services, DiscordSocketClient client, CommandService commands, 
-            GuildAccountService guildAccount, EventHookerService eventHooker, CustomEmbedService customEmbed)
+            GuildAccountService guildAccount, EventHookerService eventHooker, CustomEmbedService customEmbed,
+            CommandFailedService commandFailed)
         {
             _commands = commands;
             _client = client;
@@ -34,6 +36,7 @@ namespace TheGoodBot.Core.Services
             _guildAccountService = guildAccount;
             _eventHooker = eventHooker;
             _customEmbed = customEmbed;
+            _commandFailed = commandFailed;
         }
 
         public async Task InitializeAsync()
@@ -92,6 +95,7 @@ namespace TheGoodBot.Core.Services
                 return;
             }
 
+            _commandFailed.FailedCommandResult(command, context, result);
             await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\nContact svr333#3451 / <@202095042372829184> for more information.");
         }
     }

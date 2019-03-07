@@ -6,7 +6,10 @@ namespace TheGoodBot.Core.Services
     {
         public void Log(string msg)
         {
-            Console.WriteLine($"[{DateTime.Now.ToString("dd/M HH:mmtt")}] - {msg}");
+            if (msg != String.Empty)
+            {
+                Console.WriteLine($"[{DateTime.Now.ToString("dd/M HH:mmtt")}] - {msg}");
+            }
         }
     }
 }

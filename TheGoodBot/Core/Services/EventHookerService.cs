@@ -54,7 +54,6 @@ namespace TheGoodBot.Core.Services
         private async Task Ready()
         {
             _language.CreateAllLanguageFiles();
-            Console.WriteLine("I'm here");
             _guildAccount.CreateAllGuildAccounts();
             _guildAccount.CreateAllGuildCooldowns();
             await _client.SetStatusAsync(UserStatus.DoNotDisturb);

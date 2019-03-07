@@ -54,18 +54,6 @@ namespace TheGoodBot.Core.Preconditions
             }
 
             return Task.FromResult(PreconditionResult.FromSuccess());
-
-            bool UserIsAllowedToBypass()
-            {
-                var guildUser = (IGuildUser) context.User;
-                var roleOrUserID = Sguild.AllowedUsersAndRolesToBypassCooldowns;
-
-                for (int i = 0; i < Sguild.AllowedUsersAndRolesToBypassCooldowns.Count; i++)
-                {
-                    if (context.User.Id == roleOrUserID[i] || guildUser.UserHasRole(roleOrUserID[i])) { return true; }
-                }
-                return false;
-            }
         }
     }
 }

@@ -63,7 +63,7 @@ namespace TheGoodBot.Core.Services.Languages
 
             var embed = GetAndConvertToDiscEmbed(context.Guild.Id, context.User.Id, array, out string text, out int amountsFailed);
 
-            if (!(embed == null) || !(text == null))
+            if (embed != null || text != null && text != "")
             {
                 await context.Channel.SendMessageAsync(text, false, embed);
                 if (!(amountsFailed == 0))

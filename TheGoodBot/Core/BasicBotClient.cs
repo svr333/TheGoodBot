@@ -23,7 +23,8 @@ namespace TheGoodBot.Core
         private BotConfig _config;
         private LoggerService _logger;
 
-        public BasicBotClient(CommandService commands = null, DiscordSocketClient client = null, BotConfig config = null, LoggerService logger = null)
+        public BasicBotClient(CommandService commands = null, DiscordSocketClient client = null, BotConfig config = null,
+            LoggerService logger = null)
         {
             _client = client ?? new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -76,6 +77,7 @@ namespace TheGoodBot.Core
                 .AddSingleton<InteractiveService>()
                 .AddSingleton<CooldownService>()
                 .AddSingleton<BotConfig>()
+                .AddSingleton<CommandFailedService>()
                 .BuildServiceProvider();
         }
     }
