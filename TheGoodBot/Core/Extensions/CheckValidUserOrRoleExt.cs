@@ -10,6 +10,8 @@ namespace TheGoodBot.Core.Extensions
         {
             var guildUser = (IGuildUser) context.User;
 
+            if (UsersAndRoles == null) { return false; }
+
             for (int i = 0; i< UsersAndRoles.Count; i++)
             {
                 if (context.User.Id == UsersAndRoles[i] || guildUser.UserHasRole(UsersAndRoles[i])) { return true; }
