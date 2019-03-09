@@ -9,7 +9,7 @@ namespace TheGoodBot.Core.Extensions
     {
         public static Embed CreateEmbed(this CustomEmbed embed, out int createFieldFailAmount)
         {
-            uint color = (uint)Convert.ToInt32(embed.Colour, 16);
+            uint color = Convert.ToUInt32(embed.Colour, 16);
             var eb = new EmbedBuilder();
             eb.WithAuthor(embed.AuthorName, embed.AuthorIconUrl, embed.AuthorUrl);
             eb.WithColor(color);

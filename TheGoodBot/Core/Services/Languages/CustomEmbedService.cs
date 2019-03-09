@@ -58,11 +58,15 @@ namespace TheGoodBot.Core.Services.Languages
 
         public async Task CreateAndPostEmbed(SocketCommandContext context, string name)
         {
-            var command = _commandService.Search(context, name).Commands.FirstOrDefault().Command;
+            var commandContext = _commandService.Search(context, name);
             string[] commandInfo;
 
-            if (command == null) { commandInfo = new string[] { name, "!UnchangeableEmbeds", ""}; }
-            else { commandInfo = new string[] {command.Name, command.Module.Name, command.Module.Group}; }
+            if (commandContext.Commands == null) { commandInfo = new string[] { name, "!UnchangeableEmbeds", ""}; }
+            else
+            {
+                var command = commandContext.Commands.FirstOrDefault().Command;
+                commandInfo = new string[] {command.Name, command.Module.Name, command.Module.Group};
+            }
 
             var embed = GetAndConvertToDiscEmbed(context.Guild.Id, context.User.Id, commandInfo, out string text, out int amountsFailed);
 
