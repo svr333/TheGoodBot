@@ -63,6 +63,7 @@ namespace TheGoodBot.Core.Services
             var guild = _guildAccountService.GetSettingsAccount(guildID);
 
             if (!(PrefixCheckerExt.HasPrefix(message, _client, out argPos, guild.PrefixList))) { return; }
+            // TODO: Each guild decides whether another bot can interact with this one.
             if (message.Author.IsBot) { return; }
 
             var context = new SocketCommandContext(_client, message);
@@ -89,7 +90,7 @@ namespace TheGoodBot.Core.Services
                 return;
             }
 
-            _commandFailed.FailedCommandResult(command, context, result);
+            await _commandFailed.FailedCommandResult(command, context, result);
             await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\nContact svr333#3451 / <@202095042372829184> for more information.");
         }
     }

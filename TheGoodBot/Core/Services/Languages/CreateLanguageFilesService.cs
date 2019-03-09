@@ -52,13 +52,13 @@ namespace TheGoodBot.Languages
         /// <param name="language"></param>
         public void CreateAllUnchangeableEmbeds(string language)
         {
-
             foreach (var embed in _unchangeableEmbedList)
             {
-                string filePath = $"Languages/{language}/{embed}.json";
+                string filePath = $"Languages/{language}/!UnchangeableEmbeds/{embed}.json";
 
                 if (!File.Exists(filePath))
                 {
+                    Directory.CreateDirectory($"Languages/{language}/!UnchangeableEmbeds");
                     var rawData = JsonConvert.SerializeObject(GenerateCustomEmbedStruct(), Formatting.Indented);
                     File.WriteAllText(filePath, rawData);
                 }
@@ -92,7 +92,7 @@ namespace TheGoodBot.Languages
             AuthorName = String.Empty,
             FooterText = String.Empty,
             AuthorIconUrl = String.Empty,
-            Colour = Color.Blue.RawValue,
+            Colour = 000000,
             EmbedUrl = String.Empty,
             ThumbnailUrl = String.Empty,
             AuthorUrl = String.Empty,
@@ -120,6 +120,7 @@ namespace TheGoodBot.Languages
             _unchangeableEmbedList.Add("CommandOnCooldown");
             _unchangeableEmbedList.Add("NoValidPermissions");
             _unchangeableEmbedList.Add("NoBotOwner");
+            _unchangeableEmbedList.Add("FieldFailure");
         }
     }
 }

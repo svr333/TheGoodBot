@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Discord.Addons.Interactive;
 using TheGoodBot.Core.Services.Accounts;
 using TheGoodBot.Core.Services.Languages;
+using TheGoodBot.Core.Services.Logging;
 using TheGoodBot.Guilds;
 using TheGoodBot.Languages;
 using TheGoodOne.DataStorage;
@@ -78,6 +79,7 @@ namespace TheGoodBot.Core
                 .AddSingleton<CooldownService>()
                 .AddSingleton<BotConfig>()
                 .AddSingleton<CommandFailedService>()
+                .AddSingleton<FileLoggerService>()
                 .BuildServiceProvider();
         }
     }

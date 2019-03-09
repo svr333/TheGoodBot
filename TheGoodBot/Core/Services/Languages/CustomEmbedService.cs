@@ -29,7 +29,7 @@ namespace TheGoodBot.Core.Services.Languages
             string groupName = commandInfo[2];
             string name = String.Empty;
 
-            if (groupName == null) { name = commandName; }
+            if (groupName == String.Empty || groupName == null) { name = commandName; }
             else { name = groupName + "-" + commandName; }
 
             var language = _languageService.GetLanguage(guildID, userID);
@@ -59,16 +59,19 @@ namespace TheGoodBot.Core.Services.Languages
         public async Task CreateAndPostEmbed(SocketCommandContext context, string name)
         {
             var command = _commandService.Search(context, name).Commands.FirstOrDefault().Command;
-            string[] array = new string[] { command.Name, command.Module.Name, command.Module.Group };
+            string[] commandInfo;
 
-            var embed = GetAndConvertToDiscEmbed(context.Guild.Id, context.User.Id, array, out string text, out int amountsFailed);
+            if (command == null) { commandInfo = new string[] { name, "!UnchangeableEmbeds", ""}; }
+            else { commandInfo = new string[] {command.Name, command.Module.Name, command.Module.Group}; }
+
+            var embed = GetAndConvertToDiscEmbed(context.Guild.Id, context.User.Id, commandInfo, out string text, out int amountsFailed);
 
             if (embed != null || text != null && text != "")
             {
                 await context.Channel.SendMessageAsync(text, false, embed);
                 if (!(amountsFailed == 0))
                 {
-                    await context.Channel.SendMessageAsync($"There were titles missing to create other fields. Failures: `{amountsFailed}`\nCheck the guild's language for fixes.");
+                    await CreateAndPostEmbed(context, "FieldFailure");
                 }
             }
         }
