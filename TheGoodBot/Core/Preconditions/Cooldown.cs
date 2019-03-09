@@ -33,7 +33,7 @@ namespace TheGoodBot.Core.Preconditions
             var allowedUsersAndRoles = Sguild.AllowedUsersAndRolesToBypassCooldowns;
             var ts = TimeSpan.FromSeconds(cooldown);
 
-            if (!Sguild.AdminsAreLimited && context.User is IGuildUser user && user.GuildPermissions.Administrator || allowedUsersAndRoles.ValidatePermissions(context))
+            if (Sguild.AllowAdminsToBypassCooldowns && context.User is IGuildUser user && user.GuildPermissions.Administrator || allowedUsersAndRoles.ValidatePermissions(context))
                 return Task.FromResult(PreconditionResult.FromSuccess());
 
             var key = new CooldownInfo(context.User.Id, command.GetHashCode());

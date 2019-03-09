@@ -117,6 +117,9 @@ namespace TheGoodBot.Languages
             _unchangeableEmbedList.Clear();
             _unchangeableEmbedList.Add("NoCommandFound");
             _unchangeableEmbedList.Add("UncalculatedError");
+            _unchangeableEmbedList.Add("CommandOnCooldown");
+            _unchangeableEmbedList.Add("NoValidPermissions");
+            _unchangeableEmbedList.Add("NoBotOwner");
         }
     }
 }
