@@ -33,14 +33,5 @@ namespace TheGoodBot.Core.Modules
         [Summary("Simple test command that does nothing but posting a message.")]
         public async Task Guild() =>
             await _customEmbedService.CreateAndPostEmbed(Context, "guild");
-
-        [Cooldown, Invoke]
-        [Command("purge"), Alias()]
-        [Summary("Simple test command that does nothing but posting a message.")]
-        public async Task Purge(int num)
-        {
-            var messages = await Context.Channel.GetMessagesAsync(num).FlattenAsync();
-            await ((ITextChannel)Context.Channel).DeleteMessagesAsync(messages);
-        }
     }
 }
