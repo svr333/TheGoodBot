@@ -1,7 +1,4 @@
-﻿using System;
-using System.Data.Common;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using Newtonsoft.Json;
 using TheGoodBot.Entities;
 

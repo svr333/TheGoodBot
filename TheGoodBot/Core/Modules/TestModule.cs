@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-using System.Threading.Tasks;
-using Discord;
+﻿using System.Threading.Tasks;
 using Discord.Commands;
 using TheGoodBot.Core.Preconditions;
 using TheGoodBot.Core.Services.Languages;

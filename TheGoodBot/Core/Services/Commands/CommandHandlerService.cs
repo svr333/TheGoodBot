@@ -2,16 +2,10 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Core.Services.Languages;
-using TheGoodBot.Guilds;
-using TheGoodBot.Languages;
 using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Services

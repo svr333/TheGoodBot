@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using Discord.Commands;
 using Newtonsoft.Json;
-using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Guilds
 {
