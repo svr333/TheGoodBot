@@ -9,10 +9,10 @@ namespace TheGoodBot.Core.Services
 {
     public class CommandFailedService
     {
-        private FileLoggerService _fileLog;
+        private FailedCommandLogService _fileLog;
         private CustomEmbedService _customEmbed;
 
-        public CommandFailedService(FileLoggerService fileLog, CustomEmbedService customEmbed)
+        public CommandFailedService(FailedCommandLogService fileLog, CustomEmbedService customEmbed)
         {
             _fileLog = fileLog;
             _customEmbed = customEmbed;
@@ -22,11 +22,22 @@ namespace TheGoodBot.Core.Services
         /// <param name="result"></param>
         public async Task FailedCommandResult(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
+            LogMessage(context, result);
+            Console.WriteLine("Successfully logged failed command.");
+
             if (result.ErrorReason.StartsWith("You can use this command in"))
             {
-                LogMessage(context, result);
-                Console.WriteLine("Command failed because it's on a cooldown.");
-                await _customEmbed.CreateAndPostEmbed((SocketCommandContext)context, "CommandOnCooldown"); 
+                await _customEmbed.CreateAndPostEmbed((SocketCommandContext) context, "CommandOnCooldown"); 
+            }
+
+            if (result.ErrorReason.StartsWith("You do not have the required permission"))
+            {
+                await _customEmbed.CreateAndPostEmbed((SocketCommandContext) context, "NoValidPermissions");
+            }
+
+            if (result.ErrorReason.StartsWith(""))
+            {
+                
             }
         }
 
@@ -34,7 +45,7 @@ namespace TheGoodBot.Core.Services
         {
             string prefix = $"{DateTime.Now} - guild: {context.Guild.Name}/{context.Guild.Id} user: {context.User.Username}/{context.User.Id}";
             var message = $"Command failed | {result.ErrorReason}";
-            _fileLog.UpdateLog($"{prefix}-{message}/n");
+            _fileLog.UpdateLog($"{prefix}-{message}/n", context.Guild.Id);
         }
     }
 }

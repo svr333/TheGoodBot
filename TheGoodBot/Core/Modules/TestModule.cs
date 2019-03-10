@@ -36,13 +36,5 @@ namespace TheGoodBot.Core.Modules
         [Summary("Simple test command that does nothing but posting a message.")]
         public async Task Guild() =>
             await _customEmbedService.CreateAndPostEmbed(Context, "guild");
-
-        [Cooldown, Invoke]
-        [Command("react"), Alias()]
-        [Summary("Simple test command that does nothing but posting a message.")]
-        public async Task React([Remainder]string message)
-        {
-            Console.WriteLine(Context.Message.Content);
-        }
     }
 }
