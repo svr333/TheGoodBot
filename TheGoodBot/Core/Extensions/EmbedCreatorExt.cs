@@ -19,6 +19,7 @@ namespace TheGoodBot.Core.Extensions
             eb.WithThumbnailUrl(embed.ThumbnailUrl);
             eb.WithTitle(embed.Title);
             eb.WithUrl(embed.EmbedUrl);
+            eb.WithTimestamp(embed.TimeStamp.GetValueOrDefault(DateTimeOffset.UtcNow));
 
             int amountsFailed = 0;
 
@@ -39,7 +40,6 @@ namespace TheGoodBot.Core.Extensions
             }
 
             createFieldFailAmount = amountsFailed;
-            eb.WithTimestamp(embed.TimeStamp);
             return eb.Build();
         }
 

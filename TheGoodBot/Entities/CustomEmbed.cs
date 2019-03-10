@@ -1,5 +1,4 @@
 ﻿using System;
-using Discord;
 
 namespace TheGoodBot.Entities
 {
@@ -21,7 +20,7 @@ namespace TheGoodBot.Entities
         public string FooterText { get; set; }
         public string FooterUrl { get; set; }
 
-        public DateTimeOffset TimeStamp { get; set; }
+        public DateTimeOffset? TimeStamp { get; set; }
 
         public string[] FieldTitles { get; set; }
         public object[] FieldValues { get; set; }

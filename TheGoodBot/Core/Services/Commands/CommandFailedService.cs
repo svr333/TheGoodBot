@@ -32,10 +32,10 @@ namespace TheGoodBot.Core.Services
 
             if (result.ErrorReason.StartsWith("You do not have the required permission"))
             {
-                await _customEmbed.CreateAndPostEmbed((SocketCommandContext) context, "NoValidPermissions");
+                await _customEmbed.CreateAndPostEmbed((SocketCommandContext) context, "NoBotOwner");
             }
 
-            if (result.ErrorReason.StartsWith(""))
+            if (result.ErrorReason.StartsWith("UnmetPrecondition: "))
             {
                 
             }

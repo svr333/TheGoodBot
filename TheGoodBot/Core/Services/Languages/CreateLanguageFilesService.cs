@@ -86,7 +86,7 @@ namespace TheGoodBot.Languages
             FieldTitles = null,
             FieldValues = null,
             FieldInlineValues = null,
-            TimeStamp = DateTimeOffset.MinValue,
+            TimeStamp = null,
             Title = String.Empty,
             Description = String.Empty,
             AuthorName = String.Empty,
