@@ -1,4 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using TheGoodBot.Core.Preconditions;
 using TheGoodBot.Core.Services.Languages;
@@ -31,5 +36,13 @@ namespace TheGoodBot.Core.Modules
         [Summary("Simple test command that does nothing but posting a message.")]
         public async Task Guild() =>
             await _customEmbedService.CreateAndPostEmbed(Context, "guild");
+
+        [Cooldown, Invoke]
+        [Command("react"), Alias()]
+        [Summary("Simple test command that does nothing but posting a message.")]
+        public async Task React([Remainder]string message)
+        {
+            Console.WriteLine(Context.Message.Content);
+        }
     }
 }
