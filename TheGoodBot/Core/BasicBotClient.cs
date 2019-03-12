@@ -41,7 +41,7 @@ namespace TheGoodBot.Core
             });
 
             _config = config ?? new BotConfigService().GetConfig();
-            _logger = logger ?? new LoggerService();
+            _logger = logger ?? new LoggerService(new FailedCommandLogService());
         }
 
 
@@ -81,6 +81,8 @@ namespace TheGoodBot.Core
                 .AddSingleton<CommandFailedService>()
                 .AddSingleton<FailedCommandLogService>()
                 .AddSingleton<SucceededCommandLogService>()
+                .AddSingleton<LoggerService>()
+                .AddSingleton<FailedCommandLogService>()
                 .BuildServiceProvider();
         }
     }

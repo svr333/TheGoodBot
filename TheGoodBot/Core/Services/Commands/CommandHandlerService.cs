@@ -18,11 +18,11 @@ namespace TheGoodBot.Core.Services
         private readonly GuildAccountService _guildAccountService;
         private readonly EventHookerService _eventHooker;
         private readonly CustomEmbedService _customEmbed;
-        private readonly CommandFailedService _commandFailed;
+        private readonly CommandFailedService _logger;
 
         public CommandHandlerService(IServiceProvider services, DiscordSocketClient client, CommandService commands, 
             GuildAccountService guildAccount, EventHookerService eventHooker, CustomEmbedService customEmbed,
-            CommandFailedService commandFailed)
+            CommandFailedService logger)
         {
             _commands = commands;
             _client = client;
@@ -30,7 +30,7 @@ namespace TheGoodBot.Core.Services
             _guildAccountService = guildAccount;
             _eventHooker = eventHooker;
             _customEmbed = customEmbed;
-            _commandFailed = commandFailed;
+            _logger = logger;
         }
 
         public async Task InitializeAsync()
@@ -78,8 +78,7 @@ namespace TheGoodBot.Core.Services
             {
                 if (guildAccount.NoCommandFoundResponseIsDisabled) { return; }
 
-                await _customEmbed.CreateAndPostEmbed((SocketCommandContext)context, "");
-                await context.Channel.SendMessageAsync($"This command is not defined.");
+                await _customEmbed.CreateAndPostEmbed((SocketCommandContext)context, "NoCommandFound");
                 return;
             }
 
@@ -89,8 +88,11 @@ namespace TheGoodBot.Core.Services
                 Console.WriteLine($"Command executed: {context.User.Username} used {command.Value.Name}");
                 return;
             }
-
-            await _commandFailed.FailedCommandResult(command, context, result);
+            else
+            {
+                await _logger.FailedCommandResult(command, context, result);
+                //await _commandFailed.FailedCommandResult(command, context, result);
+            }
             await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\nContact svr333#3451 / <@202095042372829184> for more information.");
         }
     }

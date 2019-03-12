@@ -9,13 +9,15 @@ namespace TheGoodBot.Core.Services
 {
     public class CommandFailedService
     {
+        private LoggerService _logger;
         private FailedCommandLogService _fileLog;
         private CustomEmbedService _customEmbed;
 
-        public CommandFailedService(FailedCommandLogService fileLog, CustomEmbedService customEmbed)
+        public CommandFailedService(FailedCommandLogService fileLog, CustomEmbedService customEmbed, LoggerService logger)
         {
             _fileLog = fileLog;
             _customEmbed = customEmbed;
+            _logger = logger;
         }
 
         /// <summary> Checks the command result if failed and behaves accordingly.</summary>
@@ -43,9 +45,9 @@ namespace TheGoodBot.Core.Services
 
         public void LogMessage(ICommandContext context, IResult result)
         {
-            string prefix = $"{DateTime.Now} - guild: {context.Guild.Name}/{context.Guild.Id} user: {context.User.Username}/{context.User.Id}";
-            var message = $"Command failed | {result.ErrorReason}";
-            _fileLog.UpdateLog($"{prefix}-{message}/n", context.Guild.Id);
+            string prefix = $"{DateTime.Now} | Command failed | User: {context.User.Username}/{context.User.Id} | ";
+            var message = $"{result.ErrorReason}";
+            _logger.LogFailedCommand($"\r\n{prefix}-{message}", context.Guild.Id, "FailedCommands");
         }
     }
 }

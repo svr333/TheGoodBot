@@ -8,33 +8,41 @@ namespace TheGoodBot.Core.Services.Logging
     {
         private string folder = $"Logs";
         private string file = $"{DateTime.UtcNow.Year}-{DateTime.UtcNow.Month}-{DateTime.UtcNow.Day}.txt";
+        private string folderPath;
+        private string filePath;
 
-        private void SaveLog(StringBuilder content, ulong guildID)
+        private void SetFilePath(ulong guildID, string subfolder)
         {
-            File.WriteAllText($"{folder}/{guildID}/FailedCommands/{file}", content.ToString());
+            filePath = $"{folder}/{guildID}/{subfolder}/{file}";
+            folderPath = $"{folder}/{guildID}/{subfolder}";
         }
 
-        private string GetLog(ulong guildID)
+        private void SaveLog(StringBuilder content)
         {
-            CheckFileExists(guildID);
-            var text = File.ReadAllText($"{folder}/{guildID}/FailedCommands/{file}");
+            File.WriteAllText(filePath, content.ToString());
+        }
+
+        private string GetLog()
+        {
+            CheckFileExists();
+            var text = File.ReadAllText(filePath);
             return text;
         }
 
-        public void UpdateLog(string message, ulong guildID)
+        public void UpdateLog(string message, ulong guildID, string logType)
         {
-            var text = GetLog(guildID);
+            SetFilePath(guildID, logType);
+            var text = GetLog();
             var sb = new StringBuilder(text);
             sb.Append(message);
-            SaveLog(sb, guildID);
+            SaveLog(sb);
         }
 
-        private void CheckFileExists(ulong guildID)
+        private void CheckFileExists()
         {
-            string filePath = $"{folder}/{guildID}/FailedCommands/{file}";
             if (!File.Exists(filePath))
             {
-                Directory.CreateDirectory($"{folder}/{guildID}/FailedCommands");
+                Directory.CreateDirectory(folderPath);
                 File.Create(filePath);
             }
         }

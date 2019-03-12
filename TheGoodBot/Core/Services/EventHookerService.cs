@@ -40,7 +40,6 @@ namespace TheGoodBot.Core.Services
 
         public void HookEvents()
         {
-            _commands.Log += LogAsync;
             _client.Ready += Ready;
             _client.JoinedGuild += GuildJoined;
         }
@@ -60,12 +59,6 @@ namespace TheGoodBot.Core.Services
             _client.SetGameAsync(_config.GameStatus);
             Console.WriteLine("Ready, sir.");
             return Task.CompletedTask;
-        }
-
-        private async Task LogAsync(LogMessage message)
-        {
-            _logger.Log(message.Message);
-            await Task.CompletedTask;
         }
     }
 }
