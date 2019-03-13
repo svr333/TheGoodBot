@@ -54,7 +54,7 @@ namespace TheGoodBot.Core.Services
         {
             _language.CreateAllLanguageFiles();
             _guildAccount.CreateAllGuildAccounts();
-            _guildAccount.CreateAllGuildCooldowns();
+            _guildAccount.CreateAllGuildCooldownsAndInvocations();
             _client.SetStatusAsync(UserStatus.DoNotDisturb);
             _client.SetGameAsync(_config.GameStatus);
             Console.WriteLine("Ready, sir.");
