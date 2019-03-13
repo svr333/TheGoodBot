@@ -47,7 +47,7 @@ namespace TheGoodBot.Core.Services
         {
             string prefix = $"{DateTime.Now} | Command failed | User: {context.User.Username}/{context.User.Id} | ";
             var message = $"{result.ErrorReason}";
-            _logger.LogFailedCommand($"\r\n{prefix}-{message}", context.Guild.Id, "FailedCommands");
+            _logger.LogFailedCommand($"\r\n{prefix}-{message}", context.Guild.Id);
         }
     }
 }
