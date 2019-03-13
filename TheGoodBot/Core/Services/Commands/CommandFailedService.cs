@@ -3,19 +3,16 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using TheGoodBot.Core.Services.Languages;
-using TheGoodBot.Core.Services.Logging;
 
 namespace TheGoodBot.Core.Services
 {
     public class CommandFailedService
     {
         private LoggerService _logger;
-        private FailedCommandLogService _fileLog;
         private CustomEmbedService _customEmbed;
 
-        public CommandFailedService(FailedCommandLogService fileLog, CustomEmbedService customEmbed, LoggerService logger)
+        public CommandFailedService(CustomEmbedService customEmbed, LoggerService logger)
         {
-            _fileLog = fileLog;
             _customEmbed = customEmbed;
             _logger = logger;
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 using TheGoodBot.Guilds;
 
 namespace TheGoodOne.DataStorage
@@ -11,8 +12,10 @@ namespace TheGoodOne.DataStorage
         private string filePath = "AllGuildID's.json";
         private CreateGuildAccountFilesService _guildFiles;
         private CooldownService _cooldown;
+        private InvokeService _invoke;
 
-        public GuildAccountService(CreateGuildAccountFilesService guildFiles, CooldownService cooldown)
+        public GuildAccountService(CreateGuildAccountFilesService guildFiles, CooldownService cooldown,
+            InvokeService invoke)
         {
             if (!File.Exists(filePath)) { CreateFile(); }
             string json = File.ReadAllText(filePath);
@@ -20,15 +23,17 @@ namespace TheGoodOne.DataStorage
 
             _guildFiles = guildFiles;
             _cooldown = cooldown;
+            _invoke = invoke;
         }
 
         /// <summary>Creates all guild cooldowns of the guilds previously saved in the file. </summary>
-        public void CreateAllGuildCooldowns()
+        public void CreateAllGuildCooldownsAndInvocations()
         {
             guildIDs = GetAllGuildIDs();
             for (int i = 0; i < guildIDs.Count; i++)
             {
                 _cooldown.CreateAllPairs(guildIDs[i]);
+                _invoke.CreateAllPairs(guildIDs[i]);
             }
         }
 
