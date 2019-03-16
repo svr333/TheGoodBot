@@ -27,19 +27,16 @@ namespace TheGoodBot.Core.Services
             if (result.ErrorReason.StartsWith("You can use this command in"))
             {
                 await _customEmbed.CreateAndPostEmbed((SocketCommandContext) context, "CommandOnCooldown");
-                return;
             }
 
-            if (result.ErrorReason.StartsWith("You do not have the required permission"))
+            else if (result.ErrorReason.StartsWith("You do not have the required permission"))
             {
                 await _customEmbed.CreateAndPostEmbed((SocketCommandContext) context, "NoBotOwner");
-                return;
             }
 
-            if (result.ErrorReason == "This command may only be invoked in an NSFW channel.")
+            else if (result.ErrorReason == "This command may only be invoked in an NSFW channel.")
             {
                 await _customEmbed.CreateAndPostEmbed((SocketCommandContext) context, "RequireNSFW");
-                return;
             }
 
             else

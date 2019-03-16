@@ -25,13 +25,13 @@ namespace TheGoodBot.Core.Modules
             _guildAccountService = guildAccountService;
         }
 
-        [Cooldown, Invoke]
+        [Cooldown]
         [Command("test"), Alias()]
         [Summary("Simple test command that does nothing but posting a message.")]
         public async Task TestAndStuff() =>
             await _customEmbedService.CreateAndPostEmbed(Context, "test");
 
-        [Cooldown, Invoke]
+        [Cooldown]
         [Command("guild"), Alias()]
         [Summary("Simple test command that does nothing but posting a message.")]
         public async Task Guild() =>

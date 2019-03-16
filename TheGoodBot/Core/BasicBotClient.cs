@@ -79,6 +79,7 @@ namespace TheGoodBot.Core
                 .AddSingleton<CooldownService>()
                 .AddSingleton<BotConfig>()
                 .AddSingleton<CommandFailedService>()
+                .AddSingleton<CommandSucceededService>()
                 .AddSingleton<LoggerService>()
                 .AddSingleton<InvokeService>()
                 .BuildServiceProvider();

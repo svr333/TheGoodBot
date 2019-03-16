@@ -3,12 +3,13 @@ using System.Collections.Concurrent;
 using System.IO;
 using Discord.Commands;
 using System.Linq;
+using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
 {
     public class InvokeService
     {
-        private ConcurrentDictionary<string, uint> Invokes;
+        private ConcurrentDictionary<string, int> Invokes;
         private CommandService _command;
 
         private string filePath;
@@ -20,7 +21,7 @@ namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
 
         public void CreateAllPairs(ulong guildID)
         {
-            Invokes = new ConcurrentDictionary<string, uint>();
+            Invokes = new ConcurrentDictionary<string, int>();
             GetInvocationAccount(guildID);
             var commands = _command.Commands.ToList();
 
@@ -39,8 +40,8 @@ namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
             filePath = $"GuildAccounts/{guildID}/Invokes.json";
             if (!File.Exists(filePath)) { File.WriteAllText(filePath, ""); }
             var json = File.ReadAllText(filePath);
-            Invokes = JsonConvert.DeserializeObject<ConcurrentDictionary<string, uint>>(json);
-            if (Invokes == null) { Invokes = new ConcurrentDictionary<string, uint>(); }
+            Invokes = JsonConvert.DeserializeObject<ConcurrentDictionary<string, int>>(json);
+            if (Invokes == null) { Invokes = new ConcurrentDictionary<string, int>(); }
         }
 
         private void SaveAccount(ulong guildID)
@@ -50,17 +51,11 @@ namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
             File.WriteAllText(filePath, rawData);
         }
 
-        public uint GetInvocation(string key, ulong guildID)
+        public int GetInvokeTime(string commandName, ulong guildID)
         {
             GetInvocationAccount(guildID);
-            Invokes.TryGetValue(key, out uint value);
+            Invokes.TryGetValue(commandName, out int value);
             return value;
-        }
-
-        public void InvokeCommand(string commandName, ulong guildID)
-        {
-            GetInvocation(commandName, guildID);
-
         }
     }
 }

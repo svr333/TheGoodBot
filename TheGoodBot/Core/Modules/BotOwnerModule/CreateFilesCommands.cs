@@ -15,7 +15,7 @@ namespace TheGoodBot.Core.Modules.BotOwnerModule
             _createGuildAccountFiles = createGuildAccountFiles;
         }
 
-        [Cooldown, Invoke, RequireBotOwner]
+        [Cooldown, RequireBotOwner]
         [Command("okay"), Alias()]
         [Summary("Simple test command that does nothing but posting a message.")]
         public async Task Okay()

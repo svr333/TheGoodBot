@@ -13,7 +13,7 @@ namespace TheGoodBot.Core.Modules.ModerationModule
 
         }
 
-        [Cooldown, Invoke]
+        [Cooldown]
         [Command(""), Alias()]
         [Summary("Basic purge command that purges x amount of messages.")]
         public async Task Purge(int num)
