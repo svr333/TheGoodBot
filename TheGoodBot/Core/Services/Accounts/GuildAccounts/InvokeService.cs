@@ -21,7 +21,7 @@ namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
         public void CreateAllPairs(ulong guildID)
         {
             Invokes = new ConcurrentDictionary<string, uint>();
-            GetCooldownAccount(guildID);
+            GetInvocationAccount(guildID);
             var commands = _command.Commands.ToList();
 
             for (int i = 0; i < commands.Count; i++)
@@ -34,7 +34,7 @@ namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
             SaveAccount(guildID);
         }
 
-        private void GetCooldownAccount(ulong guildID)
+        private void GetInvocationAccount(ulong guildID)
         {
             filePath = $"GuildAccounts/{guildID}/Invokes.json";
             if (!File.Exists(filePath)) { File.WriteAllText(filePath, ""); }
@@ -50,11 +50,17 @@ namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
             File.WriteAllText(filePath, rawData);
         }
 
-        public uint GetCooldown(string key, ulong guildID)
+        public uint GetInvocation(string key, ulong guildID)
         {
-            GetCooldownAccount(guildID);
+            GetInvocationAccount(guildID);
             Invokes.TryGetValue(key, out uint value);
             return value;
+        }
+
+        public void InvokeCommand(string commandName, ulong guildID)
+        {
+            GetInvocation(commandName, guildID);
+
         }
     }
 }

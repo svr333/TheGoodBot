@@ -41,7 +41,7 @@ namespace TheGoodBot.Core.Services.Languages
             return customEmbed;
         }
 
-        public Embed GetAndConvertToDiscEmbed(ulong guildID, ulong userID, string[] commandInfo, out string text, out int amountsFailed)
+        private Embed GetAndConvertToDiscEmbed(ulong guildID, ulong userID, string[] commandInfo, out string text, out int amountsFailed)
         {
             var customEmbed = GetCustomEmbed(guildID, userID, commandInfo);
             var embed = customEmbed.CreateEmbed(out int createFieldFailAmount);

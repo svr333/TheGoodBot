@@ -5,6 +5,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using TheGoodBot.Core.Extensions;
+using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 using TheGoodBot.Core.Services.Languages;
 using TheGoodOne.DataStorage;
 
@@ -15,22 +16,24 @@ namespace TheGoodBot.Core.Services
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
         private readonly IServiceProvider _services;
-        private readonly GuildAccountService _guildAccountService;
+        private readonly GuildAccountService _guildAccount;
         private readonly EventHookerService _eventHooker;
         private readonly CustomEmbedService _customEmbed;
-        private readonly CommandFailedService _logger;
+        private readonly CommandFailedService _commandFailed;
+        private CommandSucceededService _commandSucceeded;
 
         public CommandHandlerService(IServiceProvider services, DiscordSocketClient client, CommandService commands, 
             GuildAccountService guildAccount, EventHookerService eventHooker, CustomEmbedService customEmbed,
-            CommandFailedService logger)
+            CommandFailedService commandFailed, CommandSucceededService commandSucceeded)
         {
             _commands = commands;
             _client = client;
             _services = services;
-            _guildAccountService = guildAccount;
+            _guildAccount = guildAccount;
             _eventHooker = eventHooker;
             _customEmbed = customEmbed;
-            _logger = logger;
+            _commandFailed = commandFailed;
+            _commandSucceeded = commandSucceeded;
         }
 
         public async Task InitializeAsync()
@@ -60,7 +63,7 @@ namespace TheGoodBot.Core.Services
             var guildUser = message.Author as SocketGuildUser;
             var guildID = guildUser.Guild.Id;
 
-            var guild = _guildAccountService.GetSettingsAccount(guildID);
+            var guild = _guildAccount.GetSettingsAccount(guildID);
 
             if (!(PrefixCheckerExt.HasPrefix(message, _client, out argPos, guild.PrefixList))) { return; }
             // TODO: Each guild decides whether another bot can interact with this one.
@@ -73,7 +76,7 @@ namespace TheGoodBot.Core.Services
         public async Task CommandExecutedAsync(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
             var guildID = context.Guild.Id;
-            var guildAccount = _guildAccountService.GetSettingsAccount(guildID);          
+            var guildAccount = _guildAccount.GetSettingsAccount(guildID);          
             if (!command.IsSpecified)
             {
                 if (guildAccount.NoCommandFoundResponseIsDisabled) { return; }
@@ -84,14 +87,13 @@ namespace TheGoodBot.Core.Services
 
             if (result.IsSuccess)
             {
-                // Todo: save this to a persistent data file + track on the userprofiles
+                _commandSucceeded.SucceededCommandResult(command, context, result);
                 Console.WriteLine($"Command executed: {context.User.Username} used {command.Value.Name}");
                 return;
             }
             else
             {
-                await _logger.FailedCommandResult(command, context, result);
-                //await _commandFailed.FailedCommandResult(command, context, result);
+                await _commandFailed.FailedCommandResult(command, context, result);
             }
             await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\nContact svr333#3451 / <@202095042372829184> for more information.");
         }

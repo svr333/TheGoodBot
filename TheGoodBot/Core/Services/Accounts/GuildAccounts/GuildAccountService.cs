@@ -154,5 +154,17 @@ namespace TheGoodOne.DataStorage
             }         
             return cooldown;
         }
+
+        public uint GetInvocation(string key, ulong guildID)
+        {
+            var Sguild = GetSettingsAccount(guildID);
+            var invocationTime = _invoke.GetCooldown(key, guildID);
+
+            if (Sguild.GlobalInvokationTime != 0)
+            {
+                if (Sguild.GlobalInvokationTime >= invocationTime) { invocationTime = Sguild.GlobalInvokationTime; }
+            }
+            return invocationTime;
+        }
     }
 }

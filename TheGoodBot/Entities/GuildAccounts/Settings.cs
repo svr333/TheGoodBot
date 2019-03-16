@@ -23,6 +23,8 @@ namespace TheGoodBot.Guilds
         public List<ulong> AllowedUsersAndRolesToBypassCooldowns { get; set; }
         public uint GlobalCooldown { get; set; }
 
+        public uint GlobalInvokationTime { get; set; }
+
         //exp settings
         public bool ResetEXPOnLeave { get; set; }
         public bool ResetEXPOnBan { get; set; }

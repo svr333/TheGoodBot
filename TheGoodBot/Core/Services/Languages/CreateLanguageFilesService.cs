@@ -121,6 +121,7 @@ namespace TheGoodBot.Languages
             _unchangeableEmbedList.Add("NoValidPermissions");
             _unchangeableEmbedList.Add("NoBotOwner");
             _unchangeableEmbedList.Add("FieldFailure");
+            _unchangeableEmbedList.Add("RequireNSFW");
         }
     }
 }

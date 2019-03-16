@@ -28,13 +28,15 @@ namespace TheGoodBot.Core.Preconditions
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
             var guildAccountService = services.GetRequiredService<GuildAccountService>();
+
             var cooldown = guildAccountService.GetCooldown($"{command.Module.Group}-{command.Name}", context.Guild.Id);
-            var Sguild = guildAccountService.GetSettingsAccount(context.Guild.Id);
-            var allowedUsersAndRoles = Sguild.AllowedUsersAndRolesToBypassCooldowns;
+            var sGuildAccount = guildAccountService.GetSettingsAccount(context.Guild.Id);
+            var allowedUsersAndRoles = sGuildAccount.AllowedUsersAndRolesToBypassCooldowns;
             var ts = TimeSpan.FromSeconds(cooldown);
 
-            if (Sguild.AllowAdminsToBypassCooldowns && context.User is IGuildUser user && user.GuildPermissions.Administrator || allowedUsersAndRoles.ValidatePermissions(context))
-                return Task.FromResult(PreconditionResult.FromSuccess());
+            if (sGuildAccount.AllowAdminsToBypassCooldowns && context.User is IGuildUser user 
+                     && user.GuildPermissions.Administrator || allowedUsersAndRoles.ValidatePermissions(context))
+            return Task.FromResult(PreconditionResult.FromSuccess());
 
             var key = new CooldownInfo(context.User.Id, command.GetHashCode());
             if (_cooldowns.TryGetValue(key, out DateTime endsAt))
