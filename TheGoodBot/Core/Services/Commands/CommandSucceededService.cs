@@ -40,7 +40,6 @@ namespace TheGoodBot.Core.Services
             {
                 Task.Delay(invokeTime).ContinueWith(t => message.DeleteAsync()); 
             }
-
             return;
         }
     }
