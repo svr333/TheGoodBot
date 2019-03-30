@@ -15,11 +15,13 @@ namespace TheGoodBot.Core.Services.Languages
     {
         private LanguageService _languageService;
         private CommandService _commandService;
+        private JsonFormatter _formatService;
 
-        public CustomEmbedService(LanguageService languageService = null, CommandService commandService = null)
+        public CustomEmbedService(LanguageService languageService, CommandService commandService, JsonFormatter formatService)
         {
             _languageService = languageService;
             _commandService = commandService;
+            _formatService = formatService;
         }
 
         private CustomEmbed GetCustomEmbed(ulong guildID, ulong userID, string[] commandInfo)
@@ -36,8 +38,8 @@ namespace TheGoodBot.Core.Services.Languages
             if (language == null || language == String.Empty) { language = "English"; }
             var filePath = $"Languages/{language}/{moduleName}/{name}.json";
 
-            var json = File.ReadAllText(filePath);
-            var customEmbed = JsonConvert.DeserializeObject<CustomEmbed>(json);
+            var text = File.ReadAllText(filePath);
+            var customEmbed = _formatService.GetFormattedEmbed(guildID, userID, commandName, text);
             return customEmbed;
         }
 

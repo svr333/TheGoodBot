@@ -122,6 +122,7 @@ namespace TheGoodBot.Languages
             _unchangeableEmbedList.Add("NoBotOwner");
             _unchangeableEmbedList.Add("FieldFailure");
             _unchangeableEmbedList.Add("RequireNSFW");
+            _unchangeableEmbedList.Add("InvalidJsonFormat");
         }
     }
 }
