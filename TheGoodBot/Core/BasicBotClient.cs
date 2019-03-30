@@ -29,6 +29,7 @@ namespace TheGoodBot.Core
         {
             _client = client ?? new DiscordSocketClient(new DiscordSocketConfig
             {
+                DefaultRetryMode = RetryMode.AlwaysRetry,
                 LogLevel = LogSeverity.Verbose,
                 AlwaysDownloadUsers = true,
                 MessageCacheSize = 100
@@ -82,6 +83,7 @@ namespace TheGoodBot.Core
                 .AddSingleton<CommandSucceededService>()
                 .AddSingleton<LoggerService>()
                 .AddSingleton<InvokeService>()
+                .AddSingleton<JsonFormatter>()
                 .BuildServiceProvider();
         }
     }

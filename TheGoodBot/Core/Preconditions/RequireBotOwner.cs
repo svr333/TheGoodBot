@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
-using TheGoodBot.Entities;
 using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Preconditions
