@@ -41,12 +41,12 @@ namespace TheGoodBot.Core.Services.Languages
                 FooterUrl = StringFormatter(unformattedEmbed.FooterText),
                 ImageUrl = StringFormatter(unformattedEmbed.ImageUrl),
                 ThumbnailUrl = StringFormatter(unformattedEmbed.ThumbnailUrl),
-                //Title = StringFormatter(unformattedEmbed.Title),
-                //FieldTitles = StringFormatter(unformattedEmbed.FieldTitles),
-                //FieldValues = StringFormatter(unformattedEmbed.FieldTitles),
-                //FieldInlineValues = unformattedEmbed.FieldInlineValues,
-                //Colour =  unformattedEmbed.Colour,
-                //TimeStamp = unformattedEmbed.TimeStamp
+                Title = StringFormatter(unformattedEmbed.Title),
+                FieldTitles = StringFormatter(unformattedEmbed.FieldTitles),
+                FieldValues = StringFormatter(unformattedEmbed.FieldTitles),
+                FieldInlineValues = unformattedEmbed.FieldInlineValues,
+                Colour =  unformattedEmbed.Colour,
+                TimeStamp = unformattedEmbed.TimeStamp
             };
 
             return formattedEmbed;
@@ -54,9 +54,9 @@ namespace TheGoodBot.Core.Services.Languages
 
         private string StringFormatter(string formattedText)
         {
-            var Guild = _guildAccount.GetSettingsAccount(_guildID);
-            var Stats = _guildAccount.GetStatsAccount(_guildID);
-            var bla = _guildAccount.GetCooldown(_commandName, _guildID);
+            var guildAccount = _guildAccount.GetSettingsAccount(_guildID);
+            var statsAccount = _guildAccount.GetStatsAccount(_guildID);
+            var cooldown = _guildAccount.GetCooldown(_commandName, _guildID);
             var sb = new StringBuilder();
             var list = new List<string>();
 
@@ -66,7 +66,7 @@ namespace TheGoodBot.Core.Services.Languages
                 if (i % 2 == 0) { sb.Append(separations[i]); }
                 else
                 {
-                    sb.Append($"{{{0}}}");
+                    sb.Append($"{{{i/2}}}");
                     list.Add(separations[i]);
                 }
             }
@@ -76,9 +76,24 @@ namespace TheGoodBot.Core.Services.Languages
 
             for (int i = 0; i < parameters.Length; i++)
             {
-                if (parameters[i].ToString() == "Guild.GuildID")
+                switch (parameters[i])
                 {
-                    parameters[i] = Guild.GuildID.ToString();
+                    case "Guild.GuildID": parameters[i] = guildAccount.GuildID.ToString();
+                        break;
+                    case "Guild.Prefixes": parameters[i] = ReturnListAsString(guildAccount.PrefixList);
+                        break;
+                    case "Guild.Language": parameters[i] = guildAccount.Language;
+                        break;
+                    case "Guild.CommandsExecuted": parameters[i] = statsAccount.AllMembersCommandsExecuted.ToString();
+                        break;
+                    case "Guild.TotalXP": parameters[i] = statsAccount.AllMembersCombinedXP.ToString();
+                        break;
+                    case "Guild.Messages": parameters[i] = statsAccount.AllMembersMessagesSent.ToString();
+                        break;
+                    case "Guild.Cooldown": parameters[i] = cooldown.ToString();
+                        break;
+                    default: parameters[i] = "[Could not find this setting. Please check your language files.]";
+                        break;
                 }
             }
 
@@ -87,6 +102,8 @@ namespace TheGoodBot.Core.Services.Languages
 
         private string[] StringFormatter(string[] unformattedTextArray)
         {
+            if (unformattedTextArray is null) { return null; }
+
             var list = new List<string>();
 
             for (int i = 0; i < unformattedTextArray.Length; i++)
@@ -98,6 +115,22 @@ namespace TheGoodBot.Core.Services.Languages
             var formattedTextArray = new string[] { };
             formattedTextArray = list.ToArray();
             return formattedTextArray;
+        }
+
+        private string ReturnListAsString<T>(List<T> list)
+        {
+            if (list is null) { return ""; }
+
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i == list.Count-1) { sb.Append($"`{list[i]}`"); }
+                else { sb.Append($"`{list[i]}`, "); }  
+            }
+
+            var result = sb.ToString();
+            return result;
         }
     }
 }
