@@ -26,12 +26,18 @@ namespace TheGoodBot.Languages
             var globalUser = _globalUserAccountService.GetOrCreateGlobalUserAccount(userID);
             var guildUser = _guildUserAccountService.GetOrCreateGuildUserAccount(guildID, userID);
 
+            var language = "";
+
             if (guildAccount.AllowMembersOwnLanguageSetting == true)
             {
-                if (globalUser.Language == String.Empty) { return guildUser.Language; }
-                else { return globalUser.Language; }
+                if (globalUser.Language == String.Empty) { language = guildUser.Language; }
+                else { language = globalUser.Language; }
             }
-            return guildAccount.Language;
+            else language = guildAccount.Language;
+
+            if (language == null || language == String.Empty) { language = "English"; }
+
+            return language;
         }
 
         
