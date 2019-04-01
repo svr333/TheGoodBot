@@ -31,7 +31,14 @@ namespace TheGoodOne.DataStorage
             NoCommandFoundResponseIsDisabled = false,
             AllowedUsersOrRolesCheckPrivateAccounts = null,
             Language = "English",
-            AllowMembersOwnLanguageSetting = true
+            AllowMembersOwnLanguageSetting = true,
+            BotsCanInteract = true,
+            AllowAdminsToBypassCooldowns = true,
+            AllowedUsersAndRolesToBypassCooldowns = new List<ulong>(),
+            GlobalCooldown = 0,
+            GlobalInvocationTime = 0,
+            ResetEXPOnBan = false,
+            ResetEXPOnLeave = false
         };
     }
 }

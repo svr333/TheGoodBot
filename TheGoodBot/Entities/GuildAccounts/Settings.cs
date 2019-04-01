@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using Discord.WebSocket;
 
 namespace TheGoodBot.Guilds
 {
@@ -12,6 +10,7 @@ namespace TheGoodBot.Guilds
         public List<ulong> ModRoles { get; set; }
         public string Language { get; set; }
         public bool NoCommandFoundResponseIsDisabled { get; set; }
+        public bool BotsCanInteract { get; set; }
 
         public bool AllowMembersCustomEmbedColour { get; set; }
         public bool AllowMembersPrivateAccounts { get; set; }

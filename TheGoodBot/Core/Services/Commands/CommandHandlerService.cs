@@ -66,8 +66,7 @@ namespace TheGoodBot.Core.Services
             var guild = _guildAccount.GetSettingsAccount(guildID);
 
             if (!(PrefixCheckerExt.HasPrefix(message, _client, out argPos, guild.PrefixList))) { return; }
-            // TODO: Each guild decides whether another bot can interact with this one.
-            if (message.Author.IsBot) { return; }
+            if (!guild.BotsCanInteract) { return; }
 
             var context = new SocketCommandContext(_client, message);
             var result = await _commands.ExecuteAsync(context, argPos, _services);
