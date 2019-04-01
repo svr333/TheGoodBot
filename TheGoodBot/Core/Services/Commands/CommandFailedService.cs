@@ -48,8 +48,9 @@ namespace TheGoodBot.Core.Services
         private void LogMessage(ICommandContext context, IResult result)
         {
             string prefix = $"{DateTime.Now} | Command failed | User: {context.User.Username}/{context.User.Id} | ";
+            string suffix = $"";
             var message = $"{result.ErrorReason}";
-            _logger.LogFailedCommand($"\r\n{prefix}-{message}", context.Guild.Id);
+            _logger.LogFailedCommand($"\r\n{prefix}-{message}-{suffix}", context.Guild.Id);
         }
     }
 }

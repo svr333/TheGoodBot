@@ -2,7 +2,6 @@
 using Discord.Commands;
 using System;
 using System.Threading.Tasks;
-using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Services
@@ -11,6 +10,7 @@ namespace TheGoodBot.Core.Services
     {
         private LoggerService _logger;
         private GuildAccountService _guildAccount;
+        private bool _commandInvokes;
 
         public CommandSucceededService(LoggerService logger, GuildAccountService guildAccount)
         {
@@ -22,25 +22,29 @@ namespace TheGoodBot.Core.Services
         /// <param name="result"></param>
         public void SucceededCommandResult(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
-            LogMessage((SocketCommandContext) context, result);
-            CheckForInvocation(command, context, context.Message);
+            _commandInvokes = CheckForInvocation(command, context, context.Message);
+            LogMessage((SocketCommandContext)context, result);
+            Console.WriteLine("Successfully logged succeeded command.");
         }
 
         private void LogMessage(ICommandContext context, IResult result)
         {
-            string prefix = $"{DateTime.Now} | Command failed | User: {context.User.Username}/{context.User.Id} | ";
+            string prefix = $"{DateTime.Now} | Command succeeded | User: {context.User.Username}/{context.User.Id} | ";
+            string suffix = $"Invocation: {_commandInvokes}";
             var message = $"{result.ErrorReason}";
-            _logger.LogSucceededCommand($"\r\n{prefix}-{message}", context.Guild.Id);
+            _logger.LogSucceededCommand($"\r\n{prefix}-{message}-{suffix}", context.Guild.Id);
         }
 
-        private void CheckForInvocation(Optional<CommandInfo> command, ICommandContext context, IUserMessage message)
+        private bool CheckForInvocation(Optional<CommandInfo> command, ICommandContext context, IUserMessage message)
         {
             var invokeTime = _guildAccount.GetInvocation($"{command.Value.Module.Group}-{command.Value.Name}", context.Guild.Id);
             if (invokeTime != 0)
             {
-                Task.Delay(invokeTime).ContinueWith(t => message.DeleteAsync()); 
+                Task.Delay(invokeTime).ContinueWith(t => message.DeleteAsync());
+                return true;
             }
-            return;
+
+            return false;
         }
     }
 }
