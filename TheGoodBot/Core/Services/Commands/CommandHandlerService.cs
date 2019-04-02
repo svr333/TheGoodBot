@@ -5,7 +5,6 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using TheGoodBot.Core.Extensions;
-using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 using TheGoodBot.Core.Services.Languages;
 using TheGoodOne.DataStorage;
 

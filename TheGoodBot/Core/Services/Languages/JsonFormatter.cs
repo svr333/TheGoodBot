@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using TheGoodBot.Core.Extensions;
 using TheGoodBot.Entities;
 using TheGoodOne.DataStorage;
 
@@ -80,7 +81,7 @@ namespace TheGoodBot.Core.Services.Languages
                 {
                     case "Guild.GuildID": parameters[i] = guildAccount.GuildID.ToString();
                         break;
-                    case "Guild.Prefixes": parameters[i] = ReturnListAsString(guildAccount.PrefixList);
+                    case "Guild.Prefixes": parameters[i] = guildAccount.PrefixList.ReturnListAsString();
                         break;
                     case "Guild.Language": parameters[i] = guildAccount.Language;
                         break;
@@ -115,22 +116,6 @@ namespace TheGoodBot.Core.Services.Languages
             var formattedTextArray = new string[] { };
             formattedTextArray = list.ToArray();
             return formattedTextArray;
-        }
-
-        private string ReturnListAsString<T>(List<T> list)
-        {
-            if (list is null) { return ""; }
-
-            var sb = new StringBuilder();
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (i == list.Count-1) { sb.Append($"`{list[i]}`"); }
-                else { sb.Append($"`{list[i]}`, "); }  
-            }
-
-            var result = sb.ToString();
-            return result;
         }
     }
 }
