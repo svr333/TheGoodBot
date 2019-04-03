@@ -10,7 +10,6 @@ namespace TheGoodBot.Core.Extensions
             for (int i = 0; i < guildUser.RoleIds.Count; i++)
             {
                 if (guildUser.RoleIds.ToList()[i] == roleID) { return true; }
-                else { return false; }
             }
 
             return false;
