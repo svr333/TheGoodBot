@@ -84,6 +84,7 @@ namespace TheGoodBot.Core
                 .AddSingleton<LoggerService>()
                 .AddSingleton<InvokeService>()
                 .AddSingleton<JsonFormatter>()
+                .AddSingleton<RequestFileService>()
                 .BuildServiceProvider();
         }
     }

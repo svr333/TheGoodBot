@@ -1,11 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
 using TheGoodBot.Core.Preconditions;
 using TheGoodBot.Core.Services.Languages;
