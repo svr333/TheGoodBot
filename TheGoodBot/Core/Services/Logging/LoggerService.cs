@@ -35,8 +35,8 @@ namespace TheGoodBot.Core.Services
 
         private void SetFilePath(ulong guildID, string subfolder)
         {
-            filePath = $"Logs/{guildID}/{subfolder}/{file}";
-            folderPath = $"Logs/{guildID}/{subfolder}";
+            filePath = $"GuildAccounts/{guildID}/Logs/{subfolder}/{file}";
+            folderPath = $"GuildAccounts/{guildID}/Logs/{subfolder}";
         }
 
         private void SaveLog(StringBuilder content)
