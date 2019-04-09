@@ -31,6 +31,8 @@ namespace TheGoodBot.Core.Services
             dmChannel.SendFileAsync(filePath, 
                 $"You have requested `{fileType}` files. Please do not continue if you don't know what you're doing. " +
                 $"Info can be found here: <insert link here Senne, ty>");
+
+            File.Delete(filePath);
         }
     }
 }
