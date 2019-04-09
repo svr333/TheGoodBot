@@ -21,36 +21,59 @@ namespace TheGoodBot.Core.Services.Languages
             _guildAccount = guildAccount;
         }
 
-        public CustomEmbed GetFormattedEmbed(ulong guildID, ulong userID, string commandName, string unformattedText)
+        public LanguageObject GetFormattedEmbeds(ulong guildID, ulong userID, string commandName, string unformattedText)
         {
             _guildID = guildID;
             _userID = userID;
             _commandName = commandName;
 
-            var unformattedEmbed = JsonConvert.DeserializeObject<CustomEmbed>(unformattedText);
+            var unformattedEmbed = JsonConvert.DeserializeObject<LanguageObject>(unformattedText);
 
 
-            var formattedEmbed = new CustomEmbed()
+            var formattedEmbeds = new LanguageObject()
             {
-                PlainText = StringFormatter(unformattedEmbed.PlainText),
-                AuthorIconUrl = StringFormatter(unformattedEmbed.AuthorIconUrl),
-                AuthorName = StringFormatter(unformattedEmbed.AuthorName),
-                AuthorUrl = StringFormatter(unformattedEmbed.AuthorUrl),
-                Description = StringFormatter(unformattedEmbed.Description),
-                EmbedUrl = StringFormatter(unformattedEmbed.EmbedUrl),
-                FooterText = StringFormatter(unformattedEmbed.FooterText),
-                FooterUrl = StringFormatter(unformattedEmbed.FooterText),
-                ImageUrl = StringFormatter(unformattedEmbed.ImageUrl),
-                ThumbnailUrl = StringFormatter(unformattedEmbed.ThumbnailUrl),
-                Title = StringFormatter(unformattedEmbed.Title),
-                FieldTitles = StringFormatter(unformattedEmbed.FieldTitles),
-                FieldValues = StringFormatter(unformattedEmbed.FieldTitles),
-                FieldInlineValues = unformattedEmbed.FieldInlineValues,
-                Colour =  unformattedEmbed.Colour,
-                TimeStamp = unformattedEmbed.TimeStamp
+                ChnEmbed = new CustomEmbed()
+                {
+                    PlainText = StringFormatter(unformattedEmbed.ChnEmbed.PlainText),
+                    AuthorIconUrl = StringFormatter(unformattedEmbed.ChnEmbed.AuthorIconUrl),
+                    AuthorName = StringFormatter(unformattedEmbed.ChnEmbed.AuthorName),
+                    AuthorUrl = StringFormatter(unformattedEmbed.ChnEmbed.AuthorUrl),
+                    Description = StringFormatter(unformattedEmbed.ChnEmbed.Description),
+                    EmbedUrl = StringFormatter(unformattedEmbed.ChnEmbed.EmbedUrl),
+                    FooterText = StringFormatter(unformattedEmbed.ChnEmbed.FooterText),
+                    FooterUrl = StringFormatter(unformattedEmbed.ChnEmbed.FooterText),
+                    ImageUrl = StringFormatter(unformattedEmbed.ChnEmbed.ImageUrl),
+                    ThumbnailUrl = StringFormatter(unformattedEmbed.ChnEmbed.ThumbnailUrl),
+                    Title = StringFormatter(unformattedEmbed.ChnEmbed.Title),
+                    FieldTitles = StringFormatter(unformattedEmbed.ChnEmbed.FieldTitles),
+                    FieldValues = StringFormatter(unformattedEmbed.ChnEmbed.FieldTitles),
+                    FieldInlineValues = unformattedEmbed.ChnEmbed.FieldInlineValues,
+                    Colour = unformattedEmbed.ChnEmbed.Colour,
+                    TimeStamp = unformattedEmbed.ChnEmbed.TimeStamp
+                },
+                DmEmbed = new CustomEmbed()
+                {
+                    PlainText = StringFormatter(unformattedEmbed.DmEmbed.PlainText),
+                    AuthorIconUrl = StringFormatter(unformattedEmbed.DmEmbed.AuthorIconUrl),
+                    AuthorName = StringFormatter(unformattedEmbed.DmEmbed.AuthorName),
+                    AuthorUrl = StringFormatter(unformattedEmbed.DmEmbed.AuthorUrl),
+                    Description = StringFormatter(unformattedEmbed.DmEmbed.Description),
+                    EmbedUrl = StringFormatter(unformattedEmbed.DmEmbed.EmbedUrl),
+                    FooterText = StringFormatter(unformattedEmbed.DmEmbed.FooterText),
+                    FooterUrl = StringFormatter(unformattedEmbed.DmEmbed.FooterText),
+                    ImageUrl = StringFormatter(unformattedEmbed.DmEmbed.ImageUrl),
+                    ThumbnailUrl = StringFormatter(unformattedEmbed.DmEmbed.ThumbnailUrl),
+                    Title = StringFormatter(unformattedEmbed.DmEmbed.Title),
+                    FieldTitles = StringFormatter(unformattedEmbed.DmEmbed.FieldTitles),
+                    FieldValues = StringFormatter(unformattedEmbed.DmEmbed.FieldTitles),
+                    FieldInlineValues = unformattedEmbed.DmEmbed.FieldInlineValues,
+                    Colour = unformattedEmbed.DmEmbed.Colour,
+                    TimeStamp = unformattedEmbed.ChnEmbed.TimeStamp
+                }
+                
             };
 
-            return formattedEmbed;
+            return formattedEmbeds;
         }
 
         private string StringFormatter(string formattedText)

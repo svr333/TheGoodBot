@@ -44,7 +44,7 @@ namespace TheGoodBot.Languages
                 if (File.Exists(filePath)) { continue; }
                 Directory.CreateDirectory(directory);
 
-                var rawData = JsonConvert.SerializeObject(GenerateCustomEmbedStruct(), Formatting.Indented);
+                var rawData = JsonConvert.SerializeObject(GenerateCustomLanguageObject(), Formatting.Indented);
                 File.WriteAllText(filePath, rawData);
             }
         }
@@ -59,7 +59,7 @@ namespace TheGoodBot.Languages
                 if (!File.Exists(filePath))
                 {
                     Directory.CreateDirectory($"Languages/{language}/!UnchangeableEmbeds");
-                    var rawData = JsonConvert.SerializeObject(GenerateCustomEmbedStruct(), Formatting.Indented);
+                    var rawData = JsonConvert.SerializeObject(GenerateCustomLanguageObject(), Formatting.Indented);
                     File.WriteAllText(filePath, rawData);
                 }
             }
@@ -79,6 +79,12 @@ namespace TheGoodBot.Languages
                 CreateAllUnchangeableEmbeds(language);
             }
         }
+
+        private LanguageObject GenerateCustomLanguageObject() => new LanguageObject()
+        {
+            ChnEmbed = GenerateCustomEmbedStruct(),
+            DmEmbed = GenerateCustomEmbedStruct()
+        };
 
         /// <summary> Generates the custom embed structure for the json files.</summary>
         private CustomEmbed GenerateCustomEmbedStruct() => new CustomEmbed()

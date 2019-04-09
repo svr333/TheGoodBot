@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace TheGoodBot.Core.Services.Languages
             _formatService = formatService;
         }
 
-        private CustomEmbed GetCustomEmbed(ulong guildID, ulong userID, string[] commandInfo)
+        private LanguageObject GetLanguageObject(ulong guildID, ulong userID, string[] commandInfo)
         {
             string commandName = commandInfo[0];
             string moduleName = commandInfo[1];
@@ -38,26 +39,27 @@ namespace TheGoodBot.Core.Services.Languages
             var filePath = $"Languages/{language}/{moduleName}/{name}.json";
 
             var text = File.ReadAllText(filePath);
-            var customEmbed = _formatService.GetFormattedEmbed(guildID, userID, commandName, text);
-            return customEmbed;
+            var languageObject = _formatService.GetFormattedEmbeds(guildID, userID, commandName, text);
+            return languageObject;
         }
 
-        private Embed GetAndConvertToDiscEmbed(ulong guildID, ulong userID, string[] commandInfo, out string text, out int amountsFailed)
+        private List<Embed> GetAndConvertToDiscEmbeds(ulong guildID, ulong userID, string[] commandInfo, out string ChnText, out string DmText)
         {
-            var customEmbed = GetCustomEmbed(guildID, userID, commandInfo);
-            var embed = customEmbed.CreateEmbed(out int createFieldFailAmount);
-            text = customEmbed.PlainText;
-            amountsFailed = createFieldFailAmount;
-            return embed;
+            List<Embed> embeds = new List<Embed>();
+
+            var languageObject = GetLanguageObject(guildID, userID, commandInfo);
+            var ChnEmbed = languageObject.ChnEmbed.CreateEmbed();
+            var DmEmbed = languageObject.DmEmbed.CreateEmbed();
+
+            embeds.Add(ChnEmbed);
+            embeds.Add(DmEmbed);
+
+            ChnText = languageObject.ChnEmbed.PlainText;
+            DmText = languageObject.DmEmbed.PlainText;
+            return embeds;
         }
 
-        private CustomEmbed GetAndChangeEmbed(ulong guildID, ulong userID, string[] commandInfo)
-        {
-            var customEmbed = GetCustomEmbed(guildID, userID, commandInfo);
-            return customEmbed;
-        }
-
-        public async Task CreateAndPostEmbed(SocketCommandContext context, string name)
+        public async Task CreateAndPostEmbeds(SocketCommandContext context, string name)
         {
             var commandContext = _commandService.Search(context, name);
             string[] commandInfo;
@@ -69,15 +71,15 @@ namespace TheGoodBot.Core.Services.Languages
                 commandInfo = new string[] {command.Name, command.Module.Name, command.Module.Group};
             }
 
-            var embed = GetAndConvertToDiscEmbed(context.Guild.Id, context.User.Id, commandInfo, out string text, out int amountsFailed);
+            var embeds = GetAndConvertToDiscEmbeds(context.Guild.Id, context.User.Id, commandInfo, out string ChnText, out string DmText);
 
-            if (embed != null || text != null && text != "")
+            if (embeds[0] != null || ChnText != null && ChnText != "")
             {
-                await context.Channel.SendMessageAsync(text, false, embed);
-                if (!(amountsFailed == 0))
-                {
-                    await CreateAndPostEmbed(context, "FieldFailure");
-                }
+                await context.Channel.SendMessageAsync(ChnText, false, embeds[0]);
+            }
+            if (embeds[1] != null || DmText != null && DmText != "")
+            {
+                await context.User.SendMessageAsync(ChnText, false, embeds[1]);
             }
         }
     }
