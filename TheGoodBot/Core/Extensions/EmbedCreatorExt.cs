@@ -7,7 +7,7 @@ namespace TheGoodBot.Core.Extensions
 {
     public static class EmbedCreatorExt
     {
-        public static Embed CreateEmbed(this CustomEmbed embed, out int createFieldFailAmount)
+        public static Embed CreateEmbed(this CustomEmbed embed)
         {
             uint color = Convert.ToUInt32(embed.Colour, 16);
             var eb = new EmbedBuilder();
@@ -21,11 +21,9 @@ namespace TheGoodBot.Core.Extensions
             eb.WithUrl(embed.EmbedUrl);
             eb.WithTimestamp(embed.TimeStamp.GetValueOrDefault(DateTimeOffset.UtcNow));
 
-            int amountsFailed = 0;
-
             if (!(embed.FieldTitles == null))
             {
-                var fields = embed.GetFields(out amountsFailed);
+                var fields = embed.GetFields();
 
                 for (int i = 0; i < fields.Count; i++)
                 {
@@ -33,24 +31,21 @@ namespace TheGoodBot.Core.Extensions
                 }
             }
 
-            if (eb.Length == 0)
-            {
-                createFieldFailAmount = 0;
-                return null;
-            }
-
-            createFieldFailAmount = amountsFailed;
+            if (eb.Length == 0) { return null; }
             return eb.Build();
         }
 
-        private static List<CustomField> GetFields(this CustomEmbed embed, out int amountsFailed)
+        private static List<CustomField> GetFields(this CustomEmbed embed)
         {
             var CustomFields = new List<CustomField>();
-            int amountOfSucceededFields = 0;
 
             for (int i = 0; i < embed.FieldTitles.Length; i++)
             {
-                if (embed.FieldTitles[i] == String.Empty || embed.FieldTitles[i] == null) { continue; }
+                if (embed.FieldTitles[i] == String.Empty || embed.FieldTitles[i] == null)
+                {
+                    embed.FieldTitles[i] = "\u200b";
+                }
+
                 var field = new CustomField()
                 {
                     FieldTitle = embed.FieldTitles[i],
@@ -59,10 +54,8 @@ namespace TheGoodBot.Core.Extensions
                 };
 
                 CustomFields.Add(field);
-                amountOfSucceededFields++;
             }
 
-            amountsFailed = embed.FieldTitles.Length - amountOfSucceededFields;
             return CustomFields;
         }
         private struct CustomField
