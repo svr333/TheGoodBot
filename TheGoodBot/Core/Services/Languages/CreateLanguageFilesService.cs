@@ -23,7 +23,7 @@ namespace TheGoodBot.Languages
 
         /// <summary> Creates the language's corresponding embed files.</summary>
         /// <param name="language"></param>
-        public void CreateAllCommandFiles(string language)
+        private void CreateAllCommandFiles(string language)
         {
             var commandList = _commandService.Commands.ToList(); 
             string fileName = String.Empty;
@@ -48,9 +48,18 @@ namespace TheGoodBot.Languages
                 File.WriteAllText(filePath, rawData);
             }
         }
+        public void CreateAllGuildLanguages(List<ulong> guildIds)
+        {
+            for (int i = 0; i < guildIds.Count; i++)
+            {
+                _languageList.Add($"{guildIds[i]}");
+            }
+            CreateAllLanguageFiles();
+        }
+
         /// <summary>Creates all the required embeds for static core functionality IF they don't already exist.</summary>
         /// <param name="language"></param>
-        public void CreateAllUnchangeableEmbeds(string language)
+        private void CreateAllUnchangeableEmbeds(string language)
         {
             foreach (var embed in _unchangeableEmbedList)
             {

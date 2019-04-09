@@ -3,24 +3,27 @@ using System.IO;
 using Newtonsoft.Json;
 using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 using TheGoodBot.Guilds;
+using TheGoodBot.Languages;
 
 namespace TheGoodOne.DataStorage
 {
     public class GuildAccountService
     {
-        public List<ulong> guildIDs;
+        private List<ulong> _guildIDs;
         private string filePath = "AllGuildID's.json";
+        private CreateLanguageFilesService _languageFileService;
         private CreateGuildAccountFilesService _guildFiles;
         private CooldownService _cooldown;
         private InvokeService _invoke;
 
         public GuildAccountService(CreateGuildAccountFilesService guildFiles, CooldownService cooldown,
-            InvokeService invoke)
+            InvokeService invoke, CreateLanguageFilesService languageFilesService)
         {
             if (!File.Exists(filePath)) { CreateFile(); }
             string json = File.ReadAllText(filePath);
-            guildIDs = JsonConvert.DeserializeObject<List<ulong>>(json);
+            _guildIDs = JsonConvert.DeserializeObject<List<ulong>>(json);
 
+            _languageFileService = languageFilesService;
             _guildFiles = guildFiles;
             _cooldown = cooldown;
             _invoke = invoke;
@@ -29,27 +32,26 @@ namespace TheGoodOne.DataStorage
         /// <summary>Creates all guild cooldowns of the guilds previously saved in the file. </summary>
         public void CreateAllGuildCooldownsAndInvocations()
         {
-            guildIDs = GetAllGuildIDs();
-            for (int i = 0; i < guildIDs.Count; i++)
+            _guildIDs = GetAllGuildIDs();
+            for (int i = 0; i < _guildIDs.Count; i++)
             {
-                _cooldown.CreateAllPairs(guildIDs[i]);
-                _invoke.CreateAllPairs(guildIDs[i]);
+                _cooldown.CreateAllPairs(_guildIDs[i]);
+                _invoke.CreateAllPairs(_guildIDs[i]);
             }
         }
 
         /// <summary>Creates an empty file at that file location. </summary>
         private void CreateFile()
-        {
-            File.WriteAllText(filePath, "");
-        }
+            => File.WriteAllText(filePath, "");
 
         /// <summary>Creates all guild accounts - if not made already - saved in the file. </summary>
         public void CreateAllGuildAccounts()
         {
-            guildIDs = GetAllGuildIDs();
-            for (int i = 0; i < guildIDs.Count; i++)
+            _languageFileService.CreateAllGuildLanguages(_guildIDs);
+            _guildIDs = GetAllGuildIDs();
+            for (int i = 0; i < _guildIDs.Count; i++)
             {
-                _guildFiles.CreateGuildAccount(guildIDs[i]);
+                _guildFiles.CreateGuildAccountFiles(_guildIDs[i]);
             }
         }
 
@@ -66,8 +68,8 @@ namespace TheGoodOne.DataStorage
         /// <param name="ID"></param>
         public void AddGuild(ulong ID)
         {
-            guildIDs.Add(ID);
-            SaveAccounts(guildIDs);
+            _guildIDs.Add(ID);
+            SaveAccounts(_guildIDs);
         }
 
         /// <summary>Saves all guild's id's in a file that can be used anywhere. </summary>
@@ -76,25 +78,6 @@ namespace TheGoodOne.DataStorage
         {
             var json = JsonConvert.SerializeObject(guildIDs, Formatting.Indented);
             File.WriteAllText(filePath, json);
-        }
-
-        /// <summary>Create a guild account. </summary>
-        /// <param name="guildID"></param>
-        private void CreateGuildAccount(ulong guildID)
-        {
-            _guildFiles.CreateGuildAccount(guildID);
-        }
-
-        /// <summary>Checks if the directory and or path exists and creates it if necessary. </summary>
-        /// <param name="filePath"></param>
-        /// <param name="directory"></param>
-        /// <returns></returns>
-        private bool CheckDirectoryExists(string filePath, string directory)
-        {
-            if (File.Exists(filePath)) { return true; }
-
-            Directory.CreateDirectory(directory);
-            return false;
         }
 
         /// <summary>Save a copy of the Settings entity at the guild location. </summary>
@@ -123,7 +106,7 @@ namespace TheGoodOne.DataStorage
         public Settings GetSettingsAccount(ulong guildID)
         {
             string filePath = $"GuildAccounts/{guildID}/Settings.json";
-            if (!File.Exists(filePath)) { _guildFiles.CreateGuildAccount(guildID);}
+            if (!File.Exists(filePath)) { _guildFiles.CreateGuildAccountFiles(guildID);}
             string rawData = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<Settings>(rawData);
         }
@@ -134,7 +117,7 @@ namespace TheGoodOne.DataStorage
         public Stats GetStatsAccount(ulong guildID)
         {
             string filePath = $"GuildAccounts/{guildID}/Stats.json";
-            if (!File.Exists(filePath)) { _guildFiles.CreateGuildAccount(guildID); }
+            if (!File.Exists(filePath)) { _guildFiles.CreateGuildAccountFiles(guildID); }
             string rawData = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<Stats>(rawData);
         }

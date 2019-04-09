@@ -18,7 +18,7 @@ namespace TheGoodOne.DataStorage
             _cooldown = cooldown;
         }
 
-        public void CreateGuildAccount(ulong guildID)
+        public void CreateGuildAccountFiles(ulong guildID)
         {
             string filePath = $"GuildAccounts/{guildID}";
             Directory.CreateDirectory(filePath);
