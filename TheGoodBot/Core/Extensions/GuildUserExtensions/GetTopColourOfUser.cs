@@ -7,10 +7,10 @@ namespace TheGoodBot.Core.Extensions
 {
     public static class GetTopColourOfUser
     {
-        public static Color GetUserTopColour(this IGuildUser user, SocketCommandContext context)
+        public static Color GetUserTopColour(this SocketGuildUser user)
         {
             var hierarchyOrderedRoleList =
-                ((SocketGuildUser) context.User).Roles.OrderByDescending(x => x.Position).ToList();
+                user.Roles.OrderByDescending(x => x.Position).ToList();
             int y = 0;
             foreach (var role in hierarchyOrderedRoleList)
             {

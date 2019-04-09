@@ -32,13 +32,6 @@ namespace TheGoodBot.Guilds
 
         }
 
-        private GuildUserAccount GenerateBlankGuildUserConfig(ulong guildID, ulong userID) => new GuildUserAccount()
-        {
-            UserId = userID,
-            GuildId = guildID,
-            Language = "English"
-        };
-
         private static bool FileExists(string filePath, string directory)
         {
             if (File.Exists(filePath)) { return true; }
@@ -54,5 +47,13 @@ namespace TheGoodBot.Guilds
             var guildUser = JsonConvert.DeserializeObject<GuildUserAccount>(rawData);
             return guildUser;
         }
+
+        private GuildUserAccount GenerateBlankGuildUserConfig(ulong guildID, ulong userID) => new GuildUserAccount()
+        {
+            UserId = userID,
+            GuildId = guildID,
+            Language = "English",
+            Colour = 5198940
+        };
     }
 }

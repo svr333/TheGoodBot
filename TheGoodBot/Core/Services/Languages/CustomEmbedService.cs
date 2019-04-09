@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Newtonsoft.Json;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Entities;
@@ -43,13 +44,13 @@ namespace TheGoodBot.Core.Services.Languages
             return languageObject;
         }
 
-        private List<Embed> GetAndConvertToDiscEmbeds(ulong guildID, ulong userID, string[] commandInfo, out string ChnText, out string DmText)
+        private List<Embed> GetAndConvertToDiscEmbeds(ulong guildID, SocketGuildUser user, string[] commandInfo, out string ChnText, out string DmText)
         {
             List<Embed> embeds = new List<Embed>();
 
-            var languageObject = GetLanguageObject(guildID, userID, commandInfo);
-            var ChnEmbed = languageObject.ChnEmbed.CreateEmbed();
-            var DmEmbed = languageObject.DmEmbed.CreateEmbed();
+            var languageObject = GetLanguageObject(guildID, user.Id, commandInfo);
+            var ChnEmbed = languageObject.ChnEmbed.CreateEmbed(user);
+            var DmEmbed = languageObject.DmEmbed.CreateEmbed(user);
 
             embeds.Add(ChnEmbed);
             embeds.Add(DmEmbed);
@@ -71,7 +72,7 @@ namespace TheGoodBot.Core.Services.Languages
                 commandInfo = new string[] {command.Name, command.Module.Name, command.Module.Group};
             }
 
-            var embeds = GetAndConvertToDiscEmbeds(context.Guild.Id, context.User.Id, commandInfo, out string ChnText, out string DmText);
+            var embeds = GetAndConvertToDiscEmbeds(context.Guild.Id, (SocketGuildUser) context.User, commandInfo, out string ChnText, out string DmText);
 
             if (embeds[0] != null || ChnText != null && ChnText != "")
             {

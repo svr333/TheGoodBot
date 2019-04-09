@@ -107,7 +107,7 @@ namespace TheGoodBot.Languages
             AuthorName = String.Empty,
             FooterText = String.Empty,
             AuthorIconUrl = String.Empty,
-            Colour = "000000",
+            Colour = 5198940,
             EmbedUrl = String.Empty,
             ThumbnailUrl = String.Empty,
             AuthorUrl = String.Empty,

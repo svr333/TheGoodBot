@@ -8,7 +8,7 @@ namespace TheGoodBot.Entities
 
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Colour { get; set; }
+        public uint Colour { get; set; }
         public string ThumbnailUrl { get; set; }
         public string ImageUrl { get; set; }
         public string EmbedUrl { get; set; }

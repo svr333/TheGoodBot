@@ -5,5 +5,6 @@
         public ulong UserId { get; set; }
         public ulong GuildId { get; set; }
         public string Language { get; set; }
+        public uint Colour { get; set; }
     }
 }

@@ -44,6 +44,7 @@ namespace TheGoodBot.Core.Services.Accounts
         {
             AutoPrivateProfile = false,
             Language = "",
+            Colour = 5198940
         };
     }
 }
