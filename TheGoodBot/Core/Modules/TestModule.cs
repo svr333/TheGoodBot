@@ -28,13 +28,13 @@ namespace TheGoodBot.Core.Modules
         [Command("test"), Alias()]
         [Summary("Simple test command that does nothing but posting a message.")]
         public async Task TestAndStuff() =>
-            await _customEmbedService.CreateAndPostEmbed(Context, "test");
+            await _customEmbedService.CreateAndPostEmbeds(Context, "test");
 
         [Cooldown]
         [Command("guild"), Alias()]
         [Summary("Simple test command that does nothing but posting a message.")]
         public async Task Guild() =>
-            await _customEmbedService.CreateAndPostEmbed(Context, "guild");
+            await _customEmbedService.CreateAndPostEmbeds(Context, "guild");
 
         [Command("ListRoles"), Alias()]
         [Summary("Lists all roles by id into a file.")]

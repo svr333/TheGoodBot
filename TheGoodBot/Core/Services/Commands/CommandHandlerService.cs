@@ -79,7 +79,7 @@ namespace TheGoodBot.Core.Services
             {
                 if (guildAccount.NoCommandFoundResponseIsDisabled) { return; }
 
-                await _customEmbed.CreateAndPostEmbed((SocketCommandContext)context, "NoCommandFound");
+                await _customEmbed.CreateAndPostEmbeds((SocketCommandContext)context, "NoCommandFound");
                 return;
             }
 

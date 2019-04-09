@@ -20,6 +20,6 @@ namespace TheGoodBot.Core.Modules.NSFWModule
         [Command("butt"), Alias("butts, ass")]
         [Summary("Gets a random butt from the database and returns it.")]
         public async Task Butt() =>
-            await _customEmbedService.CreateAndPostEmbed(Context, "butt");
+            await _customEmbedService.CreateAndPostEmbeds(Context, "butt");
     }
 }
