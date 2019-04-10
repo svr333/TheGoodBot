@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using TheGoodBot.Guilds;
 
-namespace TheGoodOne.DataStorage
+namespace TheGoodBot.Guilds
 {
     public class GuildFilesGenerationService
     {

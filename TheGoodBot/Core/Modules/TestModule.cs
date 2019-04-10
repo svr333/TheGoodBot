@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using TheGoodBot.Core.Preconditions;
 using TheGoodBot.Core.Services.Languages;
-using TheGoodOne.DataStorage;
 using Newtonsoft.Json;
+using TheGoodBot.Guilds;
 
 namespace TheGoodBot.Core.Modules
 {

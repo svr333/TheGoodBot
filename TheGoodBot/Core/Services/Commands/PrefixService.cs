@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Core.Services.Languages;
 using TheGoodBot.Guilds;
-using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Services.Commands
 {

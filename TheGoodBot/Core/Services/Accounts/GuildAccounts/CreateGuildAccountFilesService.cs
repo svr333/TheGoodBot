@@ -2,9 +2,8 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using TheGoodBot.Guilds;
 
-namespace TheGoodOne.DataStorage
+namespace TheGoodBot.Guilds
 {
     public class CreateGuildAccountFilesService
     {

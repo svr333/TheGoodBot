@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.IO;
 using Discord.Commands;
 using System.Linq;
-using TheGoodOne.DataStorage;
 
 namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
 {
