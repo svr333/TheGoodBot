@@ -14,27 +14,16 @@ namespace TheGoodBot.Core.Services
     public class EventHookerService
     {
         private DiscordSocketClient _client;
-        private CommandService _commands;
-        private LoggerService _logger;
         private GuildAccountService _guildAccount;
-        private GuildUserAccountService _guildUser;
-        private GlobalUserAccountService _user;
         private CreateLanguageFilesService _language;
-        private CooldownService _cooldown;
         private BotConfig _config;
 
-        public EventHookerService(DiscordSocketClient client, CommandService command, LoggerService logger,
-            GuildUserAccountService guildUser, GlobalUserAccountService user, CreateLanguageFilesService language,
-            GuildAccountService guildAccount, CooldownService cooldown, BotConfig config)
+        public EventHookerService(DiscordSocketClient client, CreateLanguageFilesService language, GuildAccountService guildAccount, 
+            BotConfig config)
         {
             _client = client;
-            _commands = command;
-            _logger = logger;
-            _guildUser = guildUser;
-            _user = user;
             _language = language;
             _guildAccount = guildAccount;
-            _cooldown = cooldown;
             _config = config;
         }
 
