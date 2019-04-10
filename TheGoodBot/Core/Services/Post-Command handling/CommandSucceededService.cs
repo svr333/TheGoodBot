@@ -2,7 +2,7 @@
 using Discord.Commands;
 using System;
 using System.Threading.Tasks;
-using TheGoodOne.DataStorage;
+using TheGoodBot.Guilds;
 
 namespace TheGoodBot.Core.Services
 {

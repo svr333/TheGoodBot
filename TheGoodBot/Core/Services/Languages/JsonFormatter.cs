@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Entities;
-using TheGoodOne.DataStorage;
+using TheGoodBot.Guilds;
 
 namespace TheGoodBot.Core.Services.Languages
 {
