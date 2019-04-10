@@ -16,8 +16,8 @@ namespace TheGoodBot.Core.Services.Accounts
 
         public void CreateUserAccount(ulong userId)
         {
-            string filePath = "GlobalUserAccounts/" + userId + ".json";
-            string directory = "GlobalUserAccounts";
+            string filePath = $"GlobalUserAccounts/{userId}.json";
+            string directory = $"GlobalUserAccounts";
             if (File.Exists(filePath)) { return; }
 
             Directory.CreateDirectory(directory);
@@ -27,14 +27,14 @@ namespace TheGoodBot.Core.Services.Accounts
 
         public void SaveUserAccount(GlobalUserAccount user, ulong userId)
         {
-            string filePath = "GlobalUserAccounts/" + userId + ".json";
+            string filePath = $"GlobalUserAccounts/{userId}.json";
             string rawData = JsonConvert.SerializeObject(user, Formatting.Indented);
             File.WriteAllText(filePath, rawData);
         }
 
         public GlobalUserAccount GetUserAccount(ulong userId)
         {
-            string filePath = "GlobalUserAccounts/" + userId + ".json";
+            string filePath = $"GlobalUserAccounts/{userId}.json";
             var rawData = File.ReadAllText(filePath);
             var globalUser = JsonConvert.DeserializeObject<GlobalUserAccount>(rawData);
             return globalUser;

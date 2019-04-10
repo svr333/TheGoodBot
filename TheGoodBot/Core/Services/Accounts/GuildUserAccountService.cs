@@ -21,8 +21,8 @@ namespace TheGoodBot.Guilds
 
         private void CreateGuildUserAccount(ulong guildID, ulong userID)
         {
-            string filePath = "GuildUserAccounts/" + guildID + "/" + userID + ".json";
-            string directory = "GuildUserAccounts/" + guildID;
+            string filePath = $"GuildUserAccounts/{guildID}/{userID}.json";
+            string directory = $"GuildUserAccounts/{guildID}";
             if (!FileExists(filePath, directory))
             {
                 var rawData = JsonConvert.SerializeObject(GenerateBlankGuildUserConfig(guildID, userID), Formatting.Indented);
@@ -42,7 +42,7 @@ namespace TheGoodBot.Guilds
 
         private GuildUserAccount GetAccount(ulong guildID, ulong userID)
         {
-            string filePath = "GuildUserAccounts/" + guildID + "/" + userID + ".json";
+            string filePath = $"GuildUserAccounts/{guildID}/{userID}.json";
             var rawData = File.ReadAllText(filePath);
             var guildUser = JsonConvert.DeserializeObject<GuildUserAccount>(rawData);
             return guildUser;
