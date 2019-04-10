@@ -138,6 +138,9 @@ namespace TheGoodBot.Languages
             _unchangeableEmbedList.Add("FieldFailure");
             _unchangeableEmbedList.Add("RequireNSFW");
             _unchangeableEmbedList.Add("InvalidJsonFormat");
+            _unchangeableEmbedList.Add("prefixAlreadyExists");
+            _unchangeableEmbedList.Add("ParamPrefixRequired");
+            _unchangeableEmbedList.Add("prefixDoesntExist");
         }
     }
 }

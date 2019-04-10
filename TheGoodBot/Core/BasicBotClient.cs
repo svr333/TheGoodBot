@@ -13,6 +13,7 @@ using TheGoodBot.Core.Services.Languages;
 using TheGoodBot.Guilds;
 using TheGoodBot.Languages;
 using TheGoodOne.DataStorage;
+using TheGoodBot.Core.Services.Commands;
 
 namespace TheGoodBot.Core
 {
@@ -22,10 +23,8 @@ namespace TheGoodBot.Core
         private CommandService _commands;
         private IServiceProvider _services;
         private BotConfig _config;
-        private LoggerService _logger;
 
-        public BasicBotClient(CommandService commands = null, DiscordSocketClient client = null, BotConfig config = null,
-            LoggerService logger = null)
+        public BasicBotClient(CommandService commands = null, DiscordSocketClient client = null, BotConfig config = null)
         {
             _client = client ?? new DiscordSocketClient(new DiscordSocketConfig
             {
@@ -42,7 +41,6 @@ namespace TheGoodBot.Core
             });
 
             _config = config ?? new BotConfigService().GetConfig();
-            _logger = logger ?? new LoggerService();
         }
 
 
@@ -85,6 +83,7 @@ namespace TheGoodBot.Core
                 .AddTransient<InvokeService>()
                 .AddTransient<JsonFormatter>()
                 .AddTransient<RequestFileService>()
+                .AddTransient<PrefixService>()
                 .BuildServiceProvider();
         }
     }

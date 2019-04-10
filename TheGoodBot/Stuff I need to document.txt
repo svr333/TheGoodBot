@@ -1,2 +1,15 @@
+COLOUR ABNORMALITY
+▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 If you pick 5198940 as colour, it wont be recognized as an actual colour, it'll use the guilds / your roles colour.
 Reason: This is Discord's default embed colour.
+
+
+AVAILABLE VARIABLES INSIDE LANGUAGE FILES:
+▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+Guild.GuildID
+Guild.Prefixes
+Guild.Language
+Guild.CommandsExecuted
+Guild.TotalXP
+Guild.Messages
+Guild.Cooldown

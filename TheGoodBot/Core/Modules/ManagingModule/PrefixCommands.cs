@@ -1,25 +1,38 @@
 ﻿using System.Threading.Tasks;
 using Discord.Commands;
-using TheGoodBot.Guilds;
-using TheGoodOne.DataStorage;
+using TheGoodBot.Core.Preconditions;
+using TheGoodBot.Core.Services.Commands;
+using TheGoodBot.Core.Services.Languages;
 
 namespace TheGoodBot.Core.Modules.ManagingModule
 {
-    [Group("prefix")]
     public class PrefixCommands : ModuleBase<SocketCommandContext>
     {
-        private GuildAccountService _guildAccountService;
+        private PrefixService _prefixService;
+        private CustomEmbedService _embedService;
 
-        public PrefixCommands(GuildAccountService guildService = null)
+        public PrefixCommands(PrefixService prefixService, CustomEmbedService embedService)
         {
-            _guildAccountService = guildService;
+            _prefixService = prefixService;
+            _embedService = embedService;
         }
 
-        [Command("add")]
-        public async Task AddGuildPrefix()
-        {
-            var guild = _guildAccountService.GetSettingsAccount(Context.Guild.Id);
-            await Context.Channel.SendMessageAsync($"The previous prefixes were:");
-        }
+        [Cooldown]
+        [Command("prefix"), Alias("prefixes")]
+        [Summary("Shows the guild's prefixes.")]
+        public async Task ListGuildPrefixes()
+            => await _embedService.CreateAndPostEmbeds(Context, "prefix");
+
+        [Cooldown]
+        [Command("addprefix"), Alias("prefix add", "aprefix")]
+        [Summary("Adds a certain prefix to the guild's prefixes.")]
+        public async Task AddGuildPrefix(string prefix = "")
+            => _prefixService.AddPrefixAsync(Context, prefix);
+
+        [Cooldown]
+        [Command("removeprefix"), Alias("prefix remove", "rprefix", "deleteprefix", "delprefix")]
+        [Summary("Removes a certain prefix from the guild's prefixes.")]
+        public async Task RemoveGuildPrefix(string prefix = "")
+            => _prefixService.RemovePrefixAsync(Context, prefix);
     }
 }

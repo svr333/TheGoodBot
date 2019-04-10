@@ -11,6 +11,8 @@ namespace TheGoodBot.Core.Extensions
 
             var sb = new StringBuilder();
 
+            if (list.Count is 0) { return "N/A"; }
+
             for (int i = 0; i < list.Count; i++)
             {
                 if (i == list.Count - 1) { sb.Append($"`{list[i]}`"); }
