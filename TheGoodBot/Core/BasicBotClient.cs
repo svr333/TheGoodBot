@@ -84,6 +84,7 @@ namespace TheGoodBot.Core
                 .AddTransient<JsonFormatter>()
                 .AddTransient<RequestFileService>()
                 .AddTransient<PrefixService>()
+                .AddTransient<GuildLogsService>()
                 .BuildServiceProvider();
         }
     }

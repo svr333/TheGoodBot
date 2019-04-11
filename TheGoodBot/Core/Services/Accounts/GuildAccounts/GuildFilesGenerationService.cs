@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TheGoodBot.Entities.GuildAccounts;
 
 namespace TheGoodBot.Guilds
 {
@@ -9,6 +10,7 @@ namespace TheGoodBot.Guilds
         {
             if (category == "Settings") { return GenerateBlankSettingsFile(guildID); }
             if (category == "Stats") { return GenerateBlankStatsFile(); }
+            if (category == "GuildLogs") { return GenerateBlankGuildLogsFile(); }
             else { return null; }
         }
 
@@ -37,6 +39,30 @@ namespace TheGoodBot.Guilds
             GlobalInvocationTime = 0,
             ResetEXPOnBan = false,
             ResetEXPOnLeave = false
+        };
+
+        private GuildLogs GenerateBlankGuildLogsFile() => new GuildLogs()
+        {
+            IgnoredUsersAndChannels = new List<ulong> { 202095042372829184 },
+            AvatarUpdatedChannelId = 0,
+            ChannelCreatedChannelId = 0,
+            ChannelEditedChannelId = 0,
+            ChannelRemovedChannelId = 0,
+            EmojiChannelId = 0,
+            MessageDeletedChannelId = 0,
+            MessageEditedChannelId = 0,
+            NameUpdatedChannelId = 0,
+            PurgedMessagesChannelId = 0,
+            RoleCreatedChannelId = 0,
+            RoleDeletedChannelId = 0,
+            RoleEditedChannelId = 0,
+            UserBannedChannelId = 0,
+            UserJoinedChannelId = 0,
+            UserKickedChannelId = 0,
+            UserLeftChannelId = 0,
+            VoiceJoinedChannelId = 0,
+            VoiceLeftChannelId = 0,
+            VoiceMovedChannelId = 0
         };
     }
 }

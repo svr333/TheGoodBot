@@ -45,6 +45,7 @@ namespace TheGoodBot.Guilds
         {
             categoryList.Add("Settings");
             categoryList.Add("Stats");
+            categoryList.Add("GuildLogs");
         }
     }
 }

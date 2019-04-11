@@ -29,7 +29,7 @@ namespace TheGoodBot.Core.Preconditions
         {
             var guildAccountService = services.GetRequiredService<GuildAccountService>();
 
-            var cooldown = guildAccountService.GetCooldown($"{command.Module.Group}-{command.Name}", context.Guild.Id);
+            var cooldown = guildAccountService.GetMaxCooldown($"{command.Module.Group}-{command.Name}", context.Guild.Id);
             var sGuildAccount = guildAccountService.GetSettingsAccount(context.Guild.Id);
             var allowedUsersAndRoles = sGuildAccount.AllowedUsersAndRolesToBypassCooldowns;
             var ts = TimeSpan.FromSeconds(cooldown);
