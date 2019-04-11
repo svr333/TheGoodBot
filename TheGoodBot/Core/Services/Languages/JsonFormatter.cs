@@ -79,7 +79,7 @@ namespace TheGoodBot.Core.Services.Languages
         {
             var guildAccount = _guildAccount.GetSettingsAccount(_guildID);
             var statsAccount = _guildAccount.GetStatsAccount(_guildID);
-            var cooldown = _guildAccount.GetCooldown(_commandName, _guildID);
+            var cooldown = _guildAccount.GetMaxCooldown(_commandName, _guildID);
             var sb = new StringBuilder();
             var list = new List<string>();
 
