@@ -40,7 +40,12 @@ namespace TheGoodBot.Core.Services
         private async Task LogDeletedMessage(Cacheable<IMessage, ulong> cachedMessage, ISocketMessageChannel channel)
         {
             var logChannel = (_client.GetChannel(_guildLogs.GetGuildLogs(((SocketTextChannel)channel).Guild.Id).MessageDeletedChannelId)) as SocketTextChannel;
-
+            if (logChannel.Id == channel.Id) { return; }
+            if (logChannel.Guild != ((SocketTextChannel) channel).Guild)
+            {
+                await channel.SendMessageAsync("The log channel for deleted messages must be in this server, please change it.");
+                return;
+            }
             // TODO: Check if it was command && if the guild disabled logging commands
             if (channel is null) { await Task.CompletedTask; }
             if (cachedMessage.Value is null) { return; }
