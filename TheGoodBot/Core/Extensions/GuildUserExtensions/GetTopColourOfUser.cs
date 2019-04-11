@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Discord;
-using Discord.Commands;
 using Discord.WebSocket;
 
 namespace TheGoodBot.Core.Extensions
@@ -11,14 +10,13 @@ namespace TheGoodBot.Core.Extensions
         {
             var hierarchyOrderedRoleList =
                 user.Roles.OrderByDescending(x => x.Position).ToList();
-            int y = 0;
-            foreach (var role in hierarchyOrderedRoleList)
-            {
-                if (hierarchyOrderedRoleList[y].Color == Color.Default) y++;
-                else break;
-            }
 
-            return hierarchyOrderedRoleList[y].Color;
+            for (int i = 0; i < hierarchyOrderedRoleList.Count; i++)
+            {
+                if (hierarchyOrderedRoleList[i].Color == Color.Default) continue;
+                else return hierarchyOrderedRoleList[i].Color;
+            }
+            return new Color(5198940);
         }
     }
 }
