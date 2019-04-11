@@ -7,11 +7,9 @@ namespace TheGoodBot.Core.Extensions
     {
         public static string ReturnListAsString<T>(this List<T> list)
         {
-            if (list is null) { return ""; }
-
             var sb = new StringBuilder();
 
-            if (list.Count is 0) { return "N/A"; }
+            if (list.Count is 0 || list is null) { return "N/A"; }
 
             for (int i = 0; i < list.Count; i++)
             {
