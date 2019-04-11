@@ -26,13 +26,13 @@ namespace TheGoodBot.Core.Modules.ManagingModule
         [Cooldown]
         [Command("addprefix"), Alias("prefix add", "aprefix")]
         [Summary("Adds a certain prefix to the guild's prefixes.")]
-        public async Task AddGuildPrefix(string prefix = "")
+        public async Task AddGuildPrefix([Remainder]string prefix = "")
             => _prefixService.AddPrefixAsync(Context, prefix);
 
         [Cooldown]
         [Command("removeprefix"), Alias("prefix remove", "rprefix", "deleteprefix", "delprefix")]
         [Summary("Removes a certain prefix from the guild's prefixes.")]
-        public async Task RemoveGuildPrefix(string prefix = "")
+        public async Task RemoveGuildPrefix([Remainder]string prefix = "")
             => _prefixService.RemovePrefixAsync(Context, prefix);
     }
 }
