@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
-using Discord.Commands;
 using Discord.WebSocket;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Core.Services.Accounts.GuildAccounts;
@@ -15,19 +14,21 @@ namespace TheGoodBot.Core.Services
     public class EventHookerService
     {
         private readonly DiscordSocketClient _client;
+        private readonly GuildUserAccountService _guildUserAccount;
         private readonly GuildAccountService _guildAccount;
         private readonly CreateLanguageFilesService _language;
         private readonly BotConfig _config;
         private readonly GuildLogsService _guildLogs;
 
         public EventHookerService(DiscordSocketClient client, CreateLanguageFilesService language, GuildAccountService guildAccount, 
-            BotConfig config, GuildLogsService guildLogs)
+            BotConfig config, GuildLogsService guildLogs, GuildUserAccountService guildUserAccount)
         {
             _client = client;
             _language = language;
             _guildAccount = guildAccount;
             _config = config;
             _guildLogs = guildLogs;
+            _guildUserAccount = guildUserAccount;
         }
 
         public void HookEvents()
@@ -47,7 +48,6 @@ namespace TheGoodBot.Core.Services
                 return;
             }
             // TODO: Check if it was command && if the guild disabled logging commands
-            if (channel is null) { await Task.CompletedTask; }
             if (cachedMessage.Value is null) { return; }
 
             var auditLogs = await _client.Rest.GetGuildAsync(logChannel.Guild.Id).Result.GetAuditLogsAsync(1).FlattenAsync();
@@ -69,13 +69,13 @@ namespace TheGoodBot.Core.Services
                 // TODO: save the raw embed json somewhere & make a command that'll show the embed.
                 // Or something better of course
             }
-            else if (cachedMessage.Value.Content != null && cachedMessage.Value.Content != "")
+            else if (string.IsNullOrEmpty(cachedMessage.Value.Content))
             {
                 embed.AddField("Message contents:" , $"{cachedMessage.Value.Content}");
             }
             else
             {
-                embed.AddField($"No text found", $"Must've been a file then...");
+                embed.AddField($"No text found", $"Must have been a file then...");
             }
 
             await logChannel.SendMessageAsync(embed: embed.Build());
@@ -89,12 +89,18 @@ namespace TheGoodBot.Core.Services
 
         private async Task Ready()
         {
-            _language.CreateAllLanguageFiles();
-            _guildAccount.CreateAllGuildAccounts();
-            _guildAccount.CreateAllGuildCooldownsAndInvocations();
+            await CreateAllFilesAsync();
             await _client.SetStatusAsync(UserStatus.DoNotDisturb);
             await _client.SetGameAsync(_config.GameStatus);
             Console.WriteLine("Ready, sir.");
+        }
+
+        private async Task CreateAllFilesAsync()
+        {
+            _language.CreateAllLanguageFiles();
+            _guildAccount.CreateAllGuildAccounts();
+            _guildAccount.CreateAllGuildCooldownsAndInvocations();
+
         }
     }
 }

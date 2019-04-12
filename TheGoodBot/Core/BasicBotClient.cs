@@ -66,7 +66,7 @@ namespace TheGoodBot.Core
                 .AddSingleton<BotConfigService>()
                 .AddSingleton<LoggerService>()
                 .AddSingleton<GuildAccountService>()
-                .AddSingleton<GuildUserAccountService>()
+                .AddTransient<GuildUserAccountService>()
                 .AddSingleton<GlobalUserAccountService>()
                 .AddSingleton<CreateLanguageFilesService>()
                 .AddTransient<LanguageService>()
