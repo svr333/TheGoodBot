@@ -24,7 +24,7 @@ namespace TheGoodBot.Core.Services.Languages
             _formatService = formatService;
         }
 
-        private LanguageObject GetLanguageObject(ulong guildId, ulong userId, string[] commandInfo)
+        private LanguageObject GetLanguageObject(SocketCommandContext context, string[] commandInfo)
         {
             var commandName = commandInfo[0];
             var moduleName = commandInfo[1];
@@ -34,21 +34,21 @@ namespace TheGoodBot.Core.Services.Languages
             if (string.IsNullOrEmpty(groupName)) { name = commandName; }
             else { name = groupName + "-" + commandName; }
 
-            var language = _languageService.GetLanguage(guildId, userId);
+            var language = _languageService.GetLanguage(context.Guild.Id, context.User.Id);
             var filePath = $"Languages/{language}/{moduleName}/{name}.json";
 
             var text = File.ReadAllText(filePath);
-            var languageObject = _formatService.GetFormattedEmbeds(guildId, userId, commandName, text);
+            var languageObject = _formatService.GetFormattedEmbeds(context, commandName, text);
             return languageObject;
         }
 
-        private List<Embed> GetAndConvertToDiscEmbeds(ulong guildId, SocketGuildUser user, string[] commandInfo, out string ChnText, out string DmText)
+        private List<Embed> GetAndConvertToDiscEmbeds(SocketCommandContext context, string[] commandInfo, out string ChnText, out string DmText)
         {
             List<Embed> embeds = new List<Embed>();
 
-            var languageObject = GetLanguageObject(guildId, user.Id, commandInfo);
-            var ChnEmbed = languageObject.ChnEmbed.CreateEmbed(user);
-            var DmEmbed = languageObject.DmEmbed.CreateEmbed(user);
+            var languageObject = GetLanguageObject(context, commandInfo);
+            var ChnEmbed = languageObject.ChnEmbed.CreateEmbed((SocketGuildUser) context.User);
+            var DmEmbed = languageObject.DmEmbed.CreateEmbed((SocketGuildUser) context.User);
 
             embeds.Add(ChnEmbed); embeds.Add(DmEmbed);
 
@@ -69,7 +69,7 @@ namespace TheGoodBot.Core.Services.Languages
                 commandInfo = new string[] {command.Name, command.Module.Name, command.Module.Group};
             }
 
-            var embeds = GetAndConvertToDiscEmbeds(context.Guild.Id, (SocketGuildUser) context.User, commandInfo, out string ChnText, out string DmText);
+            var embeds = GetAndConvertToDiscEmbeds(context, commandInfo, out string ChnText, out string DmText);
 
             if (embeds[0] != null || string.IsNullOrEmpty(ChnText))
             {

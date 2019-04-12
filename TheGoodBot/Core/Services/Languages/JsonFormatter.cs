@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Discord.Commands;
 using Newtonsoft.Json;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Entities;
@@ -10,9 +11,8 @@ namespace TheGoodBot.Core.Services.Languages
 {
     public class JsonFormatter
     {
-        private GuildAccountService _guildAccount;
-        private ulong _guildID;
-        private ulong _userID;
+        private readonly GuildAccountService _guildAccount;
+        private SocketCommandContext _context;
         private string _commandName;
 
         public JsonFormatter(GuildAccountService guildAccount)
@@ -20,10 +20,9 @@ namespace TheGoodBot.Core.Services.Languages
             _guildAccount = guildAccount;
         }
 
-        public LanguageObject GetFormattedEmbeds(ulong guildID, ulong userID, string commandName, string unformattedText)
+        public LanguageObject GetFormattedEmbeds(SocketCommandContext context, string commandName, string unformattedText)
         {
-            _guildID = guildID;
-            _userID = userID;
+            _context = context;
             _commandName = commandName;
 
             var unformattedEmbed = JsonConvert.DeserializeObject<LanguageObject>(unformattedText);
@@ -77,9 +76,10 @@ namespace TheGoodBot.Core.Services.Languages
 
         private string StringFormatter(string formattedText)
         {
-            var guildAccount = _guildAccount.GetSettingsAccount(_guildID);
-            var statsAccount = _guildAccount.GetStatsAccount(_guildID);
-            var cooldown = _guildAccount.GetMaxCooldown(_commandName, _guildID);
+            var guildAccount = _guildAccount.GetSettingsAccount(_context.Guild.Id);
+            var statsAccount = _guildAccount.GetStatsAccount(_context.Guild.Id);
+            var cooldown = _guildAccount.GetMaxCooldown(_commandName, _context.Guild.Id);
+            var latency = (DateTime.Now - _context.Message.Timestamp).TotalMilliseconds;
             var sb = new StringBuilder();
             var list = new List<string>();
 
@@ -115,12 +115,14 @@ namespace TheGoodBot.Core.Services.Languages
                         break;
                     case "Guild.Cooldown": parameters[i] = cooldown.ToString();
                         break;
+                    case "Command.Time": parameters[i] = latency.ToString();
+                        break;
                     default: parameters[i] = "[Could not find this setting. Please check your language files.]";
                         break;
                 }
             }
 
-            return String.Format(sb.ToString(), parameters);
+            return string.Format(sb.ToString(), parameters);
         }
 
         private string[] StringFormatter(string[] unformattedTextArray)
@@ -135,9 +137,7 @@ namespace TheGoodBot.Core.Services.Languages
                 list.Add(formattedText);
             }
 
-            var formattedTextArray = new string[] { };
-            formattedTextArray = list.ToArray();
-            return formattedTextArray;
+            return list.ToArray();
         }
     }
 }

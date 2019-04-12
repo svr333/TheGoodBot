@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Discord.WebSocket;
+﻿using System.IO;
 using Newtonsoft.Json;
 using TheGoodBot.Entities;
 
@@ -16,10 +13,10 @@ namespace TheGoodBot.Guilds
             return guild;
         }
 
-        public void SaveGuildUserAccount(GuildUserAccount guildUser, string filePath)
+        public void SaveGuildUserAccount(GuildUserAccount guildUser, ulong guildId, ulong userId)
         {
             var rawData = JsonConvert.SerializeObject(guildUser, Formatting.Indented);
-            File.WriteAllText(filePath, rawData);
+            File.WriteAllText($"GuildUserAccounts/{guildId}/{userId}.json", rawData);
         }
 
         private void CreateGuildUserAccount(ulong guildId, ulong userId)
@@ -31,8 +28,6 @@ namespace TheGoodBot.Guilds
                 var rawData = JsonConvert.SerializeObject(GenerateBlankGuildUserConfig(guildId, userId), Formatting.Indented);
                 File.WriteAllText(filePath, rawData);
             }
-            else { return; }
-
         }
 
         private static bool FileExists(string filePath, string directory)
@@ -45,9 +40,9 @@ namespace TheGoodBot.Guilds
 
         private GuildUserAccount GetAccount(ulong guildId, ulong userId)
         {
-            string filePath = $"GuildUserAccounts/{guildId}/{userId}.json";
-            var rawData = File.ReadAllText(filePath);
-            var guildUser = JsonConvert.DeserializeObject<GuildUserAccount>(rawData);
+            var filePath = $"GuildUserAccounts/{guildId}/{userId}.json";
+            var json = File.ReadAllText(filePath);
+            var guildUser = JsonConvert.DeserializeObject<GuildUserAccount>(json);
             return guildUser;
         }
 
