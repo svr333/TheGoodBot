@@ -16,7 +16,7 @@ namespace TheGoodBot.Core.Modules.ModerationModule
         [Cooldown]
         [Command(""), Alias()]
         [Summary("Basic purge command that purges x amount of messages.")]
-        public async Task Purge(int num)
+        public async Task Purge(int num, [Remainder]string reason = "No reason provided")
         {
             var messages = await Context.Channel.GetMessagesAsync(num).FlattenAsync();
             await ((ITextChannel)Context.Channel).DeleteMessagesAsync(messages);
