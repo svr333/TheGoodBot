@@ -6,5 +6,6 @@
         public ulong GuildId { get; set; }
         public string Language { get; set; }
         public uint Colour { get; set; }
+        public uint  JoinPosition { get; set; }
     }
 }

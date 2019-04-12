@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Discord.WebSocket;
 using Newtonsoft.Json;
 using TheGoodBot.Entities;
 
@@ -6,10 +9,10 @@ namespace TheGoodBot.Guilds
 {
     public class GuildUserAccountService
     {
-        public GuildUserAccount GetOrCreateGuildUserAccount(ulong guildID, ulong userID)
+        public GuildUserAccount GetOrCreateGuildUserAccount(ulong guildId, ulong userId)
         {
-            CreateGuildUserAccount(guildID, userID);
-            var guild = GetAccount(guildID, userID);
+            CreateGuildUserAccount(guildId, userId);
+            var guild = GetAccount(guildId, userId);
             return guild;
         }
 
@@ -19,13 +22,13 @@ namespace TheGoodBot.Guilds
             File.WriteAllText(filePath, rawData);
         }
 
-        private void CreateGuildUserAccount(ulong guildID, ulong userID)
+        private void CreateGuildUserAccount(ulong guildId, ulong userId)
         {
-            string filePath = $"GuildUserAccounts/{guildID}/{userID}.json";
-            string directory = $"GuildUserAccounts/{guildID}";
+            var filePath = $"GuildUserAccounts/{guildId}/{userId}.json";
+            var directory = $"GuildUserAccounts/{guildId}";
             if (!FileExists(filePath, directory))
             {
-                var rawData = JsonConvert.SerializeObject(GenerateBlankGuildUserConfig(guildID, userID), Formatting.Indented);
+                var rawData = JsonConvert.SerializeObject(GenerateBlankGuildUserConfig(guildId, userId), Formatting.Indented);
                 File.WriteAllText(filePath, rawData);
             }
             else { return; }
@@ -40,20 +43,24 @@ namespace TheGoodBot.Guilds
             return false;
         }
 
-        private GuildUserAccount GetAccount(ulong guildID, ulong userID)
+        private GuildUserAccount GetAccount(ulong guildId, ulong userId)
         {
-            string filePath = $"GuildUserAccounts/{guildID}/{userID}.json";
+            string filePath = $"GuildUserAccounts/{guildId}/{userId}.json";
             var rawData = File.ReadAllText(filePath);
             var guildUser = JsonConvert.DeserializeObject<GuildUserAccount>(rawData);
             return guildUser;
         }
 
-        private GuildUserAccount GenerateBlankGuildUserConfig(ulong guildID, ulong userID) => new GuildUserAccount()
+        private uint GetJoinPosition(ulong guildId)
+            => (uint) Directory.GetFiles($"GuildUserAccounts/{guildId}").Length;
+
+        private GuildUserAccount GenerateBlankGuildUserConfig(ulong guildId, ulong userId) => new GuildUserAccount()
         {
-            UserId = userID,
-            GuildId = guildID,
+            UserId = userId,
+            GuildId = guildId,
             Language = "English",
-            Colour = 5198940
+            Colour = 5198940,
+            JoinPosition = GetJoinPosition(guildId)
         };
     }
 }

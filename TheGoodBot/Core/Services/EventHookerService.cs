@@ -14,11 +14,11 @@ namespace TheGoodBot.Core.Services
 {
     public class EventHookerService
     {
-        private DiscordSocketClient _client;
-        private GuildAccountService _guildAccount;
-        private CreateLanguageFilesService _language;
-        private BotConfig _config;
-        private GuildLogsService _guildLogs;
+        private readonly DiscordSocketClient _client;
+        private readonly GuildAccountService _guildAccount;
+        private readonly CreateLanguageFilesService _language;
+        private readonly BotConfig _config;
+        private readonly GuildLogsService _guildLogs;
 
         public EventHookerService(DiscordSocketClient client, CreateLanguageFilesService language, GuildAccountService guildAccount, 
             BotConfig config, GuildLogsService guildLogs)
@@ -87,15 +87,14 @@ namespace TheGoodBot.Core.Services
             await Task.CompletedTask;
         }
 
-        private Task Ready()
+        private async Task Ready()
         {
             _language.CreateAllLanguageFiles();
             _guildAccount.CreateAllGuildAccounts();
             _guildAccount.CreateAllGuildCooldownsAndInvocations();
-            _client.SetStatusAsync(UserStatus.DoNotDisturb);
-            _client.SetGameAsync(_config.GameStatus);
+            await _client.SetStatusAsync(UserStatus.DoNotDisturb);
+            await _client.SetGameAsync(_config.GameStatus);
             Console.WriteLine("Ready, sir.");
-            return Task.CompletedTask;
         }
     }
 }
