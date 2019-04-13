@@ -128,7 +128,7 @@ namespace TheGoodBot.Guilds
         public uint GetMaxCooldown(string key, ulong guildID)
         {
             var Sguild = GetSettingsAccount(guildID);
-            var cooldown = _cooldown.GetCooldown(key, guildID);
+            var cooldown = _cooldown.GetMaxCooldown(key, guildID);
 
             if (!(Sguild.GlobalCooldown == 0))
             {

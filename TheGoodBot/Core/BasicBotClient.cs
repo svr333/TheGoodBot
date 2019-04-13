@@ -76,6 +76,7 @@ namespace TheGoodBot.Core
                 .AddTransient<GuildFilesGenerationService>()
                 .AddSingleton<InteractiveService>()
                 .AddTransient<CooldownService>()
+                .AddSingleton<GlobalUserCooldowns>()
                 .AddSingleton<BotConfig>()
                 .AddTransient<CommandFailedService>()
                 .AddTransient<CommandSucceededService>()

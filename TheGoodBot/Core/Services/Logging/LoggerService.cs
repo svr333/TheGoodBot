@@ -51,12 +51,12 @@ namespace TheGoodBot.Core.Services
             return text;
         }
 
-        public void UpdateLog(string message, ulong guildID, string logType)
+        public void UpdateLog(string message, ulong guildId, string logType)
         {
-            SetFilePath(guildID, logType);
+            SetFilePath(guildId, logType);
             var sb = new StringBuilder(GetLog());
             sb.Append(message);
-            File.WriteAllText(filePath, sb.ToString());
+            SaveLog(sb);
         }
 
         private void CheckFileExists()

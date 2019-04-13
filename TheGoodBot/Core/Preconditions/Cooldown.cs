@@ -1,59 +1,46 @@
 ﻿using Discord;
 using Discord.Commands;
 using System;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using TheGoodBot.Core.Extensions;
+using TheGoodBot.Core.Services;
 using TheGoodBot.Guilds;
+using TheGoodBot.Entities.GuildAccounts;
 
 namespace TheGoodBot.Core.Preconditions
 {
     public class Cooldown : PreconditionAttribute
     {
-        readonly ConcurrentDictionary<CooldownInfo, DateTime> _cooldowns = new ConcurrentDictionary<CooldownInfo, DateTime>();
-
-        public struct CooldownInfo
-        {
-            public ulong UserId { get; }
-            public int CommandHashCode { get; }
-
-            public CooldownInfo(ulong userId, int commandHashCode)
-            {
-                UserId = userId;
-                CommandHashCode = commandHashCode;
-            }
-        }
-
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
             var guildAccountService = services.GetRequiredService<GuildAccountService>();
+            var cooldownService = services.GetRequiredService<GlobalUserCooldowns>();
 
-            var cooldown = guildAccountService.GetMaxCooldown($"{command.Module.Group}-{command.Name}", context.Guild.Id);
+            var maxCooldown = guildAccountService.GetMaxCooldown($"{command.Module.Group}-{command.Name}", context.Guild.Id);
             var sGuildAccount = guildAccountService.GetSettingsAccount(context.Guild.Id);
             var allowedUsersAndRoles = sGuildAccount.AllowedUsersAndRolesToBypassCooldowns;
-            var ts = TimeSpan.FromSeconds(cooldown);
+            var ts = TimeSpan.FromMilliseconds(maxCooldown);
 
             if (sGuildAccount.AllowAdminsToBypassCooldowns && context.User is IGuildUser user 
                      && user.GuildPermissions.Administrator || allowedUsersAndRoles.ValidatePermissions(context))
             return Task.FromResult(PreconditionResult.FromSuccess());
 
-            var key = new CooldownInfo(context.User.Id, command.GetHashCode());
-            if (_cooldowns.TryGetValue(key, out DateTime endsAt))
+            var key = $"{command.GetHashCode()}-{context.User.Id}";
+            if (cooldownService.GetUserCooldown(key, out DateTime endsAt))
             {
                 var difference = endsAt.Subtract(DateTime.UtcNow);
                 if (difference.Seconds > 0)
                 {
-                    return Task.FromResult(PreconditionResult.FromError($"You can use this command in {difference.ToString(@"mm\m\:ss\s")}"));
+                    Console.WriteLine($"You can use this command in {difference.ToString(@"mm\m\:ss\s")}");
+                    return Task.FromResult(PreconditionResult.FromError(
+                        $"You can use this command in {difference.ToString(@"mm\m\:ss\s")}"));
                 }
 
                 var time = DateTime.UtcNow.Add(ts);
-                _cooldowns.TryUpdate(key, time, endsAt);
+                cooldownService.ChangeUserCooldown(key, time, endsAt);
             }
-            else
-            {
-                _cooldowns.TryAdd(key, DateTime.UtcNow.Add(ts));
-            }
+            else { cooldownService.AddUserCooldown(key, DateTime.UtcNow.Add(ts)); }
 
             return Task.FromResult(PreconditionResult.FromSuccess());
         }

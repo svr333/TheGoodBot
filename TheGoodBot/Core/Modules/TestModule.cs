@@ -36,6 +36,7 @@ namespace TheGoodBot.Core.Modules
         public async Task Guild() =>
             await _customEmbedService.CreateAndPostEmbeds(Context, "guild");
 
+        [Cooldown]
         [Command("ListRoles"), Alias()]
         [Summary("Lists all roles by id into a file.")]
         public async Task ListRoles()
