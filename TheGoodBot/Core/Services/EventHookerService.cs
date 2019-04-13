@@ -41,7 +41,6 @@ namespace TheGoodBot.Core.Services
         private async Task LogDeletedMessage(Cacheable<IMessage, ulong> cachedMessage, ISocketMessageChannel channel)
         {
             // TODO: Filter out ?purge command - I have no clue how though
-
             var logChannel = (_client.GetChannel(_guildLogs.GetGuildLogs(((SocketTextChannel)channel).Guild.Id).MessageDeletedChannelId)) as SocketTextChannel;
             if (logChannel.Id == channel.Id) { return; }
             if (logChannel.Guild != ((SocketTextChannel) channel).Guild)

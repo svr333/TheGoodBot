@@ -9,7 +9,7 @@ namespace TheGoodBot.Core.Extensions
         {
             var sb = new StringBuilder();
 
-            if (list.Count is 0 || list is null) { return "N/A"; }
+            if (list.Count is 0) { return "N/A"; }
 
             for (int i = 0; i < list.Count; i++)
             {
@@ -17,8 +17,7 @@ namespace TheGoodBot.Core.Extensions
                 else { sb.Append($"`{list[i]}`, "); }
             }
 
-            var result = sb.ToString();
-            return result;
+            return sb.ToString();
         }
     }
 }

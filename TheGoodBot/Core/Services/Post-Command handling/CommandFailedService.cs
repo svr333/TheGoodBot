@@ -29,11 +29,6 @@ namespace TheGoodBot.Core.Services
                 await _customEmbed.CreateAndPostEmbeds((SocketCommandContext) context, "CommandOnCooldown");
             }
 
-            else if (result.ErrorReason.StartsWith("You do not have the required permission"))
-            {
-                await _customEmbed.CreateAndPostEmbeds((SocketCommandContext) context, "NoBotOwner");
-            }
-
             else if (result.ErrorReason == "This command may only be invoked in an NSFW channel.")
             {
                 await _customEmbed.CreateAndPostEmbeds((SocketCommandContext) context, "RequireNSFW");
