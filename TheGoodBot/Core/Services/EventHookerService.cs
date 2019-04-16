@@ -14,21 +14,19 @@ namespace TheGoodBot.Core.Services
     public class EventHookerService
     {
         private readonly DiscordSocketClient _client;
-        private readonly GuildUserAccountService _guildUserAccount;
         private readonly GuildAccountService _guildAccount;
         private readonly CreateLanguageFilesService _language;
         private readonly BotConfig _config;
         private readonly GuildLogsService _guildLogs;
 
         public EventHookerService(DiscordSocketClient client, CreateLanguageFilesService language, GuildAccountService guildAccount, 
-            BotConfig config, GuildLogsService guildLogs, GuildUserAccountService guildUserAccount)
+            BotConfig config, GuildLogsService guildLogs)
         {
             _client = client;
             _language = language;
             _guildAccount = guildAccount;
             _config = config;
             _guildLogs = guildLogs;
-            _guildUserAccount = guildUserAccount;
         }
 
         public void HookEvents()
@@ -64,7 +62,7 @@ namespace TheGoodBot.Core.Services
             if (moderator is null || (DateTime.Now - moderator.CreatedAt.DateTime).TotalMilliseconds > 750 ) { embed.WithDescription($"Message deleted by a bot or the user self."); }
             else { embed.WithDescription($"Message deleted by {moderator.User}."); }
 
-            if (cachedMessage.Value.Content is null || cachedMessage.Value.Content is "" && cachedMessage.Value.Embeds.Count != 0)
+            if (string.IsNullOrEmpty(cachedMessage.Value.Content) && cachedMessage.Value.Embeds.Count != 0)
             {
                 embed.AddField($"Message solely contained embeds.", $"Cannot show content of embeds.");
                 // TODO: save the raw embed json somewhere & make a command that'll show the embed.
