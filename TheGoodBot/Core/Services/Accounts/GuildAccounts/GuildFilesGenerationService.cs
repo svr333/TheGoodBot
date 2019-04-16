@@ -14,9 +14,9 @@ namespace TheGoodBot.Guilds
             else { return null; }
         }
 
-        private object GenerateBlankStatsFile() => new Stats()
+        private Stats GenerateBlankStatsFile() => new Stats()
         {
-            AllMembersCombinedXP = 0,
+            AllMembersCombinedXp = 0,
             AllMembersCommandsExecuted = 0,
             AllMembersMessagesSent = 0
         };

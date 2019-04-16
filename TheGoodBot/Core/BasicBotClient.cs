@@ -19,10 +19,10 @@ namespace TheGoodBot.Core
 {
     public class BasicBotClient
     {
-        private DiscordSocketClient _client;
-        private CommandService _commands;
+        private readonly DiscordSocketClient _client;
+        private readonly CommandService _commands;
         private IServiceProvider _services;
-        private BotConfig _config;
+        private readonly BotConfig _config;
 
         public BasicBotClient(CommandService commands = null, DiscordSocketClient client = null, BotConfig config = null)
         {
@@ -86,6 +86,7 @@ namespace TheGoodBot.Core
                 .AddTransient<RequestFileService>()
                 .AddTransient<PrefixService>()
                 .AddTransient<GuildLogsService>()
+                .AddTransient<LevelSystemService>()
                 .BuildServiceProvider();
         }
     }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Discord.Commands;
+using Discord.WebSocket;
 using Newtonsoft.Json;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Entities;
@@ -13,11 +15,19 @@ namespace TheGoodBot.Core.Services.Languages
     {
         private readonly GuildAccountService _guildAccount;
         private SocketCommandContext _context;
+        private GlobalUserCooldowns _globalUserCooldowns;
+        private DiscordSocketClient _client;
+        private CommandService _command;
+
         private string _commandName;
 
-        public JsonFormatter(GuildAccountService guildAccount)
+        public JsonFormatter(GuildAccountService guildAccount, GlobalUserCooldowns globalUserCooldowns, DiscordSocketClient client,
+            CommandService command)
         {
             _guildAccount = guildAccount;
+            _globalUserCooldowns = globalUserCooldowns;
+            _client = client;
+            _command = command;
         }
 
         public LanguageObject GetFormattedEmbeds(SocketCommandContext context, string commandName, string unformattedText)
@@ -76,10 +86,18 @@ namespace TheGoodBot.Core.Services.Languages
 
         private string StringFormatter(string formattedText)
         {
+            var command = _command.Search(_context, _commandName);
+            var commandInfo = command.Commands.FirstOrDefault().Command;
+
             var guildAccount = _guildAccount.GetSettingsAccount(_context.Guild.Id);
             var statsAccount = _guildAccount.GetStatsAccount(_context.Guild.Id);
+
             var cooldown = _guildAccount.GetMaxCooldown(_commandName, _context.Guild.Id);
-            var latency = (DateTime.Now - _context.Message.Timestamp).TotalMilliseconds;
+            _globalUserCooldowns.GetUserCooldown($"{commandInfo.GetHashCode()}-{_context.User.Id}", out DateTime endsAt);
+            var difference = endsAt.Subtract(DateTime.UtcNow);
+
+
+            var commandTime = (DateTime.Now - _context.Message.Timestamp).TotalMilliseconds;
             var sb = new StringBuilder();
             var list = new List<string>();
 
@@ -109,13 +127,18 @@ namespace TheGoodBot.Core.Services.Languages
                         break;
                     case "Guild.CommandsExecuted": parameters[i] = statsAccount.AllMembersCommandsExecuted.ToString();
                         break;
-                    case "Guild.TotalXP": parameters[i] = statsAccount.AllMembersCombinedXP.ToString();
+                    case "Guild.TotalXP": parameters[i] = statsAccount.AllMembersCombinedXp.ToString();
                         break;
                     case "Guild.Messages": parameters[i] = statsAccount.AllMembersMessagesSent.ToString();
                         break;
                     case "Guild.Cooldown": parameters[i] = cooldown.ToString();
                         break;
-                    case "Command.Time": parameters[i] = latency.ToString();
+                    case "Command.Time": parameters[i] = commandTime.ToString();
+                        break;
+                    case "Cooldown.EndsIn": parameters[i] = difference.ToString(@"mm\m\:ss\s");
+                        break;
+                    case "Cooldown.EndsInLong":
+                        parameters[i] = difference.ToString(@"mm\ \m\i\n\u\t\e\s\ \a\n\d\ ss\ \s\e\c\o\n\d\s");
                         break;
                     default: parameters[i] = "[Could not find this setting. Please check your language files.]";
                         break;

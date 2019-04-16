@@ -55,7 +55,9 @@ namespace TheGoodBot.Guilds
             GuildId = guildId,
             Language = "English",
             Colour = 5198940,
-            JoinPosition = GetJoinPosition(guildId)
+            JoinPosition = GetJoinPosition(guildId),
+            Xp = 0,
+            Level = 0
         };
     }
 }
