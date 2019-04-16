@@ -77,7 +77,7 @@ namespace TheGoodBot.Core.Services.Languages
             }
             if (embeds[1] != null || string.IsNullOrEmpty(DmText))
             {
-                await context.User.SendMessageAsync(ChnText, false, embeds[1]);
+                await context.User.SendMessageAsync(DmText, false, embeds[1]);
             }
         }
     }
