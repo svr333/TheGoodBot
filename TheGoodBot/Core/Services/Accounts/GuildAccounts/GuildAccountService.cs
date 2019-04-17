@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using TheGoodBot.Core.Services.Accounts.GuildAccounts;
-using TheGoodBot.Languages;
+using TheGoodBot.Core.Services.Languages;
+using TheGoodBot.Entities.GuildAccounts;
 
-namespace TheGoodBot.Guilds
+namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
 {
     public class GuildAccountService
     {

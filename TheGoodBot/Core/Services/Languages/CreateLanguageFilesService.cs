@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Discord;
 using Discord.Commands;
 using Newtonsoft.Json;
 using TheGoodBot.Entities;
 
-namespace TheGoodBot.Languages
+namespace TheGoodBot.Core.Services.Languages
 {
     public class CreateLanguageFilesService
     {
@@ -26,9 +24,9 @@ namespace TheGoodBot.Languages
         private void CreateAllCommandFiles(string language)
         {
             var commandList = _commandService.Commands.ToList(); 
-            string fileName = String.Empty;
-            string directory = String.Empty;
-            string filePath = String.Empty;
+            string fileName = string.Empty;
+            string directory = string.Empty;
+            string filePath = string.Empty;
 
             for (int i = 0; i < commandList.Count; i++)
             {
@@ -102,18 +100,18 @@ namespace TheGoodBot.Languages
             FieldValues = null,
             FieldInlineValues = null,
             TimeStamp = null,
-            Title = String.Empty,
-            Description = String.Empty,
-            AuthorName = String.Empty,
-            FooterText = String.Empty,
-            AuthorIconUrl = String.Empty,
+            Title = string.Empty,
+            Description = string.Empty,
+            AuthorName = string.Empty,
+            FooterText = string.Empty,
+            AuthorIconUrl = string.Empty,
             Colour = 5198940,
-            EmbedUrl = String.Empty,
-            ThumbnailUrl = String.Empty,
-            AuthorUrl = String.Empty,
-            ImageUrl = String.Empty,
-            FooterUrl = String.Empty,
-            PlainText = String.Empty
+            EmbedUrl = string.Empty,
+            ThumbnailUrl = string.Empty,
+            AuthorUrl = string.Empty,
+            ImageUrl = string.Empty,
+            FooterUrl = string.Empty,
+            PlainText = string.Empty
         };
 
         /// <summary> Creates the list of all languages.</summary>
@@ -138,9 +136,9 @@ namespace TheGoodBot.Languages
             _unchangeableEmbedList.Add("FieldFailure");
             _unchangeableEmbedList.Add("RequireNSFW");
             _unchangeableEmbedList.Add("InvalidJsonFormat");
-            _unchangeableEmbedList.Add("prefixAlreadyExists");
+            _unchangeableEmbedList.Add("PrefixAlreadyExists");
             _unchangeableEmbedList.Add("ParamPrefixRequired");
-            _unchangeableEmbedList.Add("prefixDoesntExist");
+            _unchangeableEmbedList.Add("PrefixDoesntExist");
         }
     }
 }

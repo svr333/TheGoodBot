@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Core.Services;
-using TheGoodBot.Guilds;
-using TheGoodBot.Entities.GuildAccounts;
+using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 
 namespace TheGoodBot.Core.Preconditions
 {

@@ -7,7 +7,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Entities;
-using TheGoodBot.Languages;
 
 namespace TheGoodBot.Core.Services.Languages
 {

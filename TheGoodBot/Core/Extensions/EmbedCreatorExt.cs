@@ -5,7 +5,7 @@ using Discord;
 using Discord.WebSocket;
 using Newtonsoft.Json;
 using TheGoodBot.Entities;
-using TheGoodBot.Guilds;
+using TheGoodBot.Entities.GuildAccounts;
 
 namespace TheGoodBot.Core.Extensions
 {
@@ -32,7 +32,7 @@ namespace TheGoodBot.Core.Extensions
             eb.WithUrl(embed.EmbedUrl);
             eb.WithTimestamp(embed.TimeStamp.GetValueOrDefault(DateTimeOffset.UtcNow));
 
-            if (!(embed.FieldTitles == null))
+            if (embed.FieldTitles != null)
             {
                 var fields = embed.GetFields();
 

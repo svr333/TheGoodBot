@@ -4,7 +4,7 @@ using System.Linq;
 using Discord.Commands;
 using Newtonsoft.Json;
 
-namespace TheGoodBot.Guilds
+namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
 {
     public class CooldownService
     {

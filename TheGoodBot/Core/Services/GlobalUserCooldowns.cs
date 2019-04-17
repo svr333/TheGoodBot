@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.IO;
-using TheGoodBot.Entities.GuildAccounts;
 
 namespace TheGoodBot.Core.Services
 {

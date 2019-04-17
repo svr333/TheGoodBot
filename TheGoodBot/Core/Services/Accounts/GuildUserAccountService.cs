@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using TheGoodBot.Entities;
 
-namespace TheGoodBot.Guilds
+namespace TheGoodBot.Core.Services.Accounts
 {
     public class GuildUserAccountService
     {

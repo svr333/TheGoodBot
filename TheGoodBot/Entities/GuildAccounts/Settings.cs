@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using TheGoodOne.DataStorage;
 
-namespace TheGoodBot.Guilds
+namespace TheGoodBot.Entities.GuildAccounts
 {
     public class Settings
     {

@@ -1,8 +1,9 @@
 ﻿using Discord.Commands;
 using System.Collections.Generic;
 using TheGoodBot.Core.Extensions;
+using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 using TheGoodBot.Core.Services.Languages;
-using TheGoodBot.Guilds;
+using TheGoodBot.Entities.GuildAccounts;
 
 namespace TheGoodBot.Core.Services.Commands
 {

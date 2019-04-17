@@ -2,7 +2,7 @@
 using Discord.Commands;
 using System;
 using System.Threading.Tasks;
-using TheGoodBot.Guilds;
+using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 
 namespace TheGoodBot.Core.Services
 {

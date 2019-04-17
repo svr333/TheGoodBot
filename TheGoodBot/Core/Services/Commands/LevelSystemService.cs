@@ -3,8 +3,9 @@ using System.IO;
 using System.Net;
 using Discord.Commands;
 using Newtonsoft.Json;
+using TheGoodBot.Core.Services.Accounts;
+using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 using TheGoodBot.Entities;
-using TheGoodBot.Guilds;
 
 namespace TheGoodBot.Core.Services.Commands
 {

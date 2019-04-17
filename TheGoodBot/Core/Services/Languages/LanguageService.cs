@@ -1,8 +1,8 @@
-﻿using System;
-using TheGoodBot.Core.Services.Accounts;
+﻿using TheGoodBot.Core.Services.Accounts;
+using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 using TheGoodBot.Guilds;
 
-namespace TheGoodBot.Languages
+namespace TheGoodBot.Core.Services.Languages
 {
     public class LanguageService
     {

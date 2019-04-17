@@ -1,9 +1,8 @@
 ﻿using Discord.WebSocket;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 
-namespace TheGoodBot.Core.Services
+namespace TheGoodBot.Core.Services.Commands
 {
     public class RequestFileService
     {

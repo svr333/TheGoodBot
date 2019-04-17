@@ -1,7 +1,6 @@
 ﻿using Discord.Commands;
-using Discord.WebSocket;
 using System.Threading.Tasks;
-using TheGoodBot.Core.Services;
+using TheGoodBot.Core.Services.Commands;
 
 namespace TheGoodBot.Core.Modules
 {

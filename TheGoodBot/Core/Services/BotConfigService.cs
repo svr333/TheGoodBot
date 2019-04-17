@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace TheGoodOne.DataStorage
+namespace TheGoodBot.Core.Services
 {
     public class BotConfigService
     {

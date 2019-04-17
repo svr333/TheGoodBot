@@ -2,13 +2,10 @@
 using System.IO;
 using System.Text;
 
-namespace TheGoodBot.Core.Services
+namespace TheGoodBot.Core.Services.Logging
 {
     public class LoggerService
     {
-        private CommandSucceededService _commandSucceeded;
-
-
         public void LogFailedCommand(string message, ulong guildID)
         {
             UpdateLog(message, guildID, "FailedCommands");

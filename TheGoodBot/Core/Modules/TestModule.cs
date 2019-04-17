@@ -6,7 +6,7 @@ using Discord.Commands;
 using TheGoodBot.Core.Preconditions;
 using TheGoodBot.Core.Services.Languages;
 using Newtonsoft.Json;
-using TheGoodBot.Guilds;
+using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 
 namespace TheGoodBot.Core.Modules
 {

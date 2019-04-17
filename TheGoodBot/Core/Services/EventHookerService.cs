@@ -5,9 +5,8 @@ using Discord;
 using Discord.WebSocket;
 using TheGoodBot.Core.Extensions;
 using TheGoodBot.Core.Services.Accounts.GuildAccounts;
+using TheGoodBot.Core.Services.Languages;
 using TheGoodBot.Entities;
-using TheGoodBot.Guilds;
-using TheGoodBot.Languages;
 
 namespace TheGoodBot.Core.Services
 {

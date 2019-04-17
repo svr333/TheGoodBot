@@ -1,4 +1,4 @@
-﻿namespace TheGoodBot.Guilds
+﻿namespace TheGoodBot.Entities.GuildAccounts
 {
     public class Stats
     {

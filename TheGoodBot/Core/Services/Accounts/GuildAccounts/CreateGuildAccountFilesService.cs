@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace TheGoodBot.Guilds
+namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
 {
     public class CreateGuildAccountFilesService
     {

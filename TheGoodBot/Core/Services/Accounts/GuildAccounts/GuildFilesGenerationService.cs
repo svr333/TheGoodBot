@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TheGoodBot.Entities.GuildAccounts;
 
-namespace TheGoodBot.Guilds
+namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
 {
     public class GuildFilesGenerationService
     {
