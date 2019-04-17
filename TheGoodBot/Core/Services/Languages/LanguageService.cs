@@ -1,6 +1,5 @@
 ﻿using TheGoodBot.Core.Services.Accounts;
 using TheGoodBot.Core.Services.Accounts.GuildAccounts;
-using TheGoodBot.Guilds;
 
 namespace TheGoodBot.Core.Services.Languages
 {

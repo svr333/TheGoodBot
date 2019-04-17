@@ -10,10 +10,8 @@ using Discord.Addons.Interactive;
 using TheGoodBot.Core.Services.Accounts;
 using TheGoodBot.Core.Services.Accounts.GuildAccounts;
 using TheGoodBot.Core.Services.Languages;
-using TheGoodBot.Guilds;
-using TheGoodBot.Languages;
-using TheGoodOne.DataStorage;
 using TheGoodBot.Core.Services.Commands;
+using TheGoodBot.Core.Services.Logging;
 
 namespace TheGoodBot.Core
 {

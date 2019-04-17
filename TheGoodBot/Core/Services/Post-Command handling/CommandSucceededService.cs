@@ -3,6 +3,7 @@ using Discord.Commands;
 using System;
 using System.Threading.Tasks;
 using TheGoodBot.Core.Services.Accounts.GuildAccounts;
+using TheGoodBot.Core.Services.Logging;
 
 namespace TheGoodBot.Core.Services
 {

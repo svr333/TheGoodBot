@@ -67,7 +67,7 @@ namespace TheGoodBot.Core.Services
                 // TODO: save the raw embed json somewhere & make a command that'll show the embed.
                 // Or something better of course
             }
-            else if (string.IsNullOrEmpty(cachedMessage.Value.Content))
+            else if (!string.IsNullOrEmpty(cachedMessage.Value.Content))
             {
                 embed.AddField("Message contents:" , $"{cachedMessage.Value.Content}");
             }

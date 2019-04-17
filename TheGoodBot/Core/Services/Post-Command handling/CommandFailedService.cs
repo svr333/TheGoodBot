@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using TheGoodBot.Core.Services.Languages;
+using TheGoodBot.Core.Services.Logging;
 
 namespace TheGoodBot.Core.Services
 {
