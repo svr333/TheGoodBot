@@ -22,8 +22,7 @@ namespace TheGoodBot.Core.Services
         /// <param name="result"></param>
         public async Task FailedCommandResult(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
-            LogMessage(context, result);
-            Console.WriteLine("Successfully logged failed command.");
+            LogMessage(command, context, result);
 
             if (result.ErrorReason.StartsWith("You can use this command in"))
             {
@@ -41,10 +40,10 @@ namespace TheGoodBot.Core.Services
             }
         }
 
-        private void LogMessage(ICommandContext context, IResult result)
+        private void LogMessage(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
-            string prefix = $"{DateTime.Now} | Command failed | User: {context.User.Username}/{context.User.Id} | ";
-            string suffix = $"";
+            string prefix = $"{DateTime.Now} | {command.Value.Name}";
+            string suffix = $" User: {context.User.Username}/{context.User.Id}";
             var message = $"{result.ErrorReason}";
             _logger.LogFailedCommand($"\r\n{prefix}-{message}-{suffix}", context.Guild.Id);
         }

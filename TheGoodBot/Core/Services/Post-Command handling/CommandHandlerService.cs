@@ -58,13 +58,11 @@ namespace TheGoodBot.Core.Services
                 return;
             }
 
-            int argPos;
-            var guildUser = message.Author as SocketGuildUser;
-            var guildID = guildUser.Guild.Id;
+            var user = message.Author as SocketGuildUser;
 
-            var guild = _guildAccount.GetSettingsAccount(guildID);
+            var guild = _guildAccount.GetSettingsAccount(user.Guild.Id);
 
-            if (!(message.HasPrefix(_client, out argPos, guild.PrefixList))) { return; }
+            if (!(message.HasPrefix(_client, out int argPos, guild.PrefixList))) { return; }
             if (!guild.BotsCanInteract && message.Author.IsBot) { return; }
 
             var context = new SocketCommandContext(_client, message);
@@ -73,8 +71,7 @@ namespace TheGoodBot.Core.Services
 
         public async Task CommandExecutedAsync(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
-            var guildID = context.Guild.Id;
-            var guildAccount = _guildAccount.GetSettingsAccount(guildID);          
+            var guildAccount = _guildAccount.GetSettingsAccount(context.Guild.Id);
             if (!command.IsSpecified)
             {
                 if (guildAccount.NoCommandFoundResponseIsDisabled) { return; }
@@ -93,7 +90,6 @@ namespace TheGoodBot.Core.Services
             {
                 await _commandFailed.FailedCommandResult(command, context, result);
             }
-            await context.Channel.SendMessageAsync($"There was an 'uncalculated' error executing the command: {result}\nContact svr333#3451 / <@202095042372829184> for more information.");
         }
     }
 }

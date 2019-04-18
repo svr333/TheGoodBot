@@ -27,24 +27,24 @@ namespace TheGoodBot.Core.Services.Logging
         }
 
         private string file = $"{DateTime.UtcNow.Year}-{DateTime.UtcNow.Month}-{DateTime.UtcNow.Day}.txt";
-        private string folderPath;
-        private string filePath;
+        private string _folderPath;
+        private string _filePath;
 
-        private void SetFilePath(ulong guildID, string subfolder)
+        private void SetFilePath(ulong guildId, string subfolder)
         {
-            filePath = $"GuildAccounts/{guildID}/Logs/{subfolder}/{file}";
-            folderPath = $"GuildAccounts/{guildID}/Logs/{subfolder}";
+            _filePath = $"GuildAccounts/{guildId}/Logs/{subfolder}/{file}";
+            _folderPath = $"GuildAccounts/{guildId}/Logs/{subfolder}";
         }
 
         private void SaveLog(StringBuilder content)
         {
-            File.WriteAllText(filePath, content.ToString());
+            File.WriteAllText(_filePath, content.ToString());
         }
 
         private string GetLog()
         {
             CheckFileExists();
-            var text = File.ReadAllText(filePath);
+            var text = File.ReadAllText(_filePath);
             return text;
         }
 
@@ -58,11 +58,10 @@ namespace TheGoodBot.Core.Services.Logging
 
         private void CheckFileExists()
         {
-            if (!File.Exists(filePath))
-            {
-                Directory.CreateDirectory(folderPath);
-                File.Create(filePath);
-            }
+            if (File.Exists(_filePath)) { return; }
+
+            Directory.CreateDirectory(_folderPath);
+            File.Create(_filePath);
         }
     }
 }
