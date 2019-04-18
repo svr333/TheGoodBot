@@ -31,9 +31,7 @@ namespace TheGoodBot.Core.Preconditions
                 var difference = endsAt.Subtract(DateTime.UtcNow);
                 if (difference.Seconds > 0)
                 {
-                    Console.WriteLine($"You can use this command in {difference.ToString(@"mm\m\:ss\s")}");
-                    return Task.FromResult(PreconditionResult.FromError(
-                        $"You can use this command in {difference.ToString(@"mm\m\:ss\s")}"));
+                    return Task.FromResult(PreconditionResult.FromError($"CommandOnCooldown"));
                 }
 
                 var time = DateTime.UtcNow.Add(ts);

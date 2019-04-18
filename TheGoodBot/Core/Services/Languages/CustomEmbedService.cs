@@ -61,20 +61,20 @@ namespace TheGoodBot.Core.Services.Languages
             var commandContext = _commandService.Search(context, name);
             string[] commandInfo;
 
-            if (commandContext.Commands == null) { commandInfo = new string[] { name, "!UnchangeableEmbeds", ""}; }
+            if (commandContext.Commands == null) { commandInfo = new[] { name, "!UnchangeableEmbeds", ""}; }
             else
             {
                 var command = commandContext.Commands.FirstOrDefault().Command;
                 commandInfo = new string[] {command.Name, command.Module.Name, command.Module.Group};
             }
 
-            var embeds = GetAndConvertToDiscEmbeds(context, commandInfo, out string ChnText, out string DmText);
+            var embeds = GetAndConvertToDiscEmbeds(context, commandInfo, out var ChnText, out var DmText);
 
-            if (embeds[0] != null || string.IsNullOrEmpty(ChnText))
+            if (embeds[0] != null || !string.IsNullOrEmpty(ChnText))
             {
                 await context.Channel.SendMessageAsync(ChnText, false, embeds[0]);
             }
-            if (embeds[1] != null || string.IsNullOrEmpty(DmText))
+            if (embeds[1] != null || !string.IsNullOrEmpty(DmText))
             {
                 await context.User.SendMessageAsync(DmText, false, embeds[1]);
             }
