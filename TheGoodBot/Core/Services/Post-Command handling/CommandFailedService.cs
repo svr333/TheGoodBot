@@ -24,7 +24,7 @@ namespace TheGoodBot.Core.Services
         {
             LogMessage(command, context, result);
 
-            if (result.ErrorReason.StartsWith("You can use this command in"))
+            if (result.ErrorReason == "CommandOnCooldown")
             {
                 await _customEmbed.CreateAndPostEmbeds((SocketCommandContext) context, "CommandOnCooldown");
             }

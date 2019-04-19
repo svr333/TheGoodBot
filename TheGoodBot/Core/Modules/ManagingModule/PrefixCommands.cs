@@ -24,13 +24,13 @@ namespace TheGoodBot.Core.Modules.ManagingModule
             => await _embedService.CreateAndPostEmbeds(Context, "prefix");
 
         [Cooldown]
-        [Command("addprefix"), Alias("prefix add", "aprefix")]
+        [Command("addprefix"), Alias("prefix add", "aprefix", "ap")]
         [Summary("Adds a certain prefix to the guild's prefixes.")]
         public async Task AddGuildPrefix([Remainder]string prefix = "")
             => _prefixService.AddPrefixAsync(Context, prefix);
 
         [Cooldown]
-        [Command("removeprefix"), Alias("prefix remove", "rprefix", "deleteprefix", "delprefix")]
+        [Command("removeprefix"), Alias("prefix remove", "rprefix", "deleteprefix", "delprefix", "rp")]
         [Summary("Removes a certain prefix from the guild's prefixes.")]
         public async Task RemoveGuildPrefix([Remainder]string prefix = "")
             => _prefixService.RemovePrefixAsync(Context, prefix);

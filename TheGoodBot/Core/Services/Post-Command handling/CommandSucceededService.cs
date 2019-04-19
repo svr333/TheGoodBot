@@ -9,8 +9,8 @@ namespace TheGoodBot.Core.Services
 {
     public class CommandSucceededService
     {
-        private LoggerService _logger;
-        private GuildAccountService _guildAccount;
+        private readonly LoggerService _logger;
+        private readonly GuildAccountService _guildAccount;
         private bool _commandInvokes;
 
         public CommandSucceededService(LoggerService logger, GuildAccountService guildAccount)

@@ -10,8 +10,8 @@ namespace TheGoodBot.Core.Services.Commands
     public class PrefixService
     {
         private Settings _settingsAccount;
-        private CustomEmbedService _embedService;
-        private GuildAccountService _guildAccountService;
+        private readonly CustomEmbedService _embedService;
+        private readonly GuildAccountService _guildAccountService;
 
         public PrefixService(GuildAccountService guildAccountService, CustomEmbedService embedService)
         {
@@ -33,7 +33,7 @@ namespace TheGoodBot.Core.Services.Commands
             GetCurrentPrefixList(context.Guild.Id);
 
             if (newPrefix is "") { await _embedService.CreateAndPostEmbeds(context, "ParamPrefixRequired"); return; }
-            else if (_settingsAccount.PrefixList.Contains(newPrefix)) { await _embedService.CreateAndPostEmbeds(context, "prefixAlreadyExists"); }
+            else if (_settingsAccount.PrefixList.Contains(newPrefix)) { await _embedService.CreateAndPostEmbeds(context, "PrefixAlreadyExists"); }
             _settingsAccount.PrefixList.Add(newPrefix);
             SaveAccount(_settingsAccount, context.Guild.Id);
             await _embedService.CreateAndPostEmbeds(context, "addprefix");
@@ -42,7 +42,7 @@ namespace TheGoodBot.Core.Services.Commands
         {
             if (prefix is "") { await _embedService.CreateAndPostEmbeds(context, "ParamPrefixRequired"); return; }
             GetCurrentPrefixList(context.Guild.Id);
-            if (!_settingsAccount.PrefixList.Contains(prefix)) { await _embedService.CreateAndPostEmbeds(context, "prefixDoesntExist"); }
+            if (!_settingsAccount.PrefixList.Contains(prefix)) { await _embedService.CreateAndPostEmbeds(context, "PrefixDoesntExist"); }
             _settingsAccount.PrefixList.Remove(prefix);
             SaveAccount(_settingsAccount, context.Guild.Id);
             await _embedService.CreateAndPostEmbeds(context, "removeprefix");
