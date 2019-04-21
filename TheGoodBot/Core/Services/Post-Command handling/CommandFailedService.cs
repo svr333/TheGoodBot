@@ -33,6 +33,10 @@ namespace TheGoodBot.Core.Services
             {
                 await _customEmbed.CreateAndPostEmbeds((SocketCommandContext) context, "RequireNSFW");
             }
+            else if (result.ErrorReason == "NegativeValueInput")
+            {
+                await context.Channel.SendMessageAsync("success");
+            }
 
             else
             {

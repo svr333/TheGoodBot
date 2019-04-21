@@ -11,6 +11,7 @@ namespace TheGoodBot.Entities.GuildAccounts
         public string Language { get; set; }
         public bool NoCommandFoundResponseIsDisabled { get; set; }
         public bool BotsCanInteract { get; set; }
+        public bool PurgePinnedMessages { get; set; }
 
         public bool AllowMembersCustomEmbedColour { get; set; }
         public bool AllowMembersPrivateAccounts { get; set; }

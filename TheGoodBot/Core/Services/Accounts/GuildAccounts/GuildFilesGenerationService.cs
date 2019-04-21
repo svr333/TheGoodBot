@@ -21,9 +21,9 @@ namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
             AllMembersMessagesSent = 0
         };
 
-        private Settings GenerateBlankSettingsFile(ulong guildID) => new Settings()
+        private Settings GenerateBlankSettingsFile(ulong guildId) => new Settings()
         {
-            GuildID = guildID,
+            GuildID = guildId,
             ModRoles = null,
             PrefixList = new List<string>() { "!", "?" },
             AllowMembersCustomEmbedColour = true,
@@ -38,7 +38,8 @@ namespace TheGoodBot.Core.Services.Accounts.GuildAccounts
             GlobalCooldown = 0,
             GlobalInvocationTime = 0,
             ResetEXPOnBan = false,
-            ResetEXPOnLeave = false
+            ResetEXPOnLeave = false,
+            PurgePinnedMessages = false
         };
 
         private GuildLogs GenerateBlankGuildLogsFile() => new GuildLogs()
